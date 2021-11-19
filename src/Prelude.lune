@@ -1,0 +1,219 @@
+export
+  type (->), identity, always,
+  ($), (#), (<<), (>>),
+  type i, type f, type num, type int, type float,
+  float, round, floor, ceil, trunc,
+  (+), (~), (*), negate, abs, constrain,
+  div, quot, mod, rem, (/),
+  type nil, type (:=), type (;),
+  type record, type variant, type label, type void,
+  void, (?), delete, (:=), (!=), (#=), (;),
+  (^), embed, match, case, else, only,
+  type (&), (&),
+  type bool, true, false, not, (&&), (||), if,
+  (==), (/=), (<), (<=), (>), (>=),
+  isFinite, isInfinite, isNaN,
+  min, max, type order, compare
+
+infix ; right 10
+
+infix := non 15
+infix != non 15
+infix #= non 15
+
+infix # left 20
+
+infix $ right 25
+
+infix -> right 30
+
+infix & right 35
+
+infix || right 40
+
+infix && right 45
+
+infix == non 50
+infix /= non 50
+infix < non 50
+infix <= non 50
+infix > non 50
+infix >= non 50
+
+infix + left 60
+infix ~ left 60
+
+infix * left 65
+infix / left 65
+
+infix ? right 70
+infix ^ right 70
+
+infix << right 75
+infix >> left 75
+
+type (->) :: Type -> Type -> Type
+syntax (->) function-type
+
+val identity :: any a. a -> a
+let identity x = x
+
+val always :: any a b. a -> b -> a
+let always x y = x
+
+val ($) :: any a b. (a -> b) -> a -> b
+let ($) f x = f x
+
+val (#) :: any a b. a -> (a -> b) -> b
+let (#) x f = f x
+
+val (<<) :: any a b c. (b -> c) -> (a -> b) -> (a -> c)
+let (<<) f g x = f (g x)
+
+val (>>) :: any a b c. (a -> b) -> (b -> c) -> (a -> c)
+let (>>) g f x = f (g x)
+
+type i :: Num
+type f :: Num
+type num :: Num -> Type
+syntax num number-type
+
+type int = num i
+type float = num f
+syntax float float-type
+
+val float :: int -> float
+foreign float x = "x"
+
+val round, floor, ceil, trunc :: float -> int
+foreign round = "Math.round"
+foreign floor = "Math.floor"
+foreign ceil = "Math.ceil"
+foreign trunc = "Prelude.JS.trunc"
+
+val (+), (~), (*) :: any x. num x -> num x -> num x
+foreign (+) x y = "x + y"
+foreign (~) x y = "x - y"
+foreign (*) x y = "x * y"
+
+val negate :: any x. num x -> num x
+syntax negate negate-function
+foreign negate x = "-x"
+
+val abs :: any x. num x -> num x
+foreign abs = "Math.abs"
+
+val constrain :: any x. num x -> num x -> num x -> num x
+let constrain x y z = if (z <= x) x $ if (z >= y) y $ z
+
+val div, quot :: int -> int -> int
+foreign div x y = "Math.floor(x / y)"
+foreign quot x y = "Prelude.JS.trunc(x / y)"
+
+val mod, rem :: int -> int -> int
+foreign mod x y = "(x % y + y) % y"
+foreign rem x y = "x % y"
+
+val (/) :: float -> float -> float
+foreign (/) x y = "x / y"
+
+type nil :: Row
+type (:=) :: Label -> Type -> Row -> Row
+syntax (:=) row-constructor
+
+type (;) f x = f x
+
+type record :: Row -> Type
+syntax record curly-brackets
+
+type variant :: Row -> Type
+syntax variant square-brackets
+
+type label :: Label -> Type
+syntax label label-type
+
+type void = {nil}
+
+val void :: void
+foreign void = "{}"
+
+val (?) :: any s a r. label s -> {s := a; r} -> a
+foreign (?) s r = "r[s][0]"
+
+val delete :: any s a r. label s -> {s := a; r} -> {r}
+foreign delete s r = "Prelude.JS.delete(s, r)"
+
+val (:=) :: any s a r. label s -> a -> {r} -> {s := a; r}
+foreign (:=) s x r = "Prelude.JS.record(s, x, r)"
+
+val (!=) :: any s a b r. label s -> b -> {s := a; r} -> {s := b; r}
+let (!=) s x r = s := x; delete s r
+
+val (#=) :: any s a b r. label s -> (a -> b) -> {s := a; r} -> {s := b; r}
+let (#=) s f r = s != f (s ? r); r
+
+val (;) :: any a b. (a -> b) -> a -> b
+let (;) f x = f x
+
+val (^) :: any s a r. label s -> a -> [s := a; r]
+foreign (^) s x = "[s, x]"
+
+val embed :: any s a r. label s -> [r] -> [s := a; r]
+foreign embed s v = "v"
+
+val match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
+foreign match s f g v = "v[0] === s ? f(v[1]) : g(v)"
+
+val case :: any s a b r. label s -> b -> ([r] -> b) -> [s := a; r] -> b
+let case s x = match s (always x)
+
+val else :: any a b. a -> b -> a
+let else x y = x
+
+val only :: any s r. label s -> [s := void; r]
+let only s = s ^ void
+
+type (&) a b = {First := a; Second := b; nil}
+
+val (&) :: any a b. a -> b -> a & b
+let (&) x y = First := x; Second := y; void
+
+type bool = [True := void; False := void; nil]
+
+val true, false :: bool
+let true = only True
+let false = only False
+
+val not :: bool -> bool
+let not = case True false $ else true
+
+val (&&), (||) :: bool -> bool -> bool
+let (&&) x y = x # case True y $ else false
+let (||) x y = x # case True true $ else y
+
+val if :: any a. bool -> a -> a -> a
+let if c x y = c # case True x $ else y
+
+val (==), (/=) :: any a. a -> a -> bool
+foreign (==) x y = "Prelude.JS.equals(x, y)"
+let (/=) x y = not (x == y)
+
+val (<), (<=), (>), (>=) :: any a. a -> a -> bool
+foreign (<) x y = "Prelude.JS.lessThan(x, y)"
+let (<=) x y = x < y || x == y
+foreign (>) x y = "Prelude.JS.greaterThan(x, y)"
+let (>=) x y = x > y || x == y
+
+val isFinite, isInfinite, isNaN :: float -> bool
+foreign isFinite = "isFinite"
+let isInfinite x = not (isFinite x || isNaN x)
+foreign isNaN = "isNaN"
+
+val min, max :: any a. a -> a -> a
+let min x y = if (x < y) x y
+let max x y = if (x > y) x y
+
+type order = [Less := void; Equal := void; Greater := void; nil]
+
+val compare :: any a. a -> a -> order
+let compare x y = if (x == y) (only Equal) $ if (x && y) (only Less) (only Greater)

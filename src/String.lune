@@ -1,0 +1,204 @@
+export
+  type string, isEmpty, length,
+  (<>), concat, concatMap, join, joinMap,
+  repeat, reverse,
+  split, words, lines,
+  slice, takeLeft, takeRight, dropLeft, dropRight,
+  toLower, toUpper,
+  padLeft, padRight, trim, trimLeft, trimRight,
+  contains, startsWith, endsWith,
+  find, replace,
+  toInt, fromInt, toFloat, fromFloat,
+  toList, fromList,
+  cons, deconstruct,
+  single, head, tail, get,
+  map, mapIndex,
+  filter, partition, count, some, all,
+  foldLeft, foldRight
+
+import Prelude open
+import Char exposing type char
+import List exposing type list
+import Result exposing type maybe, nothing
+
+infix <> left 60
+
+type string :: Type
+syntax string string-type
+
+val isEmpty :: string -> bool
+let isEmpty str = str == ""
+
+val length :: string -> int
+foreign length str = "str.length"
+
+val (<>) :: string -> string -> string
+foreign (<>) str1 str2 = "str1 + str2"
+
+--val concat :: list string -> string
+let concat = List.foldRight (<>) ""
+
+--val concatMap :: any a. (a -> string) -> list a -> string
+let concatMap f xs = concat (List.map f xs)
+
+--val join :: string -> list string -> string
+let join sep = def
+  let append str1 str2 = str1 <> sep <> str2
+  in List.foldRight append ""
+
+--val joinMap :: any a. string -> (a -> string) -> list a -> string
+let joinMap sep f xs = join sep (List.map f xs)
+
+val repeat :: int -> string -> string
+let repeat n str = if (n <= 0) "" $ str <> repeat (n ~ 1) str
+
+val reverse :: string -> string
+foreign reverse str = "str.split('').reverse().join('')"
+
+val split :: string -> string -> list string
+foreign split sep str = "Prelude.JS.arrayToList(str.split(sep))"
+
+val words :: string -> list string
+foreign words str = "Prelude.JS.arrayToList(str.split(/\\s+/))"
+
+val lines :: string -> list string
+foreign lines str = "Prelude.JS.arrayToList(str.split(/\\r?\\n/))"
+
+val slice :: int -> int -> string -> string
+foreign slice x y str = "Preluds.JS.sliceString(x, y, str)"
+
+val takeLeft :: int -> string -> string
+let takeLeft x str = if (x <= 0) "" $ slice 0 x str
+
+val takeRight :: int -> string -> string
+let takeRight x str = if (x <= 0) "" $ slice -x (length str) str
+
+val dropLeft :: int -> string -> string
+let dropLeft x str = if (x <= 0) str $ slice x (length str) str
+
+val dropRight :: int -> string -> string
+let dropRight x str = if (x <= 0) str $ slice 0 -x str
+
+val toLower :: string -> string
+foreign toLower str = "str.toLowerCase()"
+
+val toUpper :: string -> string
+foreign toUpper str = "str.toUpperCase()"
+
+val padLeft :: int -> string -> string
+let padLeft x str = if (length str >= x) str $ " " <> padLeft (x ~ 1) str
+
+val padRight :: int -> string -> string
+let padRight x str = if (length str >= x) str $ padLeft (x ~ 1) str <> " "
+
+val trim :: string -> string
+foreign trim str = "str.trim()"
+
+val trimLeft :: string -> string
+foreign trimLeft str = "str.trimLeft()"
+
+val trimRight :: string -> string
+foreign trimRight str = "str.trimRight()"
+
+val contains :: string -> string -> bool
+foreign contains sub str = "Prelude.JS.convertBool(str.includes(sub))"
+
+val startsWith :: string -> string -> bool
+foreign startsWith sub str = "Prelude.JS.convertBool(str.startsWith(sub))"
+
+val endsWith :: string -> string -> bool
+foreign endsWith sub str = "Prelude.JS.convertBool(str.endsWith(sub))"
+
+val find :: string -> string -> list int
+let find sub str = def
+  let matches i = startsWith sub (dropLeft i str)
+  in List.filter matches $ List.range 0 (length str)
+
+val replace :: string -> string -> string -> string
+foreign replace sub rep str = "str.replace(sub, rep)"
+
+val toInt :: string -> maybe int
+foreign toInt str = "Prelude.JS.stringToInt(str)"
+
+val fromInt :: int -> string
+foreign fromInt x = "x.toString()"
+
+val toFloat :: string -> maybe float
+foreign toFloat str = "Prelude.JS.stringToFloat(str)"
+
+val fromFloat :: float -> string
+foreign fromFloat x = "x.toString()"
+
+val toList :: string -> list char
+foreign toList str = "Prelude.JS.arrayToList(str.split(''))"
+
+val fromList :: list char -> string
+foreign fromList xs = "Prelude.JS.listToArray(xs).join('')"
+
+val cons :: char -> string -> string
+foreign cons c str = "c + str"
+
+val deconstruct :: any a. a -> (char -> string -> a) -> string -> a
+foreign deconstruct x f str = "Prelude.JS.deconstructString(x, f, str)"
+
+val single :: char -> string
+foreign single c = "c"
+
+val head :: string -> maybe char
+let head = deconstruct nothing do c str. Just ^ c
+
+val tail :: string -> maybe string
+let tail = deconstruct nothing do c str. Just ^ str
+
+val get :: int -> string -> maybe char
+let get x =
+  deconstruct nothing do c str.
+    if (x < 0) nothing
+    $ if (x == 0) (Just ^ c)
+    $ get (x ~ 1) str
+
+val map :: (char -> char) -> string -> string
+let map f = deconstruct "" do c str. cons (f c) (map f str)
+
+val mapIndex :: (int -> char -> char) -> string -> string
+let mapIndex = mapIndexN 0
+
+val mapIndexN :: int -> (int -> char -> char) -> string -> string
+let mapIndexN x f =
+  deconstruct "" do c str.
+    cons (f x c) $ mapIndexN (x + 1) f str
+
+val filter :: (char -> bool) -> string -> string
+let filter f = def
+  let add c str = if (f c) (cons c str) str
+  in foldRight add ""
+
+val partition :: (char -> bool) -> string -> string & string
+let partition f = def
+  let add c str = if (f c) (First #= cons c; str) (Second #= cons c; str)
+  in foldRight add ("" & "")
+
+val count :: (char -> bool) -> string -> int
+let count f = def
+  let add c x = if (f c) (x + 1) x
+  in foldRight add 0
+
+val some :: (char -> bool) -> string -> bool
+let some f =
+  deconstruct false do c str.
+    if (f c) true (some f str)
+
+val all :: (char -> bool) -> string -> bool
+let all f =
+  deconstruct true do c str.
+    if (not $ f c) false (all f str)
+
+val foldLeft :: any a. (a -> char -> a) -> a -> string -> a
+let foldLeft f x =
+  deconstruct x do c str.
+    f (foldLeft f x str) c
+
+val foldRight :: any a. (char -> a -> a) -> a -> string -> a
+let foldRight f x =
+  deconstruct x do c str.
+    f c (foldRight f x str)

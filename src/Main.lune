@@ -1,0 +1,36 @@
+export main
+
+import Prelude open
+import String open
+import List exposing empty, (:)
+import IO exposing type io, (;;)
+
+val debug :: any a. a -> io void
+foreign debug = "IO.log"
+
+val main :: io void
+let main =
+  debug (concat empty) ;;
+  debug (concat ("a" : "b" : "c" : empty)) ;;
+  debug (concatMap fromInt (List.range 10 0)) ;;
+  debug (join ", " empty) ;;
+  debug (join ", " ("a" : "b" : "c" : empty)) ;;
+  debug (joinMap ", " fromInt (List.range 10 0))
+
+[-
+  concat, concatMap, join, joinMap,
+  repeat, reverse,
+  split, words, lines,
+  slice, takeLeft, takeRight, dropLeft, dropRight,
+  toLower, toUpper,
+  padLeft, padRight, trim, trimLeft, trimRight,
+  contains, startsWith, endsWith,
+  find, replace,
+  toInt, fromInt, toFloat, fromFloat,
+  toList, fromList,
+  cons, deconstruct,
+  single, head, tail, get,
+  map, mapIndex,
+  filter, partition, count, some, all,
+  foldLeft, foldRight
+-]

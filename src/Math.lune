@@ -1,0 +1,67 @@
+export
+  pow, exp, expBase, log, logBase, sqrt,
+  pi, tau,
+  type angle, radians, degrees, turns,
+  sin, cos, tan, asin, acos, atan, atan2,
+  sinh, cosh, tanh, asinh, acosh, atanh,
+  hypot, distance
+
+import Prelude open
+
+val pow :: int -> int -> int
+foreign pow x y = "Math.floor(Math.pow(x, y))"
+
+val exp :: float -> float
+foreign exp = "Math.exp"
+
+val expBase :: float -> float -> float
+foreign expBase x y = "Math.pow(x, y)"
+
+val log :: float -> float
+foreign log = "Math.log"
+
+val logBase :: float -> float -> float
+let logBase x y = log y / log x
+
+val sqrt :: float -> float
+foreign sqrt = "Math.sqrt"
+
+val pi, tau :: any a. a
+foreign pi = "Math.PI"
+let tau = 2 * pi
+
+type angle = float
+
+val radians, degrees, turns :: float -> angle
+let radians x = x
+let degrees x = x * tau / 360
+let turns x = x * tau
+
+val sin, cos, tan :: angle -> float
+foreign sin = "Math.sin"
+foreign cos = "Math.cos"
+foreign tan = "Math.tan"
+
+val asin, acos, atan :: float -> angle
+foreign asin = "Math.asin"
+foreign acos = "Math.acos"
+foreign atan = "Math.atan"
+
+val atan2 :: float -> float -> angle
+foreign atan2 x y = "Math.atan2(x, y)"
+
+val sinh, cosh, tanh :: angle -> float
+foreign sinh = "Math.sinh"
+foreign cosh = "Math.cosh"
+foreign tanh = "Math.tanh"
+
+val asinh, acosh, atanh :: float -> angle
+foreign asinh = "Math.asinh"
+foreign acosh = "Math.acosh"
+foreign atanh = "Math.atanh"
+
+val hypot :: float -> float -> float
+foreign hypot x y = "Math.hypot(x, y)"
+
+val distance :: float -> float -> float -> float -> float
+let distance x1 y1 x2 y2 = hypot (x2 ~ x1) (y2 ~ y1)

@@ -1,0 +1,34 @@
+export
+  type char,
+  isLower, isUpper, isAlpha, isAlphaNum,
+  isDigit, isHexDigit, isSpace,
+  toLower, toUpper,
+  fromCode, toCode
+
+import Prelude open
+
+type char :: Type
+syntax char char-type
+
+val isLower, isUpper, isAlpha, isAlphaNum :: char -> bool
+foreign isLower x = "Prelude.JS.convertBool(/[a-z]/.test(x))"
+foreign isUpper x = "Prelude.JS.convertBool(/[A-Z]/.test(x))"
+foreign isAlpha x = "Prelude.JS.convertBool(/[a-zA-Z]/.test(x))"
+foreign isAlphaNum x = "Prelude.JS.convertBool(/[\\da-zA-Z]/.test(x))"
+
+val isDigit, isHexDigit :: char -> bool
+foreign isDigit x = "Prelude.JS.convertBool(/[\\d]/.test(x))"
+foreign isHexDigit x = "Prelude.JS.convertBool(/[\\da-fA-F]/.test(x))"
+
+val isSpace :: char -> bool
+foreign isSpace x = "Prelude.JS.convertBool(/[\\s]/.test(x))"
+
+val toLower, toUpper :: char -> char
+foreign toLower x = "x.toLowerCase()"
+foreign toUpper x = "x.toUpperCase()"
+
+val fromCode :: int -> char
+foreign fromCode = "String.fromCharCode"
+
+val toCode :: char -> int
+foreign toCode x = "x.charCodeAt(0)"

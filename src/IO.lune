@@ -1,0 +1,69 @@
+export
+  type io,
+  map, apply, bind, (;;),
+  pure, none,
+  map2, map3, map4,
+  sequence, sequenceMap,
+  log
+
+import Prelude open
+import String exposing type string
+import List exposing type list, empty, (:)
+
+infix ;; left 20
+
+type io :: Type -> Type
+
+val map :: any a b. (a -> b) -> io a -> io b
+foreign map f act = "function() { return f(act()); }"
+
+val apply :: any a b. io (a -> b) -> io a -> io b
+foreign apply act1 act2 = "function() { return act1()(act2()); }"
+
+val bind :: any a b. (a -> io b) -> io a -> io b
+foreign bind f act = "f(act())"
+
+val (;;) :: any a. io void -> io a -> io a
+let (;;) act1 act2 = act1 # bind (always act2)
+
+val pure :: any a. a -> io a
+foreign pure x = "function() { return x; }"
+
+val none :: io void
+let none = pure void
+
+val map2
+  :: any a1 a2 a3
+   . (a1 -> a2 -> a3)
+  -> io a1
+  -> io a2
+  -> io a3
+let map2 f act = apply (map f act)
+
+val map3
+  :: any a1 a2 a3 a4
+   . (a1 -> a2 -> a3 -> a4)
+  -> io a1
+  -> io a2
+  -> io a3
+  -> io a4
+let map3 f act1 act2 = apply (map2 f act1 act2)
+
+val map4
+  :: any a1 a2 a3 a4 a5
+   . (a1 -> a2 -> a3 -> a4 -> a5)
+  -> io a1
+  -> io a2
+  -> io a3
+  -> io a4
+  -> io a5
+let map4 f act1 act2 act3 = apply (map3 f act1 act2 act3)
+
+val sequence :: any a. list (io a) -> io (list a)
+let sequence = List.foldRight (map2 (:)) (pure empty)
+
+val sequenceMap :: any a b. (a -> io b) -> list a -> io (list b)
+let sequenceMap f xs = sequence (List.map f xs)
+
+val log :: string -> io void
+foreign log x = "function() { console.log(x); return Prelude['void']; }"
