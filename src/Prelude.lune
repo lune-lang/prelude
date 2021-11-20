@@ -216,4 +216,4 @@ let max x y = if (x > y) x y
 type order = [Less := void; Equal := void; Greater := void; nil]
 
 val compare :: any a. a -> a -> order
-let compare x y = if (x == y) (only Equal) $ if (x && y) (only Less) (only Greater)
+let compare x y = if (x == y) (only Equal) $ if (x < y) (only Less) (only Greater)
