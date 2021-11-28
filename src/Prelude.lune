@@ -1,6 +1,7 @@
 export
   type (->), identity, always,
   ($), (#), (<<), (>>),
+  type lazy, force, delay,
   type i, type f, type num, type int, type float,
   float, round, floor, ceil, trunc,
   (+), (~), (*), negate, abs, constrain,
@@ -72,6 +73,16 @@ let (<<) f g x = f (g x)
 
 val (>>) :: any a b c. (a -> b) -> (b -> c) -> (a -> c)
 let (>>) g f x = f (g x)
+
+type lazy :: Type -> Type
+syntax lazy lazy-type
+
+val force :: any a. lazy a -> a
+foreign force f = "f()"
+
+val delay :: any a. (void -> a) -> lazy a
+foreign delay = "Prelude.JS.delay"
+syntax delay delay-function
 
 type i :: Num
 type f :: Num

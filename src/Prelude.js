@@ -10,6 +10,18 @@ Prelude.JS = {
     return result;
   },
 
+  delay: function(f) {
+    var value;
+    var evaluated = false;
+    return function() {
+      if(!evaluated) {
+        evaluated = true;
+        value = f(Prelude["void"]);
+      }
+      return f; 
+    }
+  },
+
   trunc: function(x) {
     return x < 0 ? Math.ceil(x) : Math.floor(x);
   },

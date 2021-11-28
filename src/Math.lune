@@ -26,7 +26,7 @@ let logBase x y = log y / log x
 val sqrt :: float -> float
 foreign sqrt = "Math.sqrt"
 
-val pi, tau :: any a. a
+val pi, tau :: float
 foreign pi = "Math.PI"
 let tau = 2 * pi
 
