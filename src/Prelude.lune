@@ -1,7 +1,6 @@
 export
   type (->), identity, const,
   ($), (#), (<<), (>>),
-  type lazy, force, delay,
   type i, type f, type num, type int, type float,
   float, round, floor, ceil, trunc,
   (+), (~), (*), negate, abs, constrain,
@@ -73,18 +72,6 @@ let (<<) f g x = f (g x)
 
 val (>>) :: any a b c. (a -> b) -> (b -> c) -> (a -> c)
 let (>>) g f x = f (g x)
-
-type lazy :: Type -> Type
-  where lazy a = void -> a
-  with delay, getLazy
-syntax lazy lazy-type
-syntax delay delay-function
-
-val force :: any a. lazy a -> a
-let force f = getLazy f void
-
-val constLazy :: any a b. lazy a -> b -> a
-let constLazy f x = force f
 
 type i :: Num
 type f :: Num
