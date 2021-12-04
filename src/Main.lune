@@ -5,6 +5,9 @@ import String open
 import List exposing empty, (:)
 import IO exposing type io, (;;)
 
+val lazyAdd :: int -> lazy int -> int
+let lazyAdd x y = x + force y
+
 val debug :: any a. a -> io void
 foreign debug = "IO.log"
 

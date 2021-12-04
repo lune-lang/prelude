@@ -177,8 +177,8 @@ foreign embed s v = "v"
 val match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
 foreign match s f g v = "v[0] === s ? f(v[1]) : g(v)"
 
-val case :: any s a b r. label s -> lazy b -> ([r] -> b) -> [s := a; r] -> b
-let case s x = match s (constLazy x)
+val case :: any s a b r. label s -> b -> ([r] -> b) -> [s := a; r] -> b
+let case s x = match s (const x)
 
 val else :: any a b. a -> b -> a
 let else x y = x
@@ -200,12 +200,12 @@ let false = only False
 val not :: bool -> bool
 let not = case True false $ else true
 
-val (&&), (||) :: bool -> lazy bool -> bool
+val (&&), (||) :: bool -> bool -> bool
 let (&&) x y = x # case True y $ else false
 let (||) x y = x # case True true $ else y
 
-val if :: any a. bool -> lazy a -> lazy a -> a
-let if c x y = c # case True x $ constLazy y
+val if :: any a. bool -> a -> a -> a
+let if c x y = c # case True x $ else y
 
 val (==), (/=) :: any a. a -> a -> bool
 foreign (==) x y = "Prelude.JS.equals(x, y)"
