@@ -1,5 +1,5 @@
 export
-  type (->), identity, always,
+  type (->), identity, const,
   ($), (#), (<<), (>>),
   type lazy, force, delay,
   type i, type f, type num, type int, type float,
@@ -59,8 +59,8 @@ syntax (->) function-type
 val identity :: any a. a -> a
 let identity x = x
 
-val always :: any a b. a -> b -> a
-let always x y = x
+val const :: any a b. a -> b -> a
+let const x y = x
 
 val ($) :: any a b. (a -> b) -> a -> b
 let ($) f x = f x
@@ -75,14 +75,16 @@ val (>>) :: any a b c. (a -> b) -> (b -> c) -> (a -> c)
 let (>>) g f x = f (g x)
 
 type lazy :: Type -> Type
+  where lazy a = void -> a
+  with delay, getLazy
 syntax lazy lazy-type
+syntax delay delay-function
 
 val force :: any a. lazy a -> a
-foreign force f = "f()"
+let force f = getLazy f void
 
-val delay :: any a. (void -> a) -> lazy a
-foreign delay = "Prelude.JS.delay"
-syntax delay delay-function
+val constLazy :: any a b. lazy a -> b -> a
+let constLazy f x = force f
 
 type i :: Num
 type f :: Num
@@ -175,8 +177,8 @@ foreign embed s v = "v"
 val match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
 foreign match s f g v = "v[0] === s ? f(v[1]) : g(v)"
 
-val case :: any s a b r. label s -> b -> ([r] -> b) -> [s := a; r] -> b
-let case s x = match s (always x)
+val case :: any s a b r. label s -> lazy b -> ([r] -> b) -> [s := a; r] -> b
+let case s x = match s (constLazy x)
 
 val else :: any a b. a -> b -> a
 let else x y = x
@@ -198,12 +200,12 @@ let false = only False
 val not :: bool -> bool
 let not = case True false $ else true
 
-val (&&), (||) :: bool -> bool -> bool
+val (&&), (||) :: bool -> lazy bool -> bool
 let (&&) x y = x # case True y $ else false
 let (||) x y = x # case True true $ else y
 
-val if :: any a. bool -> a -> a -> a
-let if c x y = c # case True x $ else y
+val if :: any a. bool -> lazy a -> lazy a -> a
+let if c x y = c # case True x $ constLazy y
 
 val (==), (/=) :: any a. a -> a -> bool
 foreign (==) x y = "Prelude.JS.equals(x, y)"
