@@ -18,7 +18,7 @@ Prelude.JS = {
         evaluated = true;
         value = f(Prelude["void"]);
       }
-      return f; 
+      return f;
     }
   },
 
@@ -105,9 +105,10 @@ Prelude.JS = {
   },
 
   listToArray: function(list) {
+    var self = this;
     return List["deconstruct"]([])(function(x) {
       return function(xs) {
-        var array = this.listToArray(xs);
+        var array = self.listToArray(xs);
         array.unshift(x);
         return array;
       }
@@ -119,6 +120,11 @@ Prelude.JS = {
     if(y < 0) y += str.length;
     if(x >= y) return "";
     return str.substring(x, y);
+  },
+
+  replaceString: function(sub, rep, str) {
+    let regex = new RegExp(sub.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+    return str.replace(regex, rep)
   },
 
   stringToInt: function(str) {
@@ -135,6 +141,6 @@ Prelude.JS = {
 
   deconstructString: function(x, f, str) {
     if(str.length === 0) return x;
-    return f(str.charAt(0), str.substring(1));
+    return f(str.charAt(0))(str.substring(1));
   }
 };

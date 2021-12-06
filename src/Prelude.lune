@@ -207,13 +207,13 @@ val if :: any a. bool -> lazy a -> lazy a -> a
 let if c x y = c # match True x (general y)
 
 val (==), (/=) :: any a. a -> a -> bool
-foreign (==) x y = "Prelude.JS.equals(x, y)"
+foreign (==) x y = "Prelude.JS.convertBool(Prelude.JS.equals(x, y))"
 let (/=) x y = not (x == y)
 
 val (<), (<=), (>), (>=) :: any a. a -> a -> bool
-foreign (<) x y = "Prelude.JS.lessThan(x, y)"
+foreign (<) x y = "Prelude.JS.convertBool(Prelude.JS.lessThan(x, y))"
 let (<=) x y = x < y || x == y
-foreign (>) x y = "Prelude.JS.greaterThan(x, y)"
+foreign (>) x y = "Prelude.JS.convertBool(Prelude.JS.greaterThan(x, y))"
 let (>=) x y = x > y || x == y
 
 val isFinite, isInfinite, isNaN :: float -> bool

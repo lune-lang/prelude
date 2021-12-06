@@ -35,18 +35,20 @@ foreign length str = "str.length"
 val (<>) :: string -> string -> string
 foreign (<>) str1 str2 = "str1 + str2"
 
---val concat :: list string -> string
+val concat :: list string -> string
 let concat = List.foldRight (<>) ""
 
---val concatMap :: any a. (a -> string) -> list a -> string
+val concatMap :: any a. (a -> string) -> list a -> string
 let concatMap f xs = concat (List.map f xs)
 
---val join :: string -> list string -> string
+val join :: string -> list string -> string
 let join sep = def
-  let append str1 str2 = str1 <> sep <> str2
+  let append str1 str2 =
+    if (isEmpty str2) { str1 }
+    { str1 <> sep <> str2 }
   in List.foldRight append ""
 
---val joinMap :: any a. string -> (a -> string) -> list a -> string
+val joinMap :: any a. string -> (a -> string) -> list a -> string
 let joinMap sep f xs = join sep (List.map f xs)
 
 val repeat :: int -> string -> string
@@ -65,7 +67,7 @@ val lines :: string -> list string
 foreign lines str = "Prelude.JS.arrayToList(str.split(/\\r?\\n/))"
 
 val slice :: int -> int -> string -> string
-foreign slice x y str = "Preluds.JS.sliceString(x, y, str)"
+foreign slice x y str = "Prelude.JS.sliceString(x, y, str)"
 
 val takeLeft :: int -> string -> string
 let takeLeft x str = if (x <= 0) { "" } { slice 0 x str }
@@ -89,7 +91,7 @@ val padLeft :: int -> string -> string
 let padLeft x str = if (length str >= x) { str } { " " <> padLeft (x ~ 1) str }
 
 val padRight :: int -> string -> string
-let padRight x str = if (length str >= x) { str } { padLeft (x ~ 1) str <> " " }
+let padRight x str = if (length str >= x) { str } { padRight (x ~ 1) str <> " " }
 
 val trim :: string -> string
 foreign trim str = "str.trim()"
@@ -115,7 +117,7 @@ let find sub str = def
   in List.filter matches $ List.range 0 (length str)
 
 val replace :: string -> string -> string -> string
-foreign replace sub rep str = "str.replace(sub, rep)"
+foreign replace sub rep str = "Prelude.JS.replaceString(sub, rep, str)"
 
 val toInt :: string -> maybe int
 foreign toInt str = "Prelude.JS.stringToInt(str)"
