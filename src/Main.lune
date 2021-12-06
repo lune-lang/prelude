@@ -5,6 +5,11 @@ import String open
 import List exposing empty, (:)
 import IO exposing type io, (;;)
 
+expand add x y = x + y
+
+val sum :: int
+let sum = add 0 1
+
 val debug :: any a. a -> io void
 foreign debug = "IO.log"
 

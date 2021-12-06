@@ -8,7 +8,8 @@ export
   type nil, type (:=), type (;),
   type record, type variant, type label, type void,
   void, (?), delete, (:=), (!=), (#=), (;),
-  (^), embed, match, case, else, only,
+  (^), embed, match, else, only,
+  type lazy, force, general,
   type (&), (&),
   type bool, true, false, not, (&&), (||), if,
   (==), (/=), (<), (<=), (>), (>=),
@@ -104,7 +105,10 @@ val abs :: any x. num x -> num x
 foreign abs = "Math.abs"
 
 val constrain :: any x. num x -> num x -> num x -> num x
-let constrain x y z = if (z <= x) x $ if (z >= y) y $ z
+let constrain x y z =
+  if (z <= x) { x }
+  $ else $ if (z >= y) { y }
+  $ else $ z
 
 val div, quot :: int -> int -> int
 foreign div x y = "Math.floor(x / y)"
@@ -164,14 +168,19 @@ foreign embed s v = "v"
 val match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
 foreign match s f g v = "v[0] === s ? f(v[1]) : g(v)"
 
-val case :: any s a b r. label s -> b -> ([r] -> b) -> [s := a; r] -> b
-let case s x = match s (const x)
-
 val else :: any a b. a -> b -> a
 let else x y = x
 
 val only :: any s r. label s -> [s := void; r]
 let only s = s ^ void
+
+type lazy a = void -> a
+
+val force :: any a. lazy a -> a
+let force f = f void
+
+val general :: any a b. lazy a -> b -> a
+let general f x = f void
 
 type (&) a b = {First := a; Second := b; nil}
 
@@ -185,14 +194,17 @@ let true = only True
 let false = only False
 
 val not :: bool -> bool
-let not = case True false $ else true
+let not = match True { false } { true }
 
-val (&&), (||) :: bool -> bool -> bool
-let (&&) x y = x # case True y $ else false
-let (||) x y = x # case True true $ else y
+val and, or :: bool -> lazy bool -> bool
+let and x y = x # match True y { false }
+let or x y = x # match True { true } (general y)
 
-val if :: any a. bool -> a -> a -> a
-let if c x y = c # case True x $ else y
+expand (&&) x y = and x { y }
+expand (||) x y = or x { y }
+
+val if :: any a. bool -> lazy a -> lazy a -> a
+let if c x y = c # match True x (general y)
 
 val (==), (/=) :: any a. a -> a -> bool
 foreign (==) x y = "Prelude.JS.equals(x, y)"
@@ -210,10 +222,13 @@ let isInfinite x = not (isFinite x || isNaN x)
 foreign isNaN = "isNaN"
 
 val min, max :: any a. a -> a -> a
-let min x y = if (x < y) x y
-let max x y = if (x > y) x y
+let min x y = if (x < y) { x } { y }
+let max x y = if (x > y) { x } { y }
 
 type order = [Less := void; Equal := void; Greater := void; nil]
 
 val compare :: any a. a -> a -> order
-let compare x y = if (x == y) (only Equal) $ if (x < y) (only Less) (only Greater)
+let compare x y =
+  if (x == y) { only Equal }
+  $ else $ if (x < y) { only Less }
+  $ else $ only Greater

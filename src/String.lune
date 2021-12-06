@@ -50,7 +50,7 @@ let join sep = def
 let joinMap sep f xs = join sep (List.map f xs)
 
 val repeat :: int -> string -> string
-let repeat n str = if (n <= 0) "" $ str <> repeat (n ~ 1) str
+let repeat n str = if (n <= 0) { "" } { str <> repeat (n ~ 1) str }
 
 val reverse :: string -> string
 foreign reverse str = "str.split('').reverse().join('')"
@@ -68,16 +68,16 @@ val slice :: int -> int -> string -> string
 foreign slice x y str = "Preluds.JS.sliceString(x, y, str)"
 
 val takeLeft :: int -> string -> string
-let takeLeft x str = if (x <= 0) "" $ slice 0 x str
+let takeLeft x str = if (x <= 0) { "" } { slice 0 x str }
 
 val takeRight :: int -> string -> string
-let takeRight x str = if (x <= 0) "" $ slice -x (length str) str
+let takeRight x str = if (x <= 0) { "" } { slice -x (length str) str }
 
 val dropLeft :: int -> string -> string
-let dropLeft x str = if (x <= 0) str $ slice x (length str) str
+let dropLeft x str = if (x <= 0) { str } { slice x (length str) str }
 
 val dropRight :: int -> string -> string
-let dropRight x str = if (x <= 0) str $ slice 0 -x str
+let dropRight x str = if (x <= 0) { str } { slice 0 -x str }
 
 val toLower :: string -> string
 foreign toLower str = "str.toLowerCase()"
@@ -86,10 +86,10 @@ val toUpper :: string -> string
 foreign toUpper str = "str.toUpperCase()"
 
 val padLeft :: int -> string -> string
-let padLeft x str = if (length str >= x) str $ " " <> padLeft (x ~ 1) str
+let padLeft x str = if (length str >= x) { str } { " " <> padLeft (x ~ 1) str }
 
 val padRight :: int -> string -> string
-let padRight x str = if (length str >= x) str $ padLeft (x ~ 1) str <> " "
+let padRight x str = if (length str >= x) { str } { padLeft (x ~ 1) str <> " " }
 
 val trim :: string -> string
 foreign trim str = "str.trim()"
@@ -153,9 +153,9 @@ let tail = deconstruct nothing do c str. Just ^ str
 val get :: int -> string -> maybe char
 let get x =
   deconstruct nothing do c str.
-    if (x < 0) nothing
-    $ if (x == 0) (Just ^ c)
-    $ get (x ~ 1) str
+    if (x < 0) { nothing }
+    $ else $ if (x == 0) { Just ^ c }
+    $ else $ get (x ~ 1) str
 
 val map :: (char -> char) -> string -> string
 let map f = deconstruct "" do c str. cons (f c) (map f str)
@@ -170,28 +170,28 @@ let mapIndexN x f =
 
 val filter :: (char -> bool) -> string -> string
 let filter f = def
-  let add c str = if (f c) (cons c str) str
+  let add c str = if (f c) { cons c str } { str }
   in foldRight add ""
 
 val partition :: (char -> bool) -> string -> string & string
 let partition f = def
-  let add c str = if (f c) (First #= cons c; str) (Second #= cons c; str)
+  let add c str = if (f c) { First #= cons c; str } { Second #= cons c; str }
   in foldRight add ("" & "")
 
 val count :: (char -> bool) -> string -> int
 let count f = def
-  let add c x = if (f c) (x + 1) x
+  let add c x = if (f c) { x + 1 } { x }
   in foldRight add 0
 
 val some :: (char -> bool) -> string -> bool
 let some f =
   deconstruct false do c str.
-    if (f c) true (some f str)
+    if (f c) { true } { some f str }
 
 val all :: (char -> bool) -> string -> bool
 let all f =
   deconstruct true do c str.
-    if (not $ f c) false (all f str)
+    if (not $ f c) { false } { all f str }
 
 val foldLeft :: any a. (a -> char -> a) -> a -> string -> a
 let foldLeft f x =
