@@ -3,5 +3,8 @@ export main
 import Prelude open
 import IO exposing type io
 
+val debug :: any a. a -> io void
+foreign debug x = "function() { console.log(x); }"
+
 val main :: io void
-let main = IO.log "hello world!"
+let main = debug 0

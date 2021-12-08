@@ -111,12 +111,12 @@ let constrain x y z =
   $ else $ z
 
 val div, quot :: int -> int -> int
-foreign div x y = "Math.floor(x / y)"
-foreign quot x y = "Prelude.JS.trunc(x / y)"
+foreign div x y = "Math.floor(y / x)"
+foreign quot x y = "Prelude.JS.trunc(y / x)"
 
 val mod, rem :: int -> int -> int
-foreign mod x y = "(x % y + y) % y"
-foreign rem x y = "x % y"
+foreign mod x y = "(y % x + x) % x"
+foreign rem x y = "y % x"
 
 val (/) :: float -> float -> float
 foreign (/) x y = "x / y"
