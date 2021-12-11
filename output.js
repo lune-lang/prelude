@@ -1,4 +1,5 @@
-var Char = {}; var IO = {}; var Main = {}; var $Math = {}; var Prelude = {}; var $String = {}; var List = {}; var Result = {}; var Variant = {}; Prelude.JS = {
+var Char = {}; var IO = {}; var Main = {}; var $Math = {}; var Prelude = {}; var $String = {}; var List = {}; var Result = {}; var Variant = {}; 
+Prelude.JS = {
   deepCopy: function(object) {
     var result = Array.isArray(object) ? [] : {};
     for(var key in object) {
