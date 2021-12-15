@@ -1,4 +1,4 @@
-Prelude.JS = {
+Prelude.Internal = {
   deepCopy: function(object) {
     var result = Array.isArray(object) ? [] : {};
     for(var key in object) {
@@ -8,38 +8,6 @@ Prelude.JS = {
       else result[key] = value;
     }
     return result;
-  },
-
-  delay: function(f) {
-    var value;
-    var evaluated = false;
-    return function() {
-      if(!evaluated) {
-        evaluated = true;
-        value = f(Prelude["void"]);
-      }
-      return f;
-    }
-  },
-
-  trunc: function(x) {
-    return x < 0 ? Math.ceil(x) : Math.floor(x);
-  },
-
-  delete: function(label, struct) {
-    struct = this.deepCopy(struct);
-    if(struct[label].length === 0)
-      delete struct[label];
-    else struct[label].shift();
-    return struct;
-  },
-
-  record: function(label, value, struct) {
-    struct = this.deepCopy(struct);
-    if(label in struct)
-      struct[label].unshift(value);
-    else struct[label] = [value];
-    return struct;
   },
 
   equals: function(x, y) {
@@ -95,52 +63,138 @@ Prelude.JS = {
 
   convertBool: function(bool) {
     return bool ? Prelude["true"] : Prelude["false"];
-  },
-
-  arrayToList: function(array) {
-    if(array.length === 0)
-      return List["empty"];
-    var first = array.shift();
-    return List[":"](first)(this.arrayToList(array));
-  },
-
-  listToArray: function(list) {
-    var self = this;
-    return List["deconstruct"]([])(function(x) {
-      return function(xs) {
-        var array = self.listToArray(xs);
-        array.unshift(x);
-        return array;
-      }
-    })(list);
-  },
-
-  sliceString: function(x, y, str) {
-    if(x < 0) x += str.length;
-    if(y < 0) y += str.length;
-    if(x >= y) return "";
-    return str.substring(x, y);
-  },
-
-  replaceString: function(sub, rep, str) {
-    let regex = new RegExp(sub.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
-    return str.replace(regex, rep)
-  },
-
-  stringToInt: function(str) {
-    var x = parseInt(str, 10);
-    if(isNaN(x)) return Result["nothing"];
-    return Prelude["^"]("Just")(x);
-  },
-
-  stringToFloat: function(str) {
-    var x = parseFloat(str, 10);
-    if(isNaN(x)) return Result["nothing"];
-    return Prelude["^"]("Just")(x);
-  },
-
-  deconstructString: function(x, f, str) {
-    if(str.length === 0) return x;
-    return f(str.charAt(0))(str.substring(1));
   }
 };
+
+Prelude["float"] = function(x) { return x; };
+
+Prelude["round"] = Math.round;
+Prelude["floor"] = Math.floor;
+Prelude["ceil"] = Math.ceil;
+
+Prelude["+"] = function(x) {
+  return function(y) {
+    return x + y;
+  };
+};
+
+Prelude["-"] = function(x) {
+  return function(y) {
+    return x - y;
+  };
+};
+
+Prelude["*"] = function(x) {
+  return function(y) {
+    return x * y;
+  };
+};
+
+Prelude["negate"] = function(x) { return -x; };
+
+Prelude["abs"] = Math.abs;
+Prelude["signum"] = Math.sign;
+
+Prelude["div"] = function(x) {
+  return function(y) {
+    return Math.floor(y / x);
+  };
+};
+
+Prelude["quot"] = function(x) {
+  return function(y) {
+    var q = y / x;
+    return q < 0 ? Math.ceil(q) : Math.floor(q);
+  };
+};
+
+Prelude["mod"] = function(x) {
+  return function(y) {
+    return (y % x + x) % x;
+  };
+};
+
+Prelude["rem"] = function(x) {
+  return function(y) {
+    return y % x;
+  };
+};
+
+Prelude["/"] = function(x) {
+  return function(y) {
+    return x / y;
+  };
+};
+
+Prelude["void"] = {};
+
+Prelude["?"] = function(label) {
+  return function(struct) {
+    return struct[label][0];
+  };
+};
+
+Prelude["delete"] = function(label) {
+  return function(struct) {
+    struct = Prelude.Internal.deepCopy(struct);
+    if(struct[label].length === 0)
+      delete struct[label];
+    else struct[label].shift();
+    return struct;
+  };
+};
+
+Prelude[":="] = function(label) {
+  return function(value) {
+    return function(struct) {
+      struct = Prelude.Internal.deepCopy(struct);
+      if(label in struct)
+        struct[label].unshift(value);
+      else struct[label] = [value];
+      return struct;
+    };
+  };
+};
+
+Prelude["^"] = function(label) {
+  return function(value) {
+    return [label, value];
+  };
+};
+
+Prelude["embed"] = function(label) {
+  return function(variant) {
+    return variant;
+  };
+};
+
+Prelude["match"] = function(label) {
+  return function(f) {
+    return function(g) {
+      return function(variant) {
+        return variant[0] === label ? f(variant[1]) : g(variant);
+      };
+    };
+  };
+};
+
+Prelude["=="] = function(x) {
+  return function(y) {
+    return Prelude.Internal.convertBool(Prelude.Internal.equals(x, y));
+  };
+};
+
+Prelude["<"] = function(x) {
+  return function(y) {
+    return Prelude.Internal.convertBool(Prelude.Internal.lessThan(x, y));
+  };
+};
+
+Prelude[">"] = function(x) {
+  return function(y) {
+    return Prelude.Internal.convertBool(Prelude.Internal.greaterThan(x, y));
+  };
+};
+
+Prelude["isFinite"] = isFinite;
+Prelude["isNaN"] = isNaN;

@@ -10,25 +10,14 @@ import Prelude open
 type char :: Type
 syntax char char-type
 
-val isLower, isUpper, isAlpha, isAlphaNum :: char -> bool
-foreign isLower x = "Prelude.JS.convertBool(/[a-z]/.test(x))"
-foreign isUpper x = "Prelude.JS.convertBool(/[A-Z]/.test(x))"
-foreign isAlpha x = "Prelude.JS.convertBool(/[a-zA-Z]/.test(x))"
-foreign isAlphaNum x = "Prelude.JS.convertBool(/[\\da-zA-Z]/.test(x))"
+foreign isLower, isUpper, isAlpha, isAlphaNum :: char -> bool
 
-val isDigit, isHexDigit :: char -> bool
-foreign isDigit x = "Prelude.JS.convertBool(/[\\d]/.test(x))"
-foreign isHexDigit x = "Prelude.JS.convertBool(/[\\da-fA-F]/.test(x))"
+foreign isDigit, isHexDigit :: char -> bool
 
-val isSpace :: char -> bool
-foreign isSpace x = "Prelude.JS.convertBool(/[\\s]/.test(x))"
+foreign isSpace :: char -> bool
 
-val toLower, toUpper :: char -> char
-foreign toLower x = "x.toLowerCase()"
-foreign toUpper x = "x.toUpperCase()"
+foreign toLower, toUpper :: char -> char
 
-val fromCode :: int -> char
-foreign fromCode = "String.fromCharCode"
+foreign fromCode :: int -> char
 
-val toCode :: char -> int
-foreign toCode x = "x.charCodeAt(0)"
+foreign toCode :: char -> int

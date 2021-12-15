@@ -3,7 +3,7 @@ export
   ($), (#), (<<), (>>),
   type i, type f, type num, type int, type float,
   float, round, floor, ceil, trunc,
-  (+), (~), (*), negate, abs, constrain,
+  (+), (~), (*), negate, abs, signum, constrain,
   div, quot, mod, rem, (/),
   type nil, type (:=), type (;),
   type record, type variant, type label, type void,
@@ -83,26 +83,19 @@ type int = num i
 type float = num f
 syntax float float-type
 
-val float :: int -> float
-foreign float x = "x"
+foreign float :: int -> float
 
-val round, floor, ceil, trunc :: float -> int
-foreign round = "Math.round"
-foreign floor = "Math.floor"
-foreign ceil = "Math.ceil"
-foreign trunc = "Prelude.JS.trunc"
+foreign round, floor, ceil :: float -> int
 
-val (+), (~), (*) :: any x. num x -> num x -> num x
-foreign (+) x y = "x + y"
-foreign (~) x y = "x - y"
-foreign (*) x y = "x * y"
+val trunc :: float -> int
+let trunc x = if (x < 0) { ceil x } { floor x }
 
-val negate :: any x. num x -> num x
+foreign (+), (~), (*) :: any x. num x -> num x -> num x
+
+foreign negate :: any x. num x -> num x
 syntax negate negate-function
-foreign negate x = "-x"
 
-val abs :: any x. num x -> num x
-foreign abs = "Math.abs"
+foreign abs, signum :: any x. num x -> num x
 
 val constrain :: any x. num x -> num x -> num x -> num x
 let constrain x y z =
@@ -110,16 +103,11 @@ let constrain x y z =
   $ else $ if (z >= y) { y }
   $ else $ z
 
-val div, quot :: int -> int -> int
-foreign div x y = "Math.floor(y / x)"
-foreign quot x y = "Prelude.JS.trunc(y / x)"
+foreign div, quot :: int -> int -> int
 
-val mod, rem :: int -> int -> int
-foreign mod x y = "(y % x + x) % x"
-foreign rem x y = "y % x"
+foreign mod, rem :: int -> int -> int
 
-val (/) :: float -> float -> float
-foreign (/) x y = "x / y"
+foreign (/) :: float -> float -> float
 
 type nil :: Row
 type (:=) :: Label -> Type -> Row -> Row
@@ -138,17 +126,13 @@ syntax label label-type
 
 type void = {nil}
 
-val void :: void
-foreign void = "{}"
+foreign void :: void
 
-val (?) :: any s a r. label s -> {s := a; r} -> a
-foreign (?) s r = "r[s][0]"
+foreign (?) :: any s a r. label s -> {s := a; r} -> a
 
-val delete :: any s a r. label s -> {s := a; r} -> {r}
-foreign delete s r = "Prelude.JS.delete(s, r)"
+foreign delete :: any s a r. label s -> {s := a; r} -> {r}
 
-val (:=) :: any s a r. label s -> a -> {r} -> {s := a; r}
-foreign (:=) s x r = "Prelude.JS.record(s, x, r)"
+foreign (:=) :: any s a r. label s -> a -> {r} -> {s := a; r}
 
 val (!=) :: any s a b r. label s -> b -> {s := a; r} -> {s := b; r}
 let (!=) s x r = s := x; delete s r
@@ -159,14 +143,11 @@ let (#=) s f r = s != f (s ? r); r
 val (;) :: any a b. (a -> b) -> a -> b
 let (;) f x = f x
 
-val (^) :: any s a r. label s -> a -> [s := a; r]
-foreign (^) s x = "[s, x]"
+foreign (^) :: any s a r. label s -> a -> [s := a; r]
 
-val embed :: any s a r. label s -> [r] -> [s := a; r]
-foreign embed s v = "v"
+foreign embed :: any s a r. label s -> [r] -> [s := a; r]
 
-val match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
-foreign match s f g v = "v[0] === s ? f(v[1]) : g(v)"
+foreign match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
 
 val else :: any a b. a -> b -> a
 let else x y = x
@@ -206,20 +187,23 @@ expand (||) x y = or x { y }
 val if :: any a. bool -> lazy a -> lazy a -> a
 let if c x y = c # match True x (general y)
 
-val (==), (/=) :: any a. a -> a -> bool
-foreign (==) x y = "Prelude.JS.convertBool(Prelude.JS.equals(x, y))"
+foreign (==) :: any a. a -> a -> bool
+
+val (/=) :: any a. a -> a -> bool
 let (/=) x y = not (x == y)
 
-val (<), (<=), (>), (>=) :: any a. a -> a -> bool
-foreign (<) x y = "Prelude.JS.convertBool(Prelude.JS.lessThan(x, y))"
+foreign (<), (>) :: any a. a -> a -> bool
+
+val (<=), (>=) :: any a. a -> a -> bool
 let (<=) x y = x < y || x == y
-foreign (>) x y = "Prelude.JS.convertBool(Prelude.JS.greaterThan(x, y))"
 let (>=) x y = x > y || x == y
 
-val isFinite, isInfinite, isNaN :: float -> bool
-foreign isFinite = "isFinite"
+foreign isFinite :: float -> bool
+
+val isInfinite :: float -> bool
 let isInfinite x = not (isFinite x || isNaN x)
-foreign isNaN = "isNaN"
+
+foreign isNaN :: float -> bool
 
 val min, max :: any a. a -> a -> a
 let min x y = if (x < y) { x } { y }

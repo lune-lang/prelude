@@ -29,11 +29,9 @@ syntax string string-type
 val isEmpty :: string -> bool
 let isEmpty str = str == ""
 
-val length :: string -> int
-foreign length str = "str.length"
+foreign length :: string -> int
 
-val (<>) :: string -> string -> string
-foreign (<>) str1 str2 = "str1 + str2"
+foreign (<>) :: string -> string -> string
 
 val concat :: list string -> string
 let concat = List.foldRight (<>) ""
@@ -54,20 +52,13 @@ let joinMap sep f xs = join sep (List.map f xs)
 val repeat :: int -> string -> string
 let repeat n str = if (n <= 0) { "" } { str <> repeat (n ~ 1) str }
 
-val reverse :: string -> string
-foreign reverse str = "str.split('').reverse().join('')"
+foreign reverse :: string -> string
 
-val split :: string -> string -> list string
-foreign split sep str = "Prelude.JS.arrayToList(str.split(sep))"
+foreign split :: string -> string -> list string
 
-val words :: string -> list string
-foreign words str = "Prelude.JS.arrayToList(str.split(/\\s+/))"
+foreign words, lines :: string -> list string
 
-val lines :: string -> list string
-foreign lines str = "Prelude.JS.arrayToList(str.split(/\\r?\\n/))"
-
-val slice :: int -> int -> string -> string
-foreign slice x y str = "Prelude.JS.sliceString(x, y, str)"
+foreign slice :: int -> int -> string -> string
 
 val takeLeft :: int -> string -> string
 let takeLeft x str = if (x <= 0) { "" } { slice 0 x str }
@@ -81,70 +72,40 @@ let dropLeft x str = if (x <= 0) { str } { slice x (length str) str }
 val dropRight :: int -> string -> string
 let dropRight x str = if (x <= 0) { str } { slice 0 -x str }
 
-val toLower :: string -> string
-foreign toLower str = "str.toLowerCase()"
+foreign toLower, toUpper :: string -> string
 
-val toUpper :: string -> string
-foreign toUpper str = "str.toUpperCase()"
-
-val padLeft :: int -> string -> string
+val padLeft, padRight :: int -> string -> string
 let padLeft x str = if (length str >= x) { str } { " " <> padLeft (x ~ 1) str }
-
-val padRight :: int -> string -> string
 let padRight x str = if (length str >= x) { str } { padRight (x ~ 1) str <> " " }
 
-val trim :: string -> string
-foreign trim str = "str.trim()"
+foreign trim, trimLeft, trimRight :: string -> string
 
-val trimLeft :: string -> string
-foreign trimLeft str = "str.trimLeft()"
-
-val trimRight :: string -> string
-foreign trimRight str = "str.trimRight()"
-
-val contains :: string -> string -> bool
-foreign contains sub str = "Prelude.JS.convertBool(str.includes(sub))"
-
-val startsWith :: string -> string -> bool
-foreign startsWith sub str = "Prelude.JS.convertBool(str.startsWith(sub))"
-
-val endsWith :: string -> string -> bool
-foreign endsWith sub str = "Prelude.JS.convertBool(str.endsWith(sub))"
+foreign contains, startsWith, endsWith :: string -> string -> bool
 
 val find :: string -> string -> list int
 let find sub str = def
   let matches i = startsWith sub (dropLeft i str)
   in List.filter matches $ List.range 0 (length str)
 
-val replace :: string -> string -> string -> string
-foreign replace sub rep str = "Prelude.JS.replaceString(sub, rep, str)"
+foreign replace :: string -> string -> string -> string
 
-val toInt :: string -> maybe int
-foreign toInt str = "Prelude.JS.stringToInt(str)"
+foreign toInt :: string -> maybe int
 
-val fromInt :: int -> string
-foreign fromInt x = "x.toString()"
+foreign fromInt :: int -> string
 
-val toFloat :: string -> maybe float
-foreign toFloat str = "Prelude.JS.stringToFloat(str)"
+foreign toFloat :: string -> maybe float
 
-val fromFloat :: float -> string
-foreign fromFloat x = "x.toString()"
+foreign fromFloat :: float -> string
 
-val toList :: string -> list char
-foreign toList str = "Prelude.JS.arrayToList(str.split(''))"
+foreign toList :: string -> list char
 
-val fromList :: list char -> string
-foreign fromList xs = "Prelude.JS.listToArray(xs).join('')"
+foreign fromList :: list char -> string
 
-val cons :: char -> string -> string
-foreign cons c str = "c + str"
+foreign cons :: char -> string -> string
 
-val deconstruct :: any a. a -> (char -> string -> a) -> string -> a
-foreign deconstruct x f str = "Prelude.JS.deconstructString(x, f, str)"
+foreign deconstruct :: any a. a -> (char -> string -> a) -> string -> a
 
-val single :: char -> string
-foreign single c = "c"
+foreign single :: char -> string
 
 val head :: string -> maybe char
 let head = deconstruct nothing do c str. Just ^ c

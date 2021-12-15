@@ -1,5 +1,6 @@
 export
-  pow, exp, expBase, log, logBase, sqrt,
+  square, cube, sqrt, cbrt,
+  exp, (**), log, logBase,
   pi, tau,
   type angle, radians, degrees, turns,
   sin, cos, tan, asin, acos, atan, atan2,
@@ -8,27 +9,26 @@ export
 
 import Prelude open
 
-val pow :: int -> int -> int
-foreign pow x y = "Math.floor(Math.pow(x, y))"
+infix ** right 70
 
-val exp :: float -> float
-foreign exp = "Math.exp"
+val square, cube :: any x. num x -> num x
+let square x = x * x
+let cube x = x * x * x
 
-val expBase :: float -> float -> float
-foreign expBase x y = "Math.pow(x, y)"
+foreign sqrt, cbrt :: float -> float
 
-val log :: float -> float
-foreign log = "Math.log"
+foreign exp :: float -> float
+foreign (**) :: float -> float -> float
+
+foreign log :: float -> float
 
 val logBase :: float -> float -> float
 let logBase x y = log y / log x
 
-val sqrt :: float -> float
-foreign sqrt = "Math.sqrt"
+foreign pi :: float
 
-val pi, tau :: float
-foreign pi = "Math.PI"
-let tau = 2 * pi
+val tau :: float
+let tau = pi * 2
 
 type angle = float
 
@@ -37,31 +37,17 @@ let radians x = x
 let degrees x = x * tau / 360
 let turns x = x * tau
 
-val sin, cos, tan :: angle -> float
-foreign sin = "Math.sin"
-foreign cos = "Math.cos"
-foreign tan = "Math.tan"
+foreign sin, cos, tan :: angle -> float
 
-val asin, acos, atan :: float -> angle
-foreign asin = "Math.asin"
-foreign acos = "Math.acos"
-foreign atan = "Math.atan"
+foreign asin, acos, atan :: float -> angle
 
-val atan2 :: float -> float -> angle
-foreign atan2 x y = "Math.atan2(x, y)"
+foreign atan2 :: float -> float -> angle
 
-val sinh, cosh, tanh :: angle -> float
-foreign sinh = "Math.sinh"
-foreign cosh = "Math.cosh"
-foreign tanh = "Math.tanh"
+foreign sinh, cosh, tanh :: angle -> float
 
-val asinh, acosh, atanh :: float -> angle
-foreign asinh = "Math.asinh"
-foreign acosh = "Math.acosh"
-foreign atanh = "Math.atanh"
+foreign asinh, acosh, atanh :: float -> angle
 
-val hypot :: float -> float -> float
-foreign hypot x y = "Math.hypot(x, y)"
+foreign hypot :: float -> float -> float
 
 val distance :: float -> float -> float -> float -> float
 let distance x1 y1 x2 y2 = hypot (x2 ~ x1) (y2 ~ y1)
