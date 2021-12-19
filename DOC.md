@@ -65,6 +65,7 @@
   </h4>
 
 </details>
+
 # IO
 <details>
   <summary></summary>
@@ -199,6 +200,7 @@
   </h4>
 
 </details>
+
 # List
 <details>
   <summary></summary>
@@ -629,6 +631,7 @@
   </h4>
 
 </details>
+
 # Main
 <details>
   <summary></summary>
@@ -652,6 +655,7 @@
   </h4>
 
 </details>
+
 # Math
 <details>
   <summary></summary>
@@ -814,6 +818,7 @@
   </h4>
 
 </details>
+
 # Prelude
 <details>
   <summary></summary>
@@ -1554,6 +1559,7 @@
   </h4>
 
 </details>
+
 # Result
 <details>
   <summary></summary>
@@ -1676,6 +1682,7 @@
   </h4>
 
 </details>
+
 # String
 <details>
   <summary></summary>
@@ -2070,6 +2077,7 @@
   </h4>
 
 </details>
+
 # Variant
 <details>
   <summary></summary>
@@ -2161,3 +2169,4 @@
   </h4>
 
 </details>
+
