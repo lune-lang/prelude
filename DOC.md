@@ -9,13 +9,13 @@
   </h4>
   <h4>
   
-    isLower,isUpper,isAlpha,isAlphaNum :: char -> bool
+    isLower, isUpper, isAlpha, isAlphaNum :: char -> bool
     
   
   </h4>
   <h4>
   
-    isDigit,isHexDigit :: char -> bool
+    isDigit, isHexDigit :: char -> bool
     
   
   </h4>
@@ -27,7 +27,7 @@
   </h4>
   <h4>
   
-    toLower,toUpper :: char -> char
+    toLower, toUpper :: char -> char
     
   
   </h4>
@@ -75,7 +75,7 @@
   </h4>
   <h4>
   
-    ;; :: any a. io void -> io a -> io a
+    (;;) :: any a. io void -> io a -> io a
   
   </h4>
   <h4>
@@ -144,12 +144,24 @@
   </h4>
   <h4>
   
+    makeList :: [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil]
+       -> list a
+  
+  </h4>
+  <h4>
+  
+    getList :: list a -> [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil]
+      
+  
+  </h4>
+  <h4>
+  
     empty :: any a. list a
   
   </h4>
   <h4>
   
-    : :: any a. a -> list a -> list a
+    (:) :: any a. a -> list a -> list a
   
   </h4>
   <h4>
@@ -199,7 +211,7 @@
   </h4>
   <h4>
   
-    ++ :: any a. list a -> list a -> list a
+    (++) :: any a. list a -> list a -> list a
   
   </h4>
   <h4>
@@ -408,12 +420,12 @@
 
   <h4>
   
-    square,cube :: any x. num x -> num x
+    square, cube :: any x. num x -> num x
   
   </h4>
   <h4>
   
-    sqrt,cbrt :: float -> float
+    sqrt, cbrt :: float -> float
     
   
   </h4>
@@ -424,7 +436,7 @@
   </h4>
   <h4>
   
-    ** :: float -> float -> float
+    (**) :: float -> float -> float
     
   
   </h4>
@@ -458,18 +470,18 @@
   </h4>
   <h4>
   
-    radians,degrees,turns :: float -> angle
+    radians, degrees, turns :: float -> angle
   
   </h4>
   <h4>
   
-    sin,cos,tan :: angle -> float
+    sin, cos, tan :: angle -> float
     
   
   </h4>
   <h4>
   
-    asin,acos,atan :: float -> angle
+    asin, acos, atan :: float -> angle
     
   
   </h4>
@@ -481,13 +493,13 @@
   </h4>
   <h4>
   
-    sinh,cosh,tanh :: angle -> float
+    sinh, cosh, tanh :: angle -> float
     
   
   </h4>
   <h4>
   
-    asinh,acosh,atanh :: float -> angle
+    asinh, acosh, atanh :: float -> angle
     
   
   </h4>
@@ -511,7 +523,7 @@
 
   <h4>
   
-    type -> :: Type -> Type -> Type
+    type (->) :: Type -> Type -> Type
   
   </h4>
   <h4>
@@ -526,22 +538,22 @@
   </h4>
   <h4>
   
-    $ :: any a b. (a -> b) -> a -> b
+    ($) :: any a b. (a -> b) -> a -> b
   
   </h4>
   <h4>
   
-    # :: any a b. a -> (a -> b) -> b
+    (#) :: any a b. a -> (a -> b) -> b
   
   </h4>
   <h4>
   
-    << :: any a b c. (b -> c) -> (a -> b) -> (a -> c)
+    (<<) :: any a b c. (b -> c) -> (a -> b) -> (a -> c)
   
   </h4>
   <h4>
   
-    >> :: any a b c. (a -> b) -> (b -> c) -> (a -> c)
+    (>>) :: any a b c. (a -> b) -> (b -> c) -> (a -> c)
   
   </h4>
   <h4>
@@ -577,7 +589,7 @@
   </h4>
   <h4>
   
-    round,floor,ceil :: float -> int
+    round, floor, ceil :: float -> int
     
   
   </h4>
@@ -588,7 +600,7 @@
   </h4>
   <h4>
   
-    +,~,* :: any x. num x -> num x -> num x
+    (+), (~), (*) :: any x. num x -> num x -> num x
     
   
   </h4>
@@ -599,7 +611,7 @@
   </h4>
   <h4>
   
-    abs,signum :: any x. num x -> num x
+    abs, signum :: any x. num x -> num x
     
   
   </h4>
@@ -610,19 +622,19 @@
   </h4>
   <h4>
   
-    div,quot :: int -> int -> int
+    div, quot :: int -> int -> int
     
   
   </h4>
   <h4>
   
-    mod,rem :: int -> int -> int
+    mod, rem :: int -> int -> int
     
   
   </h4>
   <h4>
   
-    / :: float -> float -> float
+    (/) :: float -> float -> float
     
   
   </h4>
@@ -633,12 +645,12 @@
   </h4>
   <h4>
   
-    type := :: Label -> Type -> Row -> Row
+    type (:=) :: Label -> Type -> Row -> Row
   
   </h4>
   <h4>
   
-    type ; f x = f x
+    type (;) f x = f x
     
   
   </h4>
@@ -671,7 +683,7 @@
   </h4>
   <h4>
   
-    ? :: any s a r. label s -> {s := a; r} -> a
+    (?) :: any s a r. label s -> {s := a; r} -> a
     
   
   </h4>
@@ -683,28 +695,28 @@
   </h4>
   <h4>
   
-    := :: any s a r. label s -> a -> {r} -> {s := a; r}
+    (:=) :: any s a r. label s -> a -> {r} -> {s := a; r}
     
   
   </h4>
   <h4>
   
-    != :: any s a b r. label s -> b -> {s := a; r} -> {s := b; r}
+    (!=) :: any s a b r. label s -> b -> {s := a; r} -> {s := b; r}
   
   </h4>
   <h4>
   
-    #= :: any s a b r. label s -> (a -> b) -> {s := a; r} -> {s := b; r}
+    (#=) :: any s a b r. label s -> (a -> b) -> {s := a; r} -> {s := b; r}
   
   </h4>
   <h4>
   
-    ; :: any a b. (a -> b) -> a -> b
+    (;) :: any a b. (a -> b) -> a -> b
   
   </h4>
   <h4>
   
-    ^ :: any s a r. label s -> a -> [s := a; r]
+    (^) :: any s a r. label s -> a -> [s := a; r]
     
   
   </h4>
@@ -748,13 +760,13 @@
   </h4>
   <h4>
   
-    type & a b = {First := a; Second := b; nil}
+    type (&) a b = {First := a; Second := b; nil}
     
   
   </h4>
   <h4>
   
-    & :: any a b. a -> b -> a & b
+    (&) :: any a b. a -> b -> a & b
   
   </h4>
   <h4>
@@ -765,7 +777,7 @@
   </h4>
   <h4>
   
-    true,false :: bool
+    true, false :: bool
   
   </h4>
   <h4>
@@ -775,12 +787,12 @@
   </h4>
   <h4>
   
-    expand && x y = and x { y }
+    expand (&&) x y = and x { y }
   
   </h4>
   <h4>
   
-    expand || x y = or x { y }
+    expand (||) x y = or x { y }
     
   
   </h4>
@@ -791,24 +803,24 @@
   </h4>
   <h4>
   
-    == :: any a. a -> a -> bool
+    (==) :: any a. a -> a -> bool
     
   
   </h4>
   <h4>
   
-    /= :: any a. a -> a -> bool
+    (/=) :: any a. a -> a -> bool
   
   </h4>
   <h4>
   
-    <,> :: any a. a -> a -> bool
+    (<), (>) :: any a. a -> a -> bool
     
   
   </h4>
   <h4>
   
-    <=,>= :: any a. a -> a -> bool
+    (<=), (>=) :: any a. a -> a -> bool
   
   </h4>
   <h4>
@@ -830,7 +842,7 @@
   </h4>
   <h4>
   
-    min,max :: any a. a -> a -> a
+    min, max :: any a. a -> a -> a
   
   </h4>
   <h4>
@@ -953,7 +965,7 @@
   </h4>
   <h4>
   
-    <> :: string -> string -> string
+    (<>) :: string -> string -> string
     
   
   </h4>
@@ -996,7 +1008,7 @@
   </h4>
   <h4>
   
-    words,lines :: string -> list string
+    words, lines :: string -> list string
     
   
   </h4>
@@ -1028,24 +1040,24 @@
   </h4>
   <h4>
   
-    toLower,toUpper :: string -> string
+    toLower, toUpper :: string -> string
     
   
   </h4>
   <h4>
   
-    padLeft,padRight :: int -> string -> string
+    padLeft, padRight :: int -> string -> string
   
   </h4>
   <h4>
   
-    trim,trimLeft,trimRight :: string -> string
+    trim, trimLeft, trimRight :: string -> string
     
   
   </h4>
   <h4>
   
-    contains,startsWith,endsWith :: string -> string -> bool
+    contains, startsWith, endsWith :: string -> string -> bool
     
   
   </h4>

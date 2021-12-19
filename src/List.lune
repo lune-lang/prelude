@@ -1,5 +1,5 @@
 export
-  type list, empty, (:), deconstruct, single,
+  type list, makeList, getList, empty, (:), deconstruct, single,
   head, tail, take, drop, get,
   isEmpty, length,
   (++), concat, repeat, reverse, range,
