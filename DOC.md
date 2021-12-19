@@ -10,31 +10,26 @@
   <h4>
   
     isLower, isUpper, isAlpha, isAlphaNum :: char -> bool
-    
   
   </h4>
   <h4>
   
     isDigit, isHexDigit :: char -> bool
-    
   
   </h4>
   <h4>
   
     isSpace :: char -> bool
-    
   
   </h4>
   <h4>
   
     toLower, toUpper :: char -> char
-    
   
   </h4>
   <h4>
   
     fromCode :: int -> char
-    
   
   </h4>
   <h4>
@@ -52,25 +47,21 @@
   <h4>
   
     type io :: Type -> Type
-    
   
   </h4>
   <h4>
   
     map :: any a b. (a -> b) -> io a -> io b
-    
   
   </h4>
   <h4>
   
     apply :: any a b. io (a -> b) -> io a -> io b
-    
   
   </h4>
   <h4>
   
     bind :: any a b. (a -> io b) -> io a -> io b
-    
   
   </h4>
   <h4>
@@ -81,7 +72,6 @@
   <h4>
   
     pure :: any a. a -> io a
-    
   
   </h4>
   <h4>
@@ -139,19 +129,16 @@
   <h4>
   
     type list :: Type -> Type
-      
   
   </h4>
   <h4>
   
-    makeList :: [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil]
-       -> list a
+    makeList :: [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil] -> list a
   
   </h4>
   <h4>
   
     getList :: list a -> [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil]
-      
   
   </h4>
   <h4>
@@ -426,7 +413,6 @@
   <h4>
   
     sqrt, cbrt :: float -> float
-    
   
   </h4>
   <h4>
@@ -437,13 +423,11 @@
   <h4>
   
     (**) :: float -> float -> float
-    
   
   </h4>
   <h4>
   
     log :: float -> float
-    
   
   </h4>
   <h4>
@@ -454,7 +438,6 @@
   <h4>
   
     pi :: float
-    
   
   </h4>
   <h4>
@@ -465,7 +448,6 @@
   <h4>
   
     type angle  = float
-    
   
   </h4>
   <h4>
@@ -476,37 +458,31 @@
   <h4>
   
     sin, cos, tan :: angle -> float
-    
   
   </h4>
   <h4>
   
     asin, acos, atan :: float -> angle
-    
   
   </h4>
   <h4>
   
     atan2 :: float -> float -> angle
-    
   
   </h4>
   <h4>
   
     sinh, cosh, tanh :: angle -> float
-    
   
   </h4>
   <h4>
   
     asinh, acosh, atanh :: float -> angle
-    
   
   </h4>
   <h4>
   
     hypot :: float -> float -> float
-    
   
   </h4>
   <h4>
@@ -584,13 +560,11 @@
   <h4>
   
     float :: int -> float
-    
   
   </h4>
   <h4>
   
     round, floor, ceil :: float -> int
-    
   
   </h4>
   <h4>
@@ -601,7 +575,6 @@
   <h4>
   
     (+), (~), (*) :: any x. num x -> num x -> num x
-    
   
   </h4>
   <h4>
@@ -612,7 +585,6 @@
   <h4>
   
     abs, signum :: any x. num x -> num x
-    
   
   </h4>
   <h4>
@@ -623,19 +595,16 @@
   <h4>
   
     div, quot :: int -> int -> int
-    
   
   </h4>
   <h4>
   
     mod, rem :: int -> int -> int
-    
   
   </h4>
   <h4>
   
     (/) :: float -> float -> float
-    
   
   </h4>
   <h4>
@@ -651,7 +620,6 @@
   <h4>
   
     type (;) f x = f x
-    
   
   </h4>
   <h4>
@@ -672,31 +640,26 @@
   <h4>
   
     type void  = {nil}
-    
   
   </h4>
   <h4>
   
     void :: void
-    
   
   </h4>
   <h4>
   
     (?) :: any s a r. label s -> {s := a; r} -> a
-    
   
   </h4>
   <h4>
   
     delete :: any s a r. label s -> {s := a; r} -> {r}
-    
   
   </h4>
   <h4>
   
     (:=) :: any s a r. label s -> a -> {r} -> {s := a; r}
-    
   
   </h4>
   <h4>
@@ -717,19 +680,16 @@
   <h4>
   
     (^) :: any s a r. label s -> a -> [s := a; r]
-    
   
   </h4>
   <h4>
   
     embed :: any s a r. label s -> [r] -> [s := a; r]
-    
   
   </h4>
   <h4>
   
     match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
-    
   
   </h4>
   <h4>
@@ -745,7 +705,6 @@
   <h4>
   
     type lazy a = void -> a
-    
   
   </h4>
   <h4>
@@ -761,7 +720,6 @@
   <h4>
   
     type (&) a b = {First := a; Second := b; nil}
-    
   
   </h4>
   <h4>
@@ -772,7 +730,6 @@
   <h4>
   
     type bool  = [True := void; False := void; nil]
-    
   
   </h4>
   <h4>
@@ -793,7 +750,6 @@
   <h4>
   
     expand (||) x y = or x { y }
-    
   
   </h4>
   <h4>
@@ -804,7 +760,6 @@
   <h4>
   
     (==) :: any a. a -> a -> bool
-    
   
   </h4>
   <h4>
@@ -815,7 +770,6 @@
   <h4>
   
     (<), (>) :: any a. a -> a -> bool
-    
   
   </h4>
   <h4>
@@ -826,7 +780,6 @@
   <h4>
   
     isFinite :: float -> bool
-    
   
   </h4>
   <h4>
@@ -837,7 +790,6 @@
   <h4>
   
     isNaN :: float -> bool
-    
   
   </h4>
   <h4>
@@ -848,7 +800,6 @@
   <h4>
   
     type order  = [Less := void; Equal := void; Greater := void; nil]
-    
   
   </h4>
   <h4>
@@ -866,13 +817,11 @@
   <h4>
   
     type result e a = [Error := e; Just := a; nil]
-    
   
   </h4>
   <h4>
   
     type maybe a = result void a
-    
   
   </h4>
   <h4>
@@ -960,13 +909,11 @@
   <h4>
   
     length :: string -> int
-    
   
   </h4>
   <h4>
   
     (<>) :: string -> string -> string
-    
   
   </h4>
   <h4>
@@ -997,25 +944,21 @@
   <h4>
   
     reverse :: string -> string
-    
   
   </h4>
   <h4>
   
     split :: string -> string -> list string
-    
   
   </h4>
   <h4>
   
     words, lines :: string -> list string
-    
   
   </h4>
   <h4>
   
     slice :: int -> int -> string -> string
-    
   
   </h4>
   <h4>
@@ -1041,7 +984,6 @@
   <h4>
   
     toLower, toUpper :: string -> string
-    
   
   </h4>
   <h4>
@@ -1052,13 +994,11 @@
   <h4>
   
     trim, trimLeft, trimRight :: string -> string
-    
   
   </h4>
   <h4>
   
     contains, startsWith, endsWith :: string -> string -> bool
-    
   
   </h4>
   <h4>
@@ -1069,61 +1009,51 @@
   <h4>
   
     replace :: string -> string -> string -> string
-    
   
   </h4>
   <h4>
   
     toInt :: string -> maybe int
-    
   
   </h4>
   <h4>
   
     fromInt :: int -> string
-    
   
   </h4>
   <h4>
   
     toFloat :: string -> maybe float
-    
   
   </h4>
   <h4>
   
     fromFloat :: float -> string
-    
   
   </h4>
   <h4>
   
     toList :: string -> list char
-    
   
   </h4>
   <h4>
   
     fromList :: list char -> string
-    
   
   </h4>
   <h4>
   
     cons :: char -> string -> string
-    
   
   </h4>
   <h4>
   
     deconstruct :: any a. a -> (char -> string -> a) -> string -> a
-    
   
   </h4>
   <h4>
   
     single :: char -> string
-    
   
   </h4>
   <h4>
