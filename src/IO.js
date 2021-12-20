@@ -16,7 +16,9 @@ IO["apply"] = function(act1) {
 
 IO["bind"] = function(f) {
   return function(act) {
-    return f(act());
+      return function() {
+        return f(act())();
+      };
   };
 };
 
