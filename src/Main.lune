@@ -1,9 +1,0 @@
-export main
-
-import Prelude open
-import IO exposing type io
-
-foreign debug :: any a. a -> io void
-
-val main :: io void
-let main = debug 0
