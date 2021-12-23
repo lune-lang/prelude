@@ -60,6 +60,147 @@ toCode :: char -> int
 ```
 </h4>
 
+# Html
+<a name="Html.html"></a>
+<h4>
+
+```
+type html :: Type
+```
+</h4>
+
+<a name="Html.attribute"></a>
+<h4>
+
+```
+type attribute  = { Mode := [ Style | Attribute | Property | nil ]
+  ; Name := string
+  ; Value := string
+  ; nil
+  }
+```
+</h4>
+
+<a name="Html.style"></a>
+<h4>
+
+```
+style :: string -> string -> attribute
+```
+</h4>
+
+<a name="Html.attribute"></a>
+<h4>
+
+```
+attribute :: string -> string -> attribute
+```
+</h4>
+
+<a name="Html.property"></a>
+<h4>
+
+```
+property :: string -> string -> attribute
+```
+</h4>
+
+<a name="Html.set"></a>
+<h4>
+
+```
+set :: attribute -> html -> html
+```
+</h4>
+
+<a name="Html.append"></a>
+<h4>
+
+```
+append :: html -> html -> html
+```
+</h4>
+
+<a name="Html.prepend"></a>
+<h4>
+
+```
+prepend :: html -> html -> html
+```
+</h4>
+
+<a name="Html.text"></a>
+<h4>
+
+```
+text :: string -> html
+```
+</h4>
+
+<a name="Html.element"></a>
+<h4>
+
+```
+element :: string -> list attribute -> list html -> html
+```
+</h4>
+
+<a name="Html.query"></a>
+<h4>
+
+```
+query :: string -> io html
+```
+</h4>
+
+<a name="Html.queryAll"></a>
+<h4>
+
+```
+queryAll :: string -> io (list html)
+```
+</h4>
+
+<a name="Html.modify"></a>
+<h4>
+
+```
+modify :: string -> (html -> html) -> io void
+```
+</h4>
+
+<a name="Html.modifyAll"></a>
+<h4>
+
+```
+modifyAll :: string -> (html -> html) -> io void
+```
+</h4>
+
+<a name="Html.remove"></a>
+<h4>
+
+```
+remove :: string -> io void
+```
+</h4>
+
+<a name="Html.removeAll"></a>
+<h4>
+
+```
+removeAll :: string -> io void
+```
+</h4>
+
+<a name="Html.appendBody"></a>
+<h4>
+
+```
+appendBody :: html -> io void
+```
+</h4>
+
 # IO
 <a name="IO.io"></a>
 <h4>
@@ -425,7 +566,7 @@ all :: any a. (a -> bool) -> list a -> bool
 <h4>
 
 ```
-foldLeft :: any a b. (b -> a -> b) -> b -> list a -> b
+foldLeft :: any a b. (a -> b -> b) -> b -> list a -> b
 ```
 </h4>
 
@@ -568,15 +709,6 @@ zip4 :: any a1 a2 a3 a4 a5
   -> list a3
   -> list a4
   -> list a5
-```
-</h4>
-
-# Main
-<a name="Main.main"></a>
-<h4>
-
-```
-main :: io void
 ```
 </h4>
 
@@ -926,6 +1058,14 @@ type nil :: Row
 
 ```
 type (:=) :: Label -> Type -> Row -> Row
+```
+</h4>
+
+<a name="Prelude.(|)"></a>
+<h4>
+
+```
+type (|) s = s := void
 ```
 </h4>
 
@@ -1697,7 +1837,7 @@ all :: (char -> bool) -> string -> bool
 <h4>
 
 ```
-foldLeft :: any a. (a -> char -> a) -> a -> string -> a
+foldLeft :: any a. (char -> a -> a) -> a -> string -> a
 ```
 </h4>
 
