@@ -67,6 +67,7 @@ Html["modify"] = function(selector) {
     return function() {
       var element = document.querySelector(selector);
       element.replaceWith(update(element));
+      return {};
     };
   };
 };
@@ -77,6 +78,7 @@ Html["modifyAll"] = function(selector) {
       document.querySelectorAll(selector).forEach(element => {
         element.replaceWith(update(element));
       });
+      return {};
     };
   };
 };
@@ -84,6 +86,7 @@ Html["modifyAll"] = function(selector) {
 Html["remove"] = function(selector) {
   return function() {
     document.querySelector(selector).remove();
+    return {};
   };
 };
 
@@ -92,5 +95,6 @@ Html["removeAll"] = function(selector) {
     document.querySelectorAll(selector).forEach(element => {
       element.remove();
     });
+    return {};
   };
 };
