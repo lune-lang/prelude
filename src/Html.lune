@@ -6,7 +6,8 @@ export
   query, queryAll,
   modify, modifyAll,
   remove, removeAll,
-  appendBody
+  appendBody,
+  listen
 
 import Prelude open
 import String exposing type string
@@ -84,3 +85,5 @@ foreign removeAll :: string -> io void
 
 val appendBody :: html -> io void
 let appendBody element = modify "body" (append element)
+
+foreign listen :: string -> io void -> html -> html

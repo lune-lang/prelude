@@ -102,3 +102,13 @@ Html["removeAll"] = function(selector) {
     return {};
   };
 };
+
+Html["listen"] = function(event) {
+  return function(act) {
+    return function(element) {
+      element = element.cloneNode(true);
+      element.addEventListener(event, act);
+      return element;
+    };
+  };
+};
