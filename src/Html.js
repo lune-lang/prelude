@@ -1,7 +1,7 @@
 Html["setStyle"] = function(name) {
   return function(value) {
     return function(element) {
-      element = Prelude.Internal.deepCopy(element);
+      element = element.cloneNode(true);
       element.style[name] = value;
       return element;
     };
@@ -11,7 +11,7 @@ Html["setStyle"] = function(name) {
 Html["setAttribute"] = function(name) {
   return function(value) {
     return function(element) {
-      element = Prelude.Internal.deepCopy(element);
+      element = element.cloneNode(true);
       element.setAttribute(name, value);
       return element;
     };
@@ -21,7 +21,7 @@ Html["setAttribute"] = function(name) {
 Html["setProperty"] = function(name) {
   return function(value) {
     return function(element) {
-      element = Prelude.Internal.deepCopy(element);
+      element = element.cloneNode(true);
       element[name] = value;
       return element;
     };
@@ -30,7 +30,7 @@ Html["setProperty"] = function(name) {
 
 Html["append"] = function(child) {
   return function(element) {
-    element = Prelude.Internal.deepCopy(element);
+    element = element.cloneNode(true);
     element.appendChild(child);
     return element;
   };
@@ -38,7 +38,7 @@ Html["append"] = function(child) {
 
 Html["prepend"] = function(child) {
   return function(element) {
-    element = Prelude.Internal.deepCopy(element);
+    element = element.cloneNode(true);
     element.prepend(child);
     return element;
   };
