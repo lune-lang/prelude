@@ -44,9 +44,13 @@ Html["prepend"] = function(child) {
   };
 };
 
-Html["simpleElement"] = document.createElement;
+Html["simpleElement"] = function(tag) {
+  return document.createElement(tag);
+};
 
-Html["text"] = document.createTextNode;
+Html["text"] = function(text) {
+  return document.createTextNode(text);
+}
 
 Html["query"] = function(selector) {
   return function() {
