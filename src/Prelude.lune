@@ -5,7 +5,7 @@ export
   float, round, floor, ceil, trunc,
   (+), (~), (*), negate, abs, signum, constrain,
   div, quot, mod, rem, (/),
-  type nil, type (:=), type (;),
+  type nil, type (:=), type (|), type (;),
   type record, type variant, type label, type void,
   void, (?), delete, (:=), (!=), (#=), (;),
   (^), embed, match, else, only,
@@ -17,6 +17,7 @@ export
   min, max, type order, compare
 
 infix ; right 10
+infix | right 10
 
 infix := non 15
 infix != non 15
@@ -112,6 +113,8 @@ foreign (/) :: float -> float -> float
 type nil :: Row
 type (:=) :: Label -> Type -> Row -> Row
 syntax (:=) row-constructor
+
+type (|) s = s := void
 
 type (;) f x = f x
 
