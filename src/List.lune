@@ -146,10 +146,10 @@ let all f =
   deconstruct true do x xs.
     if (not $ f x) { false } { all f xs }
 
-val foldLeft :: any a b. (b -> a -> b) -> b -> list a -> b
+val foldLeft :: any a b. (a -> b -> b) -> b -> list a -> b
 let foldLeft f n =
   deconstruct n do x xs.
-    f (foldLeft f n xs) x
+    foldLeft f (f x n) xs
 
 val foldRight :: any a b. (a -> b -> b) -> b -> list a -> b
 let foldRight f n =

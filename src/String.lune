@@ -156,10 +156,10 @@ let all f =
   deconstruct true do c str.
     if (not $ f c) { false } { all f str }
 
-val foldLeft :: any a. (a -> char -> a) -> a -> string -> a
+val foldLeft :: any a. (char -> a -> a) -> a -> string -> a
 let foldLeft f x =
   deconstruct x do c str.
-    f (foldLeft f x str) c
+    foldLeft f (f c x) str
 
 val foldRight :: any a. (char -> a -> a) -> a -> string -> a
 let foldRight f x =
