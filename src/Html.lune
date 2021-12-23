@@ -5,7 +5,8 @@ export
   text, element,
   query, queryAll,
   modify, modifyAll,
-  remove, removeAll
+  remove, removeAll,
+  appendBody
 
 import Prelude open
 import String exposing type string
