@@ -1,0 +1,85 @@
+export
+  type program,
+  get, put, modify,
+  map, apply, bind, then,
+  run, fromIO, pure, none,
+  map2, map3, map4,
+  sequence, sequenceMap
+
+import Prelude open
+import List exposing type list, (:), empty
+import IO exposing type io
+
+type program st a = st -> io { Set := st; Return := a; nil }
+
+val get :: any st. program st st
+let get state = IO.pure (Set := state; Return := state; void)
+
+val put :: any st. st -> program st void
+let put new old = IO.pure (Set := new; Return := void; void)
+
+val modify :: any st. (st -> st) -> program st void
+let modify f state = IO.pure (Set := f state; Return := void; void)
+
+val map :: any st a b. (a -> b) -> program st a -> program st b
+let map f act state = IO.map (Return #= f) (act state)
+
+val apply :: any st a b. program st (a -> b) -> program st a -> program st b
+let apply act1 act2 state =
+  act1 state # IO.bind do result1.
+  act2 (Set ? result1) # IO.bind do result2.
+  IO.pure (Return != Return ? result1 $ Return ? result2; result2)
+
+val bind :: any st a b. (a -> program st b) -> program st a -> program st b
+let bind f act state =
+  act state # IO.bind do result.
+  f (Return ? result) (Set ? result)
+
+val then :: any st a. program st a -> program st void -> program st a
+let then act2 act1 = act1 # bind { act2 }
+
+val run :: any st a. st -> program st a -> io a
+let run state act = IO.map (Return ?) (act state)
+
+val fromIO :: any st a. io a -> program st a
+let fromIO act state = act # IO.map do x.
+  Set := state; Return := x; void
+
+val pure :: any st a. a -> program st a
+let pure = fromIO << IO.pure
+
+val none :: any st. program st void
+let none = pure void
+
+val map2
+  :: any st a1 a2 a3
+   . (a1 -> a2 -> a3)
+  -> program st a1
+  -> program st a2
+  -> program st a3
+let map2 f act = apply (map f act)
+
+val map3
+  :: any st a1 a2 a3 a4
+   . (a1 -> a2 -> a3 -> a4)
+  -> program st a1
+  -> program st a2
+  -> program st a3
+  -> program st a4
+let map3 f act1 act2 = apply (map2 f act1 act2)
+
+val map4
+  :: any st a1 a2 a3 a4 a5
+   . (a1 -> a2 -> a3 -> a4 -> a5)
+  -> program st a1
+  -> program st a2
+  -> program st a3
+  -> program st a4
+  -> program st a5
+let map4 f act1 act2 act3 = apply (map3 f act1 act2 act3)
+
+val sequence :: any st a. list (program st a) -> program st (list a)
+let sequence = List.foldRight (map2 (:)) (pure empty)
+
+val sequenceMap :: any st a b. (a -> program st b) -> list a -> program st (list b)
+let sequenceMap f xs = sequence (List.map f xs)

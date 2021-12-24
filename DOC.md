@@ -93,11 +93,11 @@ bind :: any a b. (a -> io b) -> io a -> io b
 ```
 </h4>
 
-<a name="IO.(;;)"></a>
+<a name="IO.then"></a>
 <h4>
 
 ```
-(;;) :: any a. io void -> io a -> io a
+then :: any a. io a -> io void -> io a
 ```
 </h4>
 
@@ -1233,6 +1233,158 @@ type order  = [Less := void; Equal := void; Greater := void; nil]
 
 ```
 compare :: any a. a -> a -> order
+```
+</h4>
+
+# Program
+<a name="Program.program"></a>
+<h4>
+
+```
+type program st a = st -> io { Set := st; Return := a; nil }
+```
+</h4>
+
+<a name="Program.get"></a>
+<h4>
+
+```
+get :: any st. program st st
+```
+</h4>
+
+<a name="Program.put"></a>
+<h4>
+
+```
+put :: any st. st -> program st void
+```
+</h4>
+
+<a name="Program.modify"></a>
+<h4>
+
+```
+modify :: any st. (st -> st) -> program st void
+```
+</h4>
+
+<a name="Program.map"></a>
+<h4>
+
+```
+map :: any st a b. (a -> b) -> program st a -> program st b
+```
+</h4>
+
+<a name="Program.apply"></a>
+<h4>
+
+```
+apply :: any st a b. program st (a -> b) -> program st a -> program st b
+```
+</h4>
+
+<a name="Program.bind"></a>
+<h4>
+
+```
+bind :: any st a b. (a -> program st b) -> program st a -> program st b
+```
+</h4>
+
+<a name="Program.then"></a>
+<h4>
+
+```
+then :: any st a. program st a -> program st void -> program st a
+```
+</h4>
+
+<a name="Program.run"></a>
+<h4>
+
+```
+run :: any st a. st -> program st a -> io a
+```
+</h4>
+
+<a name="Program.fromIO"></a>
+<h4>
+
+```
+fromIO :: any st a. io a -> program st a
+```
+</h4>
+
+<a name="Program.pure"></a>
+<h4>
+
+```
+pure :: any st a. a -> program st a
+```
+</h4>
+
+<a name="Program.none"></a>
+<h4>
+
+```
+none :: any st. program st void
+```
+</h4>
+
+<a name="Program.map2"></a>
+<h4>
+
+```
+map2 :: any st a1 a2 a3
+   . (a1 -> a2 -> a3)
+  -> program st a1
+  -> program st a2
+  -> program st a3
+```
+</h4>
+
+<a name="Program.map3"></a>
+<h4>
+
+```
+map3 :: any st a1 a2 a3 a4
+   . (a1 -> a2 -> a3 -> a4)
+  -> program st a1
+  -> program st a2
+  -> program st a3
+  -> program st a4
+```
+</h4>
+
+<a name="Program.map4"></a>
+<h4>
+
+```
+map4 :: any st a1 a2 a3 a4 a5
+   . (a1 -> a2 -> a3 -> a4 -> a5)
+  -> program st a1
+  -> program st a2
+  -> program st a3
+  -> program st a4
+  -> program st a5
+```
+</h4>
+
+<a name="Program.sequence"></a>
+<h4>
+
+```
+sequence :: any st a. list (program st a) -> program st (list a)
+```
+</h4>
+
+<a name="Program.sequenceMap"></a>
+<h4>
+
+```
+sequenceMap :: any st a b. (a -> program st b) -> list a -> program st (list b)
 ```
 </h4>
 
