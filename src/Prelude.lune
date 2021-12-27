@@ -155,6 +155,9 @@ foreign match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -
 val else :: any a b. a -> b -> a
 let else x y = x
 
+val absurd :: any a. [nil] -> a
+let absurd = absurd
+
 val only :: any s r. label s -> [s := void; r]
 let only s = s ^ void
 
