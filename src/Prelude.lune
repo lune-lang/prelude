@@ -8,7 +8,7 @@ export
   type nil, type (:=), type (|), type (;),
   type record, type variant, type label, type void,
   void, (?), delete, (:=), (!=), (#=), (;),
-  (^), embed, match, else, only,
+  (^), embed, match, else, absurd, only,
   type lazy, force, general,
   type (&), (&),
   type bool, true, false, not, (&&), (||), if,
