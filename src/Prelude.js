@@ -78,7 +78,7 @@ Prelude["+"] = function(x) {
   };
 };
 
-Prelude["-"] = function(x) {
+Prelude["~"] = function(x) {
   return function(y) {
     return x - y;
   };
