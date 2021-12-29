@@ -1,6 +1,6 @@
 export
   type program,
-  get, put, modify,
+  get, getBy, put, modify,
   map, apply, bind, then,
   run, fromIO, pure, none,
   map2, map3, map4,
