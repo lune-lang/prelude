@@ -13,10 +13,13 @@ import IO exposing type io
 type program st a = st -> io { Set := st; Return := a; nil }
 
 val get :: any st. program st st
-let get state = IO.pure (Set := state; Return := state; void)
+let get = getBy identity
+
+val getBy :: any st a. (st -> a) -> program st a
+let getBy f state = IO.pure (Set := state; Return := f state; void)
 
 val put :: any st. st -> program st void
-let put new old = IO.pure (Set := new; Return := void; void)
+let put state = modify {state}
 
 val modify :: any st. (st -> st) -> program st void
 let modify f state = IO.pure (Set := f state; Return := void; void)
