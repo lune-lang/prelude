@@ -224,9 +224,7 @@ deconstruct :: any a b. b -> (a -> list a -> b) -> list a -> b
 <a name="List.single"></a>
 <h4>
 
-```
-single :: any a. a -> list a
-```
+`single :: any a. a -> list a`
 </h4>
 
 <a name="List.head"></a>
@@ -2055,4 +2053,3 @@ sequence :: any s a r. label s -> list [s := a; r] -> [s := list a; r]
 sequenceMap :: any s a b r. label s -> (a -> [s := b; r]) -> list a -> [s := list b; r]
 ```
 </h4>
-
