@@ -62,7 +62,7 @@ Prelude.Internal = {
   },
 
   convertBool: function(bool) {
-    return bool ? Prelude["true"] : Prelude["false"];
+    return bool ? ["True", {}] : ["False", {}];
   }
 };
 

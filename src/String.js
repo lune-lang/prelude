@@ -1,20 +1,17 @@
 $String.Internal = {
   arrayToList: function(array) {
     if(array.length === 0)
-      return List["empty"];
+      return ["Empty", {}]
     var first = array.shift();
-    return List[":"](first)(this.arrayToList(array));
+    return ["Cons", {Head: [first], Tail: [this.arrayToList(array)]}]
   },
 
   listToArray: function(list) {
-    var self = this;
-    return List["deconstruct"]([])(function(x) {
-      return function(xs) {
-        var array = self.listToArray(xs);
-        array.unshift(x);
-        return array;
-      }
-    })(list);
+    if(list[0] === "Empty")
+      return [];
+    var array = this.listToArray(list[1]["Tail"][0]);
+    array.unshift(list[1]["Head"][0]);
+    return array;
   }
 };
 
