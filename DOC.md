@@ -224,7 +224,7 @@ deconstruct :: any a b. b -> (a -> list a -> b) -> list a -> b
 <a name="List.single"></a>
 <h4>
 
-`single :: any a. a -> list a`
+single :: any a. a -> list a
 </h4>
 
 <a name="List.head"></a>
