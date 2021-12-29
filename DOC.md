@@ -222,9 +222,9 @@ deconstruct :: any a b. b -> (a -> list a -> b) -> list a -> b
 </h4>
 
 <a name="List.single"></a>
-<h4 style="font-family:monospace">
+<h4>
 
-single :: any a. a -> list a
+`single :: any a. a -> list a`
 </h4>
 
 <a name="List.head"></a>
