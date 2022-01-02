@@ -54,7 +54,7 @@ infix ^ right 70
 infix << right 75
 infix >> left 75
 
-{- ### Functions -}
+{- ## Functions -}
 
 type (->) :: Type -> Type -> Type
 syntax (->) function-type
@@ -101,6 +101,8 @@ let (>>) g f x = f (g x)
 {-
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
 -}
+
+{- ## Numerical types and conversions -}
 
 type i :: Num
 type f :: Num
@@ -166,6 +168,8 @@ trunc 1.5 == 1
 trunc -1.5 == -1
 ```
 -}
+
+{- ## Mathematical operations -}
 
 foreign (+), (~), (*) :: any x. num x -> num x -> num x
 {-
