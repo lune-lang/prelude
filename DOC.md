@@ -680,7 +680,7 @@ equal to `10`, and `constrain 0 10 5` is equal to `5`.
 Integer division. `div` rounds the result down, and `quot` truncates it.
 For positive arguments, these are the same thing.
 
-__Haskellers beware:___ the arguments to `div` and `quot` are the opposite
+__Haskellers beware:__ the arguments to `div` and `quot` are the opposite
 of the Haskell definitions. `div 2` is a function that divides a number by 2,
 so `div 2 10` is equal to 5.
 
