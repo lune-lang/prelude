@@ -475,19 +475,22 @@ type angle = float
 :: float -> float -> float -> float -> float
 ```
 # Prelude
-### Functions <a name="Prelude.(->)"></a>
+## Functions 
+<a name="Prelude.(->)"></a>
 #### (->)
 ```
 type (->) :: Type -> Type -> Type
 ```
 The type of functions. For example, a function that takes an integer and
 returns a string would have the type `int -> string`.
+
 <a name="Prelude.identity"></a>
 #### identity
 ```
 :: any a. a -> a
 ```
 A function that does nothing. `identity x` is equivalent to `x`.
+
 <a name="Prelude.const"></a>
 #### const
 ```
@@ -495,6 +498,7 @@ A function that does nothing. `identity x` is equivalent to `x`.
 ```
 `const x` is a function that ignores its argument and returns `x`.
 You can also use the notation `{ x }`.
+
 <a name="Prelude.($)"></a>
 #### ($)
 ```
@@ -504,6 +508,7 @@ Apply the function on the left to the value on the right.
 The `$` operator has a relatively low precedence,
 so it is useful for avoiding parentheses. For example `f (g (h x))`
 can be written `f $ g $ h x`.
+
 <a name="Prelude.(#)"></a>
 #### (#)
 ```
@@ -511,18 +516,22 @@ expand (#) x f = f x
 ```
 Apply the function on the right to the value on the left.
 For example, `f (g (h x)) can be written h x # g # f`.
+
 <a name="Prelude.(<<)"></a>
 #### (<<)
 ```
 :: any a b c. (b -> c) -> (a -> b) -> (a -> c)
 ```
 Right-to-left function composition. `f << g` performs `g` and then `f`.
+
 <a name="Prelude.(>>)"></a>
 #### (>>)
 ```
 :: any a b c. (a -> b) -> (b -> c) -> (a -> c)
 ```
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
+
+## Numerical types and conversions 
 <a name="Prelude.i"></a>
 #### i
 ```
@@ -543,6 +552,7 @@ You can convert them into types with the constructor `num`; `num i` is
 the type of integers and `num f` is the type of floats. You
 can define functions that work on both integers and floats by writing
 `any x. num x`.
+
 <a name="Prelude.int"></a>
 #### int
 ```
@@ -552,24 +562,28 @@ The type of integers. Lune compiles to Javascript, so integers and floats
 have the same representation at runtime. Nevertheless, the Lune type system
 distinguishes the two, because there are some computations (such as `mod`)
 that only make sense with integers.
+
 <a name="Prelude.float"></a>
 #### float
 ```
 type float = num f
 ```
 The type of floating-point numbers.
+
 <a name="Prelude.float"></a>
 #### float
 ```
 :: int -> float
 ```
 Convert an integer into a float. Lune does not perform such coercions implicitly.
+
 <a name="Prelude.round"></a>
 #### round
 ```
 :: float -> int
 ```
 Round a number to the nearest integer.
+
 <a name="Prelude.floor"></a>
 #### floor
 ```
@@ -580,6 +594,7 @@ Round a number down.
 floor 1.5 == 1
 floor -1.5 == -2
 ```
+
 <a name="Prelude.ceil"></a>
 #### ceil
 ```
@@ -590,6 +605,7 @@ Round a number up.
 ceil 1.5 == 2
 ceil -1.5 == -1
 ```
+
 <a name="Prelude.trunc"></a>
 #### trunc
 ```
@@ -601,6 +617,8 @@ In other words, get rid of everything after the decimal point.
 trunc 1.5 == 1
 trunc -1.5 == -1
 ```
+
+## Mathematical operations 
 <a name="Prelude.(+)"></a>
 <a name="Prelude.(~)"></a>
 <a name="Prelude.(*)"></a>
@@ -620,18 +638,21 @@ Should `x -y` be interpreted as subtraction? Or is it applying a function to a
 negative number? And is `(-z)` a negation or an operator section? I have
 decided to avoid these ambiguities by denoting subtraction with `~` and
 negation with `-`.
+
 <a name="Prelude.negate"></a>
 #### negate
 ```
 :: any x. num x -> num x
 ```
 Negate a number. `-x` is syntactic sugar for `negate x`.
+
 <a name="Prelude.abs"></a>
 #### abs
 ```
 :: any x. num x -> num x
 ```
 Take the absolute value of a number.
+
 <a name="Prelude.signum"></a>
 #### signum
 ```
@@ -640,6 +661,7 @@ Take the absolute value of a number.
 Find the "sign" of a number. For positive numbers, `signum` returns 1,
 for negative numbers, it returns -1, and for 0, it returns 0. Note that
 `abs x * signum x` is equal to `x`.
+
 <a name="Prelude.constrain"></a>
 #### constrain
 ```
@@ -648,6 +670,7 @@ for negative numbers, it returns -1, and for 0, it returns 0. Note that
 Constrain a number between a lower bound (the first argument) and an
 upper bound (the second argument). For example, `constrain 0 10 11` is
 equal to `10`, and `constrain 0 10 5` is equal to `5`.
+
 <a name="Prelude.div"></a>
 <a name="Prelude.quot"></a>
 #### div, quot
@@ -660,6 +683,7 @@ For positive arguments, these are the same thing.
 __Haskellers beware:___ the arguments to `div` and `quot` are the opposite
 of the Haskell definitions. `div 2` is a function that divides a number by 2,
 so `div 2 10` is equal to 5.
+
 <a name="Prelude.mod"></a>
 <a name="Prelude.rem"></a>
 #### mod, rem
@@ -674,12 +698,14 @@ The difference only matters with negative arguments: `mod 3 -1` evaluates to
 __Haskellers beware:__ the arguments to `mod` and `rem` are the opposite
 of the Haskell definitions. `mod 2` is a function that mods a number by 2,
 so `mod 2 10` is equal to 0.
+
 <a name="Prelude.(/)"></a>
 #### (/)
 ```
 :: float -> float -> float
 ```
 Floating-point division.
+
 <a name="Prelude.nil"></a>
 #### nil
 ```
