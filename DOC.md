@@ -475,7 +475,7 @@ type angle = float
 :: float -> float -> float -> float -> float
 ```
 # Prelude
-## Functions 
+### Functions 
 <a name="Prelude.(->)"></a>
 #### (->)
 ```
@@ -531,7 +531,7 @@ Right-to-left function composition. `f << g` performs `g` and then `f`.
 ```
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
 
-## Numerical types and conversions 
+### Numerical types and conversions 
 <a name="Prelude.i"></a>
 #### i
 ```
@@ -618,7 +618,7 @@ trunc 1.5 == 1
 trunc -1.5 == -1
 ```
 
-## Mathematical operations 
+### Mathematical operations 
 <a name="Prelude.(+)"></a>
 <a name="Prelude.(~)"></a>
 <a name="Prelude.(*)"></a>
