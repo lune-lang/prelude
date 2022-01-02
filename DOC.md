@@ -422,7 +422,7 @@ type list :: Type -> Type
 <a name="Math.angle"></a>
 #### angle
 ```
-type angle  = float
+type angle = float
 ```
 <a name="Math.radians"></a>
 <a name="Math.degrees"></a>
@@ -546,7 +546,7 @@ can define functions that work on both integers and floats by writing
 <a name="Prelude.int"></a>
 #### int
 ```
-type int  = num i
+type int = num i
 ```
 The type of integers. Lune compiles to Javascript, so integers and floats
 have the same representation at runtime. Nevertheless, the Lune type system
@@ -555,7 +555,7 @@ that only make sense with integers.
 <a name="Prelude.float"></a>
 #### float
 ```
-type float  = num f
+type float = num f
 ```
 The type of floating-point numbers.
 <a name="Prelude.float"></a>
@@ -718,7 +718,7 @@ type label :: Label -> Type
 <a name="Prelude.void"></a>
 #### void
 ```
-type void  = {nil}
+type void = {nil}
 ```
 <a name="Prelude.void"></a>
 #### void
@@ -813,7 +813,7 @@ type (&) a b = {First := a; Second := b; nil}
 <a name="Prelude.bool"></a>
 #### bool
 ```
-type bool  = [True := void; False := void; nil]
+type bool = [True := void; False := void; nil]
 ```
 <a name="Prelude.true"></a>
 <a name="Prelude.false"></a>
@@ -887,7 +887,7 @@ expand (||) x y = or x { y }
 <a name="Prelude.order"></a>
 #### order
 ```
-type order  = [Less := void; Equal := void; Greater := void; nil]
+type order = [Less := void; Equal := void; Greater := void; nil]
 ```
 <a name="Prelude.compare"></a>
 #### compare
