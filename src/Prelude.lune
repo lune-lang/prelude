@@ -221,7 +221,7 @@ foreign div, quot :: int -> int -> int
 Integer division. `div` rounds the result down, and `quot` truncates it.
 For positive arguments, these are the same thing.
 
-__Haskellers beware:__ the arguments to `div` and `quot` are the opposite
+_Haskellers beware:_ the arguments to `div` and `quot` are the opposite
 of the Haskell definitions. `div 2` is a function that divides a number by 2,
 so `div 2 10` is equal to 5.
 -}
@@ -233,7 +233,7 @@ so-called "modulo" operation written with a `%` in most languages.
 The difference only matters with negative arguments: `mod 3 -1` evaluates to
 2, but `rem 3 -1` evaluates to -1.
 
-__Haskellers beware:__ the arguments to `mod` and `rem` are the opposite
+_Haskellers beware:_ the arguments to `mod` and `rem` are the opposite
 of the Haskell definitions. `mod 2` is a function that mods a number by 2,
 so `mod 2 10` is equal to 0.
 -}
