@@ -560,7 +560,7 @@ int = num i
 ```
 The type of integers. Lune compiles to Javascript, so integers and floats
 have the same representation at runtime. Nevertheless, the Lune type system
-distinguishes the two, because there are some computations (such as `mod`)
+distinguishes the two, because there are some computations (such as [`mod`](#Prelude.mod))
 that only make sense with integers.
 
 <a name="type_Prelude.float"></a>
@@ -737,7 +737,7 @@ The empty row.
 :: Label -> Type -> Row -> Row
 ```
 Add a label and a type to a row. The `:=` operator is usually
-used in conjunction with `;`. For example, to add the label `X`
+used in conjunction with [`;`](#type_Prelude.(;)). For example, to add the label `X`
 along with the type `float` to the row `r`, you can write `X := float; r`.
 
 <a name="type_Prelude.(|)"></a>
@@ -785,7 +785,7 @@ In Lune, labels are first-class values. The expression-level label
 void = {nil}
 ```
 The unit type. The only value of type `void` is the empty record, also
-denoted `void`.
+denoted [`void`](#Prelude.void).
 
 ### Records 
 <a name="Prelude.void"></a>
@@ -824,7 +824,7 @@ delete Age person --> Name := "Owen"; void
 :: any s a r. label s -> a -> {r} -> {s := a; r}
 ```
 Add a label and a value to a record. The `:=` operator is usually
-used in conjunction with `;`. For example, to add the label `X`
+used in conjunction with [`;`](#Prelude.(;)). For example, to add the label `X`
 along with the value `5` to the record `r`, you can write `X := 5; r`.
 
 <a name="Prelude.(!=)"></a>
@@ -855,7 +855,7 @@ Age #= (+1); person --> Name := "Owen"; Age := 17; void
 :: any a b. (a -> b) -> a -> b
 ```
 Apply the function on the left to the value on the right. The `;` operator
-is similar to `$`, but has an even lower precedence and is typically
+is similar to [`$`](#Prelude.($)), but has an even lower precedence and is typically
 used in records.
 
 ### Variants 
@@ -878,8 +878,8 @@ type, so `X ^ 3.5` could have any of the following types:
 ```
 :: any s a r. label s -> [r] -> [s := a; r]
 ```
-Suppose we have a value `v` that's annotated as a `bool`, represented in Lune as
-`[ True | False | nil ]`. Now suppose we need to convert `v`
+Suppose we have a value `v` that's annotated as a [`bool`](#type_Prelude.bool),
+represented in Lune as `[ True | False | nil ]`. Now suppose we need to convert `v`
 into a value of the type `[ True | False | Maybe | nil ]`
 We aren't actually changing the value; we're just "adding a possibility."
 In Lune, this is written as `embed Maybe v`.
@@ -924,7 +924,7 @@ let toInt =
 :: any a. [nil] -> a
 ```
 Sometimes, you need test every possible label.
-In this case, `match` requires you
+In this case, [`match`](#Prelude.match) requires you
 to give it a function of type `[nil] -> b`. This is where `absurd`
 comes in:
 ```
@@ -953,7 +953,7 @@ let red = only Red
 delay a = void -> a
 ```
 A "delayed computation" is a function that takes no arguments. (More
-precisely, it takes a useless argument of type `void`.)
+precisely, it takes a useless argument of type [`void`](#type_Prelude.void).)
 
 <a name="Prelude.force"></a>
 #### val force
@@ -968,7 +968,7 @@ Force a delayed computation.
 :: any a b. delay a -> b -> a
 ```
 Generalise a delayed computation, so you can apply it to any value
-instead of just `void`.
+instead of just [`void`](#Prelude.void).
 
 ### Pairs 
 <a name="type_Prelude.(&)"></a>
@@ -1045,7 +1045,7 @@ expression synonym feature.
 ```
 The expression `if condition x y` evaluates `x` if the condition
 is true, and `y` if it is false. For example,
-the `trunc` function is defined as follows:
+the [`trunc`](#Prelude.trunc) function is defined as follows:
 ```
 val trunc :: float -> float
 let trunc x = if (x < 0) { ceil x } { floor x }
