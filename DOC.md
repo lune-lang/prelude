@@ -1337,8 +1337,9 @@ maybe a = result void a
 ```
 :: Type
 ```
-The type of strings. Unlike in Haskell, strings are not lists of characters;
-they are actually strings.
+The type of strings. String literals are written with double quotes.
+Unlike in Haskell, strings are not lists of characters; they are
+actually strings.
 
 <a name="String.isEmpty"></a>
 #### val isEmpty
