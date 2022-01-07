@@ -785,7 +785,7 @@ In Lune, labels are first-class values. The expression-level label
 void = {nil}
 ```
 The unit type. The only value of type `void` is the empty record, also
-denoted [`void`](#Prelude.void).
+denoted `void`.
 
 ### Records 
 <a name="Prelude.void"></a>
