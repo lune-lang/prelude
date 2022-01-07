@@ -531,7 +531,7 @@ Right-to-left function composition. `f << g` performs `g` and then `f`.
 ```
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
 
-### Numerical types and conversions 
+### Numeric types and conversions 
 <a name="Prelude.i"></a>
 #### i
 ```
@@ -591,8 +591,8 @@ Round a number to the nearest integer.
 ```
 Round a number down.
 ```
-floor 1.5 == 1
-floor -1.5 == -2
+floor 1.5  --> 1
+floor -1.5 --> -2
 ```
 
 <a name="Prelude.ceil"></a>
@@ -601,9 +601,9 @@ floor -1.5 == -2
 :: float -> int
 ```
 Round a number up.
-```
-ceil 1.5 == 2
-ceil -1.5 == -1
+
+ceil 1.5  --> 2
+ceil -1.5 --> -1
 ```
 
 <a name="Prelude.trunc"></a>
@@ -614,8 +614,8 @@ ceil -1.5 == -1
 If the input is less than zero, round up; otherwise, round down.
 In other words, get rid of everything after the decimal point.
 ```
-trunc 1.5 == 1
-trunc -1.5 == -1
+trunc 1.5  --> 1
+trunc -1.5 --> -1
 ```
 
 ### Mathematical operations 
@@ -706,210 +706,421 @@ so `mod 2 10` is equal to 0.
 ```
 Floating-point division.
 
+### Rows 
+A row is an unordered collection of types with labels attached to them.
+Rows are of the kind `Row`. They can be converted into normal types in two ways:
+* Surrounding a row in curly brackets creates a _record_ type,
+also known as a labeled product type. If you have a value with more than
+one property, use records.
+* Surrounding a row in square brackets creates a _variant_ type,
+also known as a labeled sum type. If you have a value that can exist in
+more than one state, use variants.
+Lune's row system is based on the following two papers by Daan Leijen:
+* [Extensible records with scoped labels](https://www.microsoft.com/en-us/research/publication/extensible-records-with-scoped-labels/)
+* [First-class labels for extensible rows](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/)
+
 <a name="Prelude.nil"></a>
 #### nil
 ```
 type nil :: Row
 ```
+The empty row.
+
 <a name="Prelude.(:=)"></a>
 #### (:=)
 ```
 type (:=) :: Label -> Type -> Row -> Row
 ```
+Add a label and a type to a row. The `:=` operator is usually
+used in conjunction with `;`. For example, to add the label `X`
+along with the type `float` to the row `r`, you can write `X := float; r`.
+
 <a name="Prelude.(|)"></a>
 #### (|)
 ```
 type (|) s = s := void
 ```
+Add a label to a row, along with the unit type. This is useful in variants
+where one of the states has no associated data.
+
 <a name="Prelude.(;)"></a>
 #### (;)
 ```
 type (;) f x = f x
 ```
+Apply a type constructor to an argument.
+
 <a name="Prelude.record"></a>
 #### record
 ```
 type record :: Row -> Type
 ```
+Convert an abstract row into a record type. The shorthand `{r}` is
+syntactic sugar for `Prelude.record r`.
+
 <a name="Prelude.variant"></a>
 #### variant
 ```
 type variant :: Row -> Type
 ```
+Convert an abstract row into a variant type. The shorthand `[r]` is
+syntactic sugar for `Prelude.variant r`.
+
 <a name="Prelude.label"></a>
 #### label
 ```
 type label :: Label -> Type
 ```
+In Lune, labels are first-class values. The expression-level label
+`X` has the type `label X`. At the type
+
 <a name="Prelude.void"></a>
 #### void
 ```
 type void = {nil}
 ```
+The unit type. The only value of type `void` is the empty record, also
+denoted `void`.
+
+### Records 
 <a name="Prelude.void"></a>
 #### void
 ```
 :: void
 ```
+The empty record.
+
 <a name="Prelude.(?)"></a>
 #### (?)
 ```
 :: any s a r. label s -> {s := a; r} -> a
 ```
+Extract a value from a record.
+```
+let person = Name := "Owen"; Age := 16; void
+Name ? person --> "Owen"
+Age ? person  --> 16
+```
+
 <a name="Prelude.delete"></a>
 #### delete
 ```
 :: any s a r. label s -> {s := a; r} -> {r}
 ```
+Delete a label and its associated value from a record.
+```
+let person = Name := "Owen"; Age := 16; void
+delete Age person --> Name := "Owen"; void
+```
+
 <a name="Prelude.(:=)"></a>
 #### (:=)
 ```
 :: any s a r. label s -> a -> {r} -> {s := a; r}
 ```
+Add a label and a value to a record. The `:=` operator is usually
+used in conjunction with `;`. For example, to add the label `X`
+along with the value `5` to the record `r`, you can write `X := 5; r`.
+
 <a name="Prelude.(!=)"></a>
 #### (!=)
 ```
 :: any s a b r. label s -> b -> {s := a; r} -> {s := b; r}
 ```
+Replace a value in a record.
+```
+let person = Name := "Owen"; Age := 16; void
+Name != "Jack"; person --> Name := "Jack"; Age := 16; void
+```
+
 <a name="Prelude.(#=)"></a>
 #### (#=)
 ```
 :: any s a b r. label s -> (a -> b) -> {s := a; r} -> {s := b; r}
 ```
+Update a value in a record by applying the given function to it.
+```
+let person = Name := "Owen"; Age := 16; void
+Age #= (+1); person --> Name := "Owen"; Age := 17; void
+```
+
 <a name="Prelude.(;)"></a>
 #### (;)
 ```
 :: any a b. (a -> b) -> a -> b
 ```
+Apply the function on the left to the value on the right. The (;) operator
+is similar to ($), but has an even lower precedence and is typically
+used in records.
+
+### Variants 
 <a name="Prelude.(^)"></a>
 #### (^)
 ```
 :: any s a r. label s -> a -> [s := a; r]
 ```
+Attach a label to a value. The `^` operator is polymorphic in its return
+type, so `X ^ 3.5` could have any of the following types:
+```
+[ X := float; nil ]
+[ X := float; Y := float; nil ]
+[ X := float; Foo := list string; Qwerty := void; nil ]
+```
+and so on.
+
 <a name="Prelude.embed"></a>
 #### embed
 ```
 :: any s a r. label s -> [r] -> [s := a; r]
 ```
+Suppose we have a value `v` that's annotated as a `bool`, represented in Lune as
+`[ True | False | nil ]`. Now suppose we need to convert `v`
+into a value of the type `[ True | False | Maybe | nil ]`
+We aren't actually changing the value; we're just "adding a possibility."
+In Lune, this is written as `embed Maybe v`.
+
 <a name="Prelude.match"></a>
 #### match
 ```
 :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
 ```
+Match a variant against a label and apply the appropriate function. The
+expression `variant # match Label f g` represents the following process:
+* If `variant` is of the form `Label ^ value`, return `f value`.
+* Otherwise, return `g variant`.
+Matches can be chained. For example:
+```
+type color = [ Red | Green | Blue | nil ]
+val toInt :: color -> int
+let toInt =
+  match Red { 0 }
+  $ match Green { 1 }
+  { 2 }
+```
+
 <a name="Prelude.else"></a>
 #### else
 ```
 :: any a b. a -> b -> a
 ```
+Using `else` can make matches more readable. The example above
+could also be written as:
+```
+let toInt =
+  match Red { 0 }
+  $ match Green { 1 }
+  $ else 2
+```
+
 <a name="Prelude.absurd"></a>
 #### absurd
 ```
 :: any a. [nil] -> a
 ```
+Sometimes, you need test every possible label.
+In this case, the type of `match` requires you
+to give it a function of type `[nil] -> b`. This is where `absurd`
+comes in:
+```
+let toInt =
+  match Red { 0 }
+  $ match Green { 1 }
+  $ match Blue { 2 }
+  absurd
+```
+
 <a name="Prelude.only"></a>
 #### only
 ```
 :: any s r. label s -> [s := void; r]
 ```
-<a name="Prelude.lazy"></a>
-#### lazy
+A label with no information attached to it.
 ```
-type lazy a = void -> a
+val red :: color
+let red = only Red
 ```
+
+### Delayed computations 
+A "delayed computation" is a function that takes no arguments. (More
+precisely, it takes a useless argument of type `void`.)
+
 <a name="Prelude.force"></a>
 #### force
 ```
-:: any a. lazy a -> a
+:: any a. delay a -> a
 ```
+Force a delayed computation.
+
 <a name="Prelude.general"></a>
 #### general
 ```
-:: any a b. lazy a -> b -> a
+:: any a b. delay a -> b -> a
 ```
+Generalise a delayed computation, so you can apply it to any value
+instead of just `void`.
+
+### Pairs 
 <a name="Prelude.(&)"></a>
 #### (&)
 ```
-type (&) a b = {First := a; Second := b; nil}
+type (&) a b = { First := a; Second := b; nil }
 ```
+Ordered pairs (also known as tuples) are represented as
+records with a `First` field and a `Second` field.
+
 <a name="Prelude.(&)"></a>
 #### (&)
 ```
 :: any a b. a -> b -> a & b
 ```
+Construct an ordered pair from two values.
+
+### Booleans 
 <a name="Prelude.bool"></a>
 #### bool
 ```
-type bool = [True := void; False := void; nil]
+type bool = [ True | False | nil ]
 ```
+Unlike most languages, Lune does not have built-in booleans.
+The `bool` type and all boolean operations can be defined
+with Lune's variant system.
+
 <a name="Prelude.true"></a>
 <a name="Prelude.false"></a>
 #### true, false
 ```
 :: bool
 ```
+A boolean can be either `true` or `false`. These are defined as
+`only True` and `only False` respectively.
+
 <a name="Prelude.not"></a>
 #### not
 ```
 :: bool -> bool
 ```
+Boolean inversion. Truth is fantasy, and fantasy is truth.
+```
+not true  --> false
+not false --> true
+```
+
 <a name="Prelude.(&&)"></a>
 #### (&&)
 ```
 expand (&&) x y = and x { y }
 ```
+Test if both statements are true. The `&&` operator
+"short-circuits", so the second argument will not be evaluated
+if the first one is `false`.
+
 <a name="Prelude.(||)"></a>
 #### (||)
 ```
 expand (||) x y = or x { y }
 ```
+Test if at least one of the statements is true. The `||` operator
+"short-circuits", so the second argument will not be evaluated if the
+first one is `true`.
+
+This short-circuiting behavior is not built in. There is nothing
+special about `&&` and `||`; they are defined using Lune's
+expression synonym feature.
+
 <a name="Prelude.if"></a>
 #### if
 ```
-:: any a. bool -> lazy a -> lazy a -> a
+:: any a. bool -> delay a -> delay a -> a
 ```
+The expression `if condition x y` evaluates `x` if the condition
+is true, and `y` if it is false. For example,
+the `trunc` function is defined as follows:
+```
+val trunc :: float -> float
+let trunc x = if (x < 0) { ceil x } { floor x }
+```
+which could also be written as:
+```
+let trunc x = if (x < 0) { ceil x } $ else (floor x)
+```
+
+### Comparisons and predicates 
 <a name="Prelude.(==)"></a>
 #### (==)
 ```
 :: any a. a -> a -> bool
 ```
+Test if two values are equal. The `==` operator checks for _actual_
+equality, not referential equality.
+
 <a name="Prelude.(/=)"></a>
 #### (/=)
 ```
 :: any a. a -> a -> bool
 ```
+Test if two values are not equal.
+
 <a name="Prelude.(<)"></a>
 <a name="Prelude.(>)"></a>
 #### (<), (>)
 ```
 :: any a. a -> a -> bool
 ```
+Test if one value is less than the other. Record fields and variant
+labels are compared in alphabetical order.
+
 <a name="Prelude.(<=)"></a>
 <a name="Prelude.(>=)"></a>
 #### (<=), (>=)
 ```
 :: any a. a -> a -> bool
 ```
+Test if one value is less than or equal to the other.
+
 <a name="Prelude.isFinite"></a>
 #### isFinite
 ```
 :: float -> bool
 ```
+Test if a floating-point number is finite.
+```
+isFinite 6        --> true
+isFinite (1 / 0)  --> false
+isFinite (0 / 0)  --> false
+```
+
 <a name="Prelude.isInfinite"></a>
 #### isInfinite
 ```
 :: float -> bool
 ```
+Test if a floating-point number is infinite.
+```
+isInfinite 6       --> false
+isInfinite (1 / 0) --> true
+isInfinite (0 / 0) --> false
+```
+
 <a name="Prelude.isNaN"></a>
 #### isNaN
 ```
 :: float -> bool
 ```
+Test if a floating-point number is NaN.
+```
+isNaN 6       --> false
+isNaN (1 / 0) --> false
+isNaN (0 / 0) --> true
+```
+
 <a name="Prelude.min"></a>
 <a name="Prelude.max"></a>
 #### min, max
 ```
 :: any a. a -> a -> a
 ```
+Find the minimum or maximum of two values.
+
 <a name="Prelude.order"></a>
 #### order
 ```
@@ -920,6 +1131,8 @@ type order = [Less := void; Equal := void; Greater := void; nil]
 ```
 :: any a. a -> a -> order
 ```
+Compare two values and return an `order`.
+
 # Program
 <a name="Program.program"></a>
 #### program
