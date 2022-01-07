@@ -9,7 +9,7 @@ export
   type record, type variant, type label, type void,
   void, (?), delete, (:=), (!=), (#=), (;),
   (^), embed, match, else, absurd, only,
-  type lazy, force, general,
+  type delay, force, general,
   type (&), (&),
   type bool, true, false, not, (&&), (||), if,
   (==), (/=), (<), (<=), (>), (>=),

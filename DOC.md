@@ -1,82 +1,82 @@
 # Char
 <a name="Char.char"></a>
-#### char
+#### type char
 ```
-type char :: Type
+:: Type
 ```
 <a name="Char.isLower"></a>
 <a name="Char.isUpper"></a>
 <a name="Char.isAlpha"></a>
 <a name="Char.isAlphaNum"></a>
-#### isLower, isUpper, isAlpha, isAlphaNum
+#### val isLower, isUpper, isAlpha, isAlphaNum
 ```
 :: char -> bool
 ```
 <a name="Char.isDigit"></a>
 <a name="Char.isHexDigit"></a>
-#### isDigit, isHexDigit
+#### val isDigit, isHexDigit
 ```
 :: char -> bool
 ```
 <a name="Char.isSpace"></a>
-#### isSpace
+#### val isSpace
 ```
 :: char -> bool
 ```
 <a name="Char.toLower"></a>
 <a name="Char.toUpper"></a>
-#### toLower, toUpper
+#### val toLower, toUpper
 ```
 :: char -> char
 ```
 <a name="Char.fromCode"></a>
-#### fromCode
+#### val fromCode
 ```
 :: int -> char
 ```
 <a name="Char.toCode"></a>
-#### toCode
+#### val toCode
 ```
 :: char -> int
 ```
 # IO
 <a name="IO.io"></a>
-#### io
+#### type io
 ```
-type io :: Type -> Type
+:: Type -> Type
 ```
 <a name="IO.map"></a>
-#### map
+#### val map
 ```
 :: any a b. (a -> b) -> io a -> io b
 ```
 <a name="IO.apply"></a>
-#### apply
+#### val apply
 ```
 :: any a b. io (a -> b) -> io a -> io b
 ```
 <a name="IO.bind"></a>
-#### bind
+#### val bind
 ```
 :: any a b. (a -> io b) -> io a -> io b
 ```
 <a name="IO.then"></a>
-#### then
+#### val then
 ```
 :: any a. io a -> io void -> io a
 ```
 <a name="IO.pure"></a>
-#### pure
+#### val pure
 ```
 :: any a. a -> io a
 ```
 <a name="IO.none"></a>
-#### none
+#### val none
 ```
 :: io void
 ```
 <a name="IO.map2"></a>
-#### map2
+#### val map2
 ```
 :: any a1 a2 a3
    . (a1 -> a2 -> a3)
@@ -85,7 +85,7 @@ type io :: Type -> Type
   -> io a3
 ```
 <a name="IO.map3"></a>
-#### map3
+#### val map3
 ```
 :: any a1 a2 a3 a4
    . (a1 -> a2 -> a3 -> a4)
@@ -95,7 +95,7 @@ type io :: Type -> Type
   -> io a4
 ```
 <a name="IO.map4"></a>
-#### map4
+#### val map4
 ```
 :: any a1 a2 a3 a4 a5
    . (a1 -> a2 -> a3 -> a4 -> a5)
@@ -106,213 +106,213 @@ type io :: Type -> Type
   -> io a5
 ```
 <a name="IO.sequence"></a>
-#### sequence
+#### val sequence
 ```
 :: any a. list (io a) -> io (list a)
 ```
 <a name="IO.sequenceMap"></a>
-#### sequenceMap
+#### val sequenceMap
 ```
 :: any a b. (a -> io b) -> list a -> io (list b)
 ```
 # List
 <a name="List.list"></a>
-#### list
+#### type list
 ```
-type list :: Type -> Type
+:: Type -> Type
 ```
 <a name="List.makeList"></a>
-#### makeList
+#### val makeList
 ```
 :: [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil] -> list a
 ```
 <a name="List.getList"></a>
-#### getList
+#### val getList
 ```
 :: list a -> [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil]
 ```
 <a name="List.empty"></a>
-#### empty
+#### val empty
 ```
 :: any a. list a
 ```
 <a name="List.(:)"></a>
-#### (:)
+#### val (:)
 ```
 :: any a. a -> list a -> list a
 ```
 <a name="List.deconstruct"></a>
-#### deconstruct
+#### val deconstruct
 ```
 :: any a b. b -> (a -> list a -> b) -> list a -> b
 ```
 <a name="List.single"></a>
-#### single
+#### val single
 ```
 :: any a. a -> list a
 ```
 <a name="List.head"></a>
-#### head
+#### val head
 ```
 :: any a. list a -> maybe a
 ```
 <a name="List.tail"></a>
-#### tail
+#### val tail
 ```
 :: any a. list a -> maybe (list a)
 ```
 <a name="List.take"></a>
-#### take
+#### val take
 ```
 :: any a. int -> list a -> list a
 ```
 <a name="List.drop"></a>
-#### drop
+#### val drop
 ```
 :: any a. int -> list a -> list a
 ```
 <a name="List.get"></a>
-#### get
+#### val get
 ```
 :: any a. int -> list a -> maybe a
 ```
 <a name="List.isEmpty"></a>
-#### isEmpty
+#### val isEmpty
 ```
 :: any a. list a -> bool
 ```
 <a name="List.length"></a>
-#### length
+#### val length
 ```
 :: any a. list a -> int
 ```
 <a name="List.(++)"></a>
-#### (++)
+#### val (++)
 ```
 :: any a. list a -> list a -> list a
 ```
 <a name="List.concat"></a>
-#### concat
+#### val concat
 ```
 :: any a. list (list a) -> list a
 ```
 <a name="List.concatMap"></a>
-#### concatMap
+#### val concatMap
 ```
 :: any a b. (a -> list b) -> list a -> list b
 ```
 <a name="List.repeat"></a>
-#### repeat
+#### val repeat
 ```
 :: any a. int -> a -> list a
 ```
 <a name="List.reverse"></a>
-#### reverse
+#### val reverse
 ```
 :: any a. list a -> list a
 ```
 <a name="List.range"></a>
-#### range
+#### val range
 ```
 :: int -> int -> list int
 ```
 <a name="List.contains"></a>
-#### contains
+#### val contains
 ```
 :: any a. a -> list a -> bool
 ```
 <a name="List.find"></a>
-#### find
+#### val find
 ```
 :: any a. a -> list a -> list int
 ```
 <a name="List.map"></a>
-#### map
+#### val map
 ```
 :: any a b. (a -> b) -> list a -> list b
 ```
 <a name="List.mapIndex"></a>
-#### mapIndex
+#### val mapIndex
 ```
 :: any a b. (int -> a -> b) -> list a -> list b
 ```
 <a name="List.mapResult"></a>
-#### mapResult
+#### val mapResult
 ```
 :: any e a b. (a -> result e b) -> list a -> list b
 ```
 <a name="List.separate"></a>
-#### separate
+#### val separate
 ```
 :: any a b. list (a & b) -> list a & list b
 ```
 <a name="List.filter"></a>
-#### filter
+#### val filter
 ```
 :: any a. (a -> bool) -> list a -> list a
 ```
 <a name="List.partition"></a>
-#### partition
+#### val partition
 ```
 :: any a. (a -> bool) -> list a -> list a & list a
 ```
 <a name="List.count"></a>
-#### count
+#### val count
 ```
 :: any a. (a -> bool) -> list a -> int
 ```
 <a name="List.some"></a>
-#### some
+#### val some
 ```
 :: any a. (a -> bool) -> list a -> bool
 ```
 <a name="List.all"></a>
-#### all
+#### val all
 ```
 :: any a. (a -> bool) -> list a -> bool
 ```
 <a name="List.foldLeft"></a>
-#### foldLeft
+#### val foldLeft
 ```
 :: any a b. (a -> b -> b) -> b -> list a -> b
 ```
 <a name="List.foldRight"></a>
-#### foldRight
+#### val foldRight
 ```
 :: any a b. (a -> b -> b) -> b -> list a -> b
 ```
 <a name="List.sum"></a>
-#### sum
+#### val sum
 ```
 :: any x. list (num x) -> num x
 ```
 <a name="List.product"></a>
-#### product
+#### val product
 ```
 :: any x. list (num x) -> num x
 ```
 <a name="List.sort"></a>
-#### sort
+#### val sort
 ```
 :: any a. list a -> list a
 ```
 <a name="List.sortBy"></a>
-#### sortBy
+#### val sortBy
 ```
 :: any a b. (a -> b) -> list a -> list a
 ```
 <a name="List.sortWith"></a>
-#### sortWith
+#### val sortWith
 ```
 :: any a. (a -> a -> order) -> list a -> list a
 ```
 <a name="List.apply"></a>
-#### apply
+#### val apply
 ```
 :: any a b. list (a -> b) -> list a -> list b
 ```
 <a name="List.map2"></a>
-#### map2
+#### val map2
 ```
 :: any a1 a2 a3
    . (a1 -> a2 -> a3)
@@ -321,7 +321,7 @@ type list :: Type -> Type
   -> list a3
 ```
 <a name="List.map3"></a>
-#### map3
+#### val map3
 ```
 :: any a1 a2 a3 a4
    . (a1 -> a2 -> a3 -> a4)
@@ -331,7 +331,7 @@ type list :: Type -> Type
   -> list a4
 ```
 <a name="List.map4"></a>
-#### map4
+#### val map4
 ```
 :: any a1 a2 a3 a4 a5
    . (a1 -> a2 -> a3 -> a4 -> a5)
@@ -342,12 +342,12 @@ type list :: Type -> Type
   -> list a5
 ```
 <a name="List.zipApply"></a>
-#### zipApply
+#### val zipApply
 ```
 :: any a b. list (a -> b) -> list a -> list b
 ```
 <a name="List.zip2"></a>
-#### zip2
+#### val zip2
 ```
 :: any a1 a2 a3
    . (a1 -> a2 -> a3)
@@ -356,7 +356,7 @@ type list :: Type -> Type
   -> list a3
 ```
 <a name="List.zip3"></a>
-#### zip3
+#### val zip3
 ```
 :: any a1 a2 a3 a4
    . (a1 -> a2 -> a3 -> a4)
@@ -366,7 +366,7 @@ type list :: Type -> Type
   -> list a4
 ```
 <a name="List.zip4"></a>
-#### zip4
+#### val zip4
 ```
 :: any a1 a2 a3 a4 a5
    . (a1 -> a2 -> a3 -> a4 -> a5)
@@ -379,120 +379,120 @@ type list :: Type -> Type
 # Math
 <a name="Math.square"></a>
 <a name="Math.cube"></a>
-#### square, cube
+#### val square, cube
 ```
 :: any x. num x -> num x
 ```
 <a name="Math.sqrt"></a>
 <a name="Math.cbrt"></a>
-#### sqrt, cbrt
+#### val sqrt, cbrt
 ```
 :: float -> float
 ```
 <a name="Math.exp"></a>
-#### exp
+#### val exp
 ```
 :: float -> float
 ```
 <a name="Math.(**)"></a>
-#### (**)
+#### val (**)
 ```
 :: float -> float -> float
 ```
 <a name="Math.log"></a>
-#### log
+#### val log
 ```
 :: float -> float
 ```
 <a name="Math.logBase"></a>
-#### logBase
+#### val logBase
 ```
 :: float -> float -> float
 ```
 <a name="Math.pi"></a>
-#### pi
+#### val pi
 ```
 :: float
 ```
 <a name="Math.tau"></a>
-#### tau
+#### val tau
 ```
 :: float
 ```
 <a name="Math.angle"></a>
-#### angle
+#### type angle
 ```
-type angle = float
+ = float
 ```
 <a name="Math.radians"></a>
 <a name="Math.degrees"></a>
 <a name="Math.turns"></a>
-#### radians, degrees, turns
+#### val radians, degrees, turns
 ```
 :: float -> angle
 ```
 <a name="Math.sin"></a>
 <a name="Math.cos"></a>
 <a name="Math.tan"></a>
-#### sin, cos, tan
+#### val sin, cos, tan
 ```
 :: angle -> float
 ```
 <a name="Math.asin"></a>
 <a name="Math.acos"></a>
 <a name="Math.atan"></a>
-#### asin, acos, atan
+#### val asin, acos, atan
 ```
 :: float -> angle
 ```
 <a name="Math.atan2"></a>
-#### atan2
+#### val atan2
 ```
 :: float -> float -> angle
 ```
 <a name="Math.sinh"></a>
 <a name="Math.cosh"></a>
 <a name="Math.tanh"></a>
-#### sinh, cosh, tanh
+#### val sinh, cosh, tanh
 ```
 :: angle -> float
 ```
 <a name="Math.asinh"></a>
 <a name="Math.acosh"></a>
 <a name="Math.atanh"></a>
-#### asinh, acosh, atanh
+#### val asinh, acosh, atanh
 ```
 :: float -> angle
 ```
 <a name="Math.hypot"></a>
-#### hypot
+#### val hypot
 ```
 :: float -> float -> float
 ```
 <a name="Math.distance"></a>
-#### distance
+#### val distance
 ```
 :: float -> float -> float -> float -> float
 ```
 # Prelude
 ### Functions 
 <a name="Prelude.(->)"></a>
-#### (->)
+#### type (->)
 ```
-type (->) :: Type -> Type -> Type
+:: Type -> Type -> Type
 ```
 The type of functions. For example, a function that takes an integer and
 returns a string would have the type `int -> string`.
 
 <a name="Prelude.identity"></a>
-#### identity
+#### val identity
 ```
 :: any a. a -> a
 ```
 A function that does nothing. `identity x` is equivalent to `x`.
 
 <a name="Prelude.const"></a>
-#### const
+#### val const
 ```
 :: any a b. a -> b -> a
 ```
@@ -500,9 +500,9 @@ A function that does nothing. `identity x` is equivalent to `x`.
 You can also use the notation `{ x }`.
 
 <a name="Prelude.($)"></a>
-#### ($)
+#### expand ($)
 ```
-expand ($) f x = f x
+f x = f x
 ```
 Apply the function on the left to the value on the right.
 The `$` operator has a relatively low precedence,
@@ -510,22 +510,22 @@ so it is useful for avoiding parentheses. For example `f (g (h x))`
 can be written `f $ g $ h x`.
 
 <a name="Prelude.(#)"></a>
-#### (#)
+#### expand (#)
 ```
-expand (#) x f = f x
+x f = f x
 ```
 Apply the function on the right to the value on the left.
 For example, `f (g (h x)) can be written h x # g # f`.
 
 <a name="Prelude.(<<)"></a>
-#### (<<)
+#### val (<<)
 ```
 :: any a b c. (b -> c) -> (a -> b) -> (a -> c)
 ```
 Right-to-left function composition. `f << g` performs `g` and then `f`.
 
 <a name="Prelude.(>>)"></a>
-#### (>>)
+#### val (>>)
 ```
 :: any a b c. (a -> b) -> (b -> c) -> (a -> c)
 ```
@@ -533,19 +533,19 @@ Left-to-right function composition. `f >> g` performs `f` and then `g`.
 
 ### Numeric types and conversions 
 <a name="Prelude.i"></a>
-#### i
+#### type i
 ```
-type i :: Num
+:: Num
 ```
 <a name="Prelude.f"></a>
-#### f
+#### type f
 ```
-type f :: Num
+:: Num
 ```
 <a name="Prelude.num"></a>
-#### num
+#### type num
 ```
-type num :: Num -> Type
+:: Num -> Type
 ```
 The type-level values `i` and `f` are of a different _kind_ than normal types.
 You can convert them into types with the constructor `num`; `num i` is
@@ -554,9 +554,9 @@ can define functions that work on both integers and floats by writing
 `any x. num x`.
 
 <a name="Prelude.int"></a>
-#### int
+#### type int
 ```
-type int = num i
+ = num i
 ```
 The type of integers. Lune compiles to Javascript, so integers and floats
 have the same representation at runtime. Nevertheless, the Lune type system
@@ -564,28 +564,28 @@ distinguishes the two, because there are some computations (such as `mod`)
 that only make sense with integers.
 
 <a name="Prelude.float"></a>
-#### float
+#### type float
 ```
-type float = num f
+ = num f
 ```
 The type of floating-point numbers.
 
 <a name="Prelude.float"></a>
-#### float
+#### val float
 ```
 :: int -> float
 ```
 Convert an integer into a float. Lune does not perform such coercions implicitly.
 
 <a name="Prelude.round"></a>
-#### round
+#### val round
 ```
 :: float -> int
 ```
 Round a number to the nearest integer.
 
 <a name="Prelude.floor"></a>
-#### floor
+#### val floor
 ```
 :: float -> int
 ```
@@ -596,7 +596,7 @@ floor -1.5 --> -2
 ```
 
 <a name="Prelude.ceil"></a>
-#### ceil
+#### val ceil
 ```
 :: float -> int
 ```
@@ -607,7 +607,7 @@ ceil -1.5 --> -1
 ```
 
 <a name="Prelude.trunc"></a>
-#### trunc
+#### val trunc
 ```
 :: float -> int
 ```
@@ -622,7 +622,7 @@ trunc -1.5 --> -1
 <a name="Prelude.(+)"></a>
 <a name="Prelude.(~)"></a>
 <a name="Prelude.(*)"></a>
-#### (+), (~), (*)
+#### val (+), (~), (*)
 ```
 :: any x. num x -> num x -> num x
 ```
@@ -640,21 +640,21 @@ decided to avoid these ambiguities by denoting subtraction with `~` and
 negation with `-`.
 
 <a name="Prelude.negate"></a>
-#### negate
+#### val negate
 ```
 :: any x. num x -> num x
 ```
 Negate a number. `-x` is syntactic sugar for `negate x`.
 
 <a name="Prelude.abs"></a>
-#### abs
+#### val abs
 ```
 :: any x. num x -> num x
 ```
 Take the absolute value of a number.
 
 <a name="Prelude.signum"></a>
-#### signum
+#### val signum
 ```
 :: any x. num x -> num x
 ```
@@ -663,7 +663,7 @@ for negative numbers, it returns -1, and for 0, it returns 0. Note that
 `abs x * signum x` is equal to `x`.
 
 <a name="Prelude.constrain"></a>
-#### constrain
+#### val constrain
 ```
 :: any x. num x -> num x -> num x -> num x
 ```
@@ -673,7 +673,7 @@ equal to `10`, and `constrain 0 10 5` is equal to `5`.
 
 <a name="Prelude.div"></a>
 <a name="Prelude.quot"></a>
-#### div, quot
+#### val div, quot
 ```
 :: int -> int -> int
 ```
@@ -686,7 +686,7 @@ so `div 2 10` is equal to 5.
 
 <a name="Prelude.mod"></a>
 <a name="Prelude.rem"></a>
-#### mod, rem
+#### val mod, rem
 ```
 :: int -> int -> int
 ```
@@ -700,7 +700,7 @@ of the Haskell definitions. `mod 2` is a function that mods a number by 2,
 so `mod 2 10` is equal to 0.
 
 <a name="Prelude.(/)"></a>
-#### (/)
+#### val (/)
 ```
 :: float -> float -> float
 ```
@@ -720,78 +720,78 @@ Lune's row system is based on the following two papers by Daan Leijen:
 * [First-class labels for extensible rows](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/)
 
 <a name="Prelude.nil"></a>
-#### nil
+#### type nil
 ```
-type nil :: Row
+:: Row
 ```
 The empty row.
 
 <a name="Prelude.(:=)"></a>
-#### (:=)
+#### type (:=)
 ```
-type (:=) :: Label -> Type -> Row -> Row
+:: Label -> Type -> Row -> Row
 ```
 Add a label and a type to a row. The `:=` operator is usually
 used in conjunction with `;`. For example, to add the label `X`
 along with the type `float` to the row `r`, you can write `X := float; r`.
 
 <a name="Prelude.(|)"></a>
-#### (|)
+#### type (|)
 ```
-type (|) s = s := void
+s = s := void
 ```
 Add a label to a row, along with the unit type. This is useful in variants
 where one of the states has no associated data.
 
 <a name="Prelude.(;)"></a>
-#### (;)
+#### type (;)
 ```
-type (;) f x = f x
+f x = f x
 ```
 Apply a type constructor to an argument.
 
 <a name="Prelude.record"></a>
-#### record
+#### type record
 ```
-type record :: Row -> Type
+:: Row -> Type
 ```
 Convert an abstract row into a record type. The shorthand `{r}` is
 syntactic sugar for `Prelude.record r`.
 
 <a name="Prelude.variant"></a>
-#### variant
+#### type variant
 ```
-type variant :: Row -> Type
+:: Row -> Type
 ```
 Convert an abstract row into a variant type. The shorthand `[r]` is
 syntactic sugar for `Prelude.variant r`.
 
 <a name="Prelude.label"></a>
-#### label
+#### type label
 ```
-type label :: Label -> Type
+:: Label -> Type
 ```
 In Lune, labels are first-class values. The expression-level label
 `X` has the type `label X`. At the type
 
 <a name="Prelude.void"></a>
-#### void
+#### type void
 ```
-type void = {nil}
+ = {nil}
 ```
 The unit type. The only value of type `void` is the empty record, also
 denoted `void`.
 
 ### Records 
 <a name="Prelude.void"></a>
-#### void
+#### val void
 ```
 :: void
 ```
 The empty record.
 
 <a name="Prelude.(?)"></a>
-#### (?)
+#### val (?)
 ```
 :: any s a r. label s -> {s := a; r} -> a
 ```
@@ -803,7 +803,7 @@ Age ? person  --> 16
 ```
 
 <a name="Prelude.delete"></a>
-#### delete
+#### val delete
 ```
 :: any s a r. label s -> {s := a; r} -> {r}
 ```
@@ -814,7 +814,7 @@ delete Age person --> Name := "Owen"; void
 ```
 
 <a name="Prelude.(:=)"></a>
-#### (:=)
+#### val (:=)
 ```
 :: any s a r. label s -> a -> {r} -> {s := a; r}
 ```
@@ -823,7 +823,7 @@ used in conjunction with `;`. For example, to add the label `X`
 along with the value `5` to the record `r`, you can write `X := 5; r`.
 
 <a name="Prelude.(!=)"></a>
-#### (!=)
+#### val (!=)
 ```
 :: any s a b r. label s -> b -> {s := a; r} -> {s := b; r}
 ```
@@ -834,7 +834,7 @@ Name != "Jack"; person --> Name := "Jack"; Age := 16; void
 ```
 
 <a name="Prelude.(#=)"></a>
-#### (#=)
+#### val (#=)
 ```
 :: any s a b r. label s -> (a -> b) -> {s := a; r} -> {s := b; r}
 ```
@@ -845,7 +845,7 @@ Age #= (+1); person --> Name := "Owen"; Age := 17; void
 ```
 
 <a name="Prelude.(;)"></a>
-#### (;)
+#### val (;)
 ```
 :: any a b. (a -> b) -> a -> b
 ```
@@ -855,7 +855,7 @@ used in records.
 
 ### Variants 
 <a name="Prelude.(^)"></a>
-#### (^)
+#### val (^)
 ```
 :: any s a r. label s -> a -> [s := a; r]
 ```
@@ -869,7 +869,7 @@ type, so `X ^ 3.5` could have any of the following types:
 and so on.
 
 <a name="Prelude.embed"></a>
-#### embed
+#### val embed
 ```
 :: any s a r. label s -> [r] -> [s := a; r]
 ```
@@ -880,7 +880,7 @@ We aren't actually changing the value; we're just "adding a possibility."
 In Lune, this is written as `embed Maybe v`.
 
 <a name="Prelude.match"></a>
-#### match
+#### val match
 ```
 :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
 ```
@@ -899,7 +899,7 @@ let toInt =
 ```
 
 <a name="Prelude.else"></a>
-#### else
+#### val else
 ```
 :: any a b. a -> b -> a
 ```
@@ -913,7 +913,7 @@ let toInt =
 ```
 
 <a name="Prelude.absurd"></a>
-#### absurd
+#### val absurd
 ```
 :: any a. [nil] -> a
 ```
@@ -930,7 +930,7 @@ let toInt =
 ```
 
 <a name="Prelude.only"></a>
-#### only
+#### val only
 ```
 :: any s r. label s -> [s := void; r]
 ```
@@ -941,18 +941,23 @@ let red = only Red
 ```
 
 ### Delayed computations 
+<a name="Prelude.delay"></a>
+#### type delay
+```
+a = void -> a
+```
 A "delayed computation" is a function that takes no arguments. (More
 precisely, it takes a useless argument of type `void`.)
 
 <a name="Prelude.force"></a>
-#### force
+#### val force
 ```
 :: any a. delay a -> a
 ```
 Force a delayed computation.
 
 <a name="Prelude.general"></a>
-#### general
+#### val general
 ```
 :: any a b. delay a -> b -> a
 ```
@@ -961,15 +966,15 @@ instead of just `void`.
 
 ### Pairs 
 <a name="Prelude.(&)"></a>
-#### (&)
+#### type (&)
 ```
-type (&) a b = { First := a; Second := b; nil }
+a b = { First := a; Second := b; nil }
 ```
 Ordered pairs (also known as tuples) are represented as
 records with a `First` field and a `Second` field.
 
 <a name="Prelude.(&)"></a>
-#### (&)
+#### val (&)
 ```
 :: any a b. a -> b -> a & b
 ```
@@ -977,9 +982,9 @@ Construct an ordered pair from two values.
 
 ### Booleans 
 <a name="Prelude.bool"></a>
-#### bool
+#### type bool
 ```
-type bool = [ True | False | nil ]
+ = [ True | False | nil ]
 ```
 Unlike most languages, Lune does not have built-in booleans.
 The `bool` type and all boolean operations can be defined
@@ -987,7 +992,7 @@ with Lune's variant system.
 
 <a name="Prelude.true"></a>
 <a name="Prelude.false"></a>
-#### true, false
+#### val true, false
 ```
 :: bool
 ```
@@ -995,7 +1000,7 @@ A boolean can be either `true` or `false`. These are defined as
 `only True` and `only False` respectively.
 
 <a name="Prelude.not"></a>
-#### not
+#### val not
 ```
 :: bool -> bool
 ```
@@ -1006,18 +1011,18 @@ not false --> true
 ```
 
 <a name="Prelude.(&&)"></a>
-#### (&&)
+#### expand (&&)
 ```
-expand (&&) x y = and x { y }
+x y = and x { y }
 ```
 Test if both statements are true. The `&&` operator
 "short-circuits", so the second argument will not be evaluated
 if the first one is `false`.
 
 <a name="Prelude.(||)"></a>
-#### (||)
+#### expand (||)
 ```
-expand (||) x y = or x { y }
+x y = or x { y }
 ```
 Test if at least one of the statements is true. The `||` operator
 "short-circuits", so the second argument will not be evaluated if the
@@ -1028,7 +1033,7 @@ special about `&&` and `||`; they are defined using Lune's
 expression synonym feature.
 
 <a name="Prelude.if"></a>
-#### if
+#### val if
 ```
 :: any a. bool -> delay a -> delay a -> a
 ```
@@ -1046,7 +1051,7 @@ let trunc x = if (x < 0) { ceil x } $ else (floor x)
 
 ### Comparisons and predicates 
 <a name="Prelude.(==)"></a>
-#### (==)
+#### val (==)
 ```
 :: any a. a -> a -> bool
 ```
@@ -1054,7 +1059,7 @@ Test if two values are equal. The `==` operator checks for _actual_
 equality, not referential equality.
 
 <a name="Prelude.(/=)"></a>
-#### (/=)
+#### val (/=)
 ```
 :: any a. a -> a -> bool
 ```
@@ -1062,7 +1067,7 @@ Test if two values are not equal.
 
 <a name="Prelude.(<)"></a>
 <a name="Prelude.(>)"></a>
-#### (<), (>)
+#### val (<), (>)
 ```
 :: any a. a -> a -> bool
 ```
@@ -1071,14 +1076,14 @@ labels are compared in alphabetical order.
 
 <a name="Prelude.(<=)"></a>
 <a name="Prelude.(>=)"></a>
-#### (<=), (>=)
+#### val (<=), (>=)
 ```
 :: any a. a -> a -> bool
 ```
 Test if one value is less than or equal to the other.
 
 <a name="Prelude.isFinite"></a>
-#### isFinite
+#### val isFinite
 ```
 :: float -> bool
 ```
@@ -1090,7 +1095,7 @@ isFinite (0 / 0)  --> false
 ```
 
 <a name="Prelude.isInfinite"></a>
-#### isInfinite
+#### val isInfinite
 ```
 :: float -> bool
 ```
@@ -1102,7 +1107,7 @@ isInfinite (0 / 0) --> false
 ```
 
 <a name="Prelude.isNaN"></a>
-#### isNaN
+#### val isNaN
 ```
 :: float -> bool
 ```
@@ -1115,19 +1120,19 @@ isNaN (0 / 0) --> true
 
 <a name="Prelude.min"></a>
 <a name="Prelude.max"></a>
-#### min, max
+#### val min, max
 ```
 :: any a. a -> a -> a
 ```
 Find the minimum or maximum of two values.
 
 <a name="Prelude.order"></a>
-#### order
+#### type order
 ```
-type order = [Less := void; Equal := void; Greater := void; nil]
+ = [Less := void; Equal := void; Greater := void; nil]
 ```
 <a name="Prelude.compare"></a>
-#### compare
+#### val compare
 ```
 :: any a. a -> a -> order
 ```
@@ -1135,72 +1140,72 @@ Compare two values and return an `order`.
 
 # Program
 <a name="Program.program"></a>
-#### program
+#### type program
 ```
-type program st a = st -> io { Set := st; Return := a; nil }
+st a = st -> io { Set := st; Return := a; nil }
 ```
 <a name="Program.get"></a>
-#### get
+#### val get
 ```
 :: any st. program st st
 ```
 <a name="Program.getBy"></a>
-#### getBy
+#### val getBy
 ```
 :: any st a. (st -> a) -> program st a
 ```
 <a name="Program.put"></a>
-#### put
+#### val put
 ```
 :: any st. st -> program st void
 ```
 <a name="Program.modify"></a>
-#### modify
+#### val modify
 ```
 :: any st. (st -> st) -> program st void
 ```
 <a name="Program.map"></a>
-#### map
+#### val map
 ```
 :: any st a b. (a -> b) -> program st a -> program st b
 ```
 <a name="Program.apply"></a>
-#### apply
+#### val apply
 ```
 :: any st a b. program st (a -> b) -> program st a -> program st b
 ```
 <a name="Program.bind"></a>
-#### bind
+#### val bind
 ```
 :: any st a b. (a -> program st b) -> program st a -> program st b
 ```
 <a name="Program.then"></a>
-#### then
+#### val then
 ```
 :: any st a. program st a -> program st void -> program st a
 ```
 <a name="Program.run"></a>
-#### run
+#### val run
 ```
 :: any st a. st -> program st a -> io a
 ```
 <a name="Program.fromIO"></a>
-#### fromIO
+#### val fromIO
 ```
 :: any st a. io a -> program st a
 ```
 <a name="Program.pure"></a>
-#### pure
+#### val pure
 ```
 :: any st a. a -> program st a
 ```
 <a name="Program.none"></a>
-#### none
+#### val none
 ```
 :: any st. program st void
 ```
 <a name="Program.map2"></a>
-#### map2
+#### val map2
 ```
 :: any st a1 a2 a3
    . (a1 -> a2 -> a3)
@@ -1209,7 +1214,7 @@ type program st a = st -> io { Set := st; Return := a; nil }
   -> program st a3
 ```
 <a name="Program.map3"></a>
-#### map3
+#### val map3
 ```
 :: any st a1 a2 a3 a4
    . (a1 -> a2 -> a3 -> a4)
@@ -1219,7 +1224,7 @@ type program st a = st -> io { Set := st; Return := a; nil }
   -> program st a4
 ```
 <a name="Program.map4"></a>
-#### map4
+#### val map4
 ```
 :: any st a1 a2 a3 a4 a5
    . (a1 -> a2 -> a3 -> a4 -> a5)
@@ -1230,53 +1235,53 @@ type program st a = st -> io { Set := st; Return := a; nil }
   -> program st a5
 ```
 <a name="Program.sequence"></a>
-#### sequence
+#### val sequence
 ```
 :: any st a. list (program st a) -> program st (list a)
 ```
 <a name="Program.sequenceMap"></a>
-#### sequenceMap
+#### val sequenceMap
 ```
 :: any st a b. (a -> program st b) -> list a -> program st (list b)
 ```
 # Result
 <a name="Result.result"></a>
-#### result
+#### type result
 ```
-type result e a = [Error := e; Just := a; nil]
+e a = [Error := e; Just := a; nil]
 ```
 <a name="Result.maybe"></a>
-#### maybe
+#### type maybe
 ```
-type maybe a = result void a
+a = result void a
 ```
 <a name="Result.nothing"></a>
-#### nothing
+#### val nothing
 ```
 :: any a. maybe a
 ```
 <a name="Result.default"></a>
-#### default
+#### val default
 ```
 :: any e a. a -> result e a -> a
 ```
 <a name="Result.map"></a>
-#### map
+#### val map
 ```
 :: any e a b. (a -> b) -> result e a -> result e b
 ```
 <a name="Result.apply"></a>
-#### apply
+#### val apply
 ```
 :: any e a b. result e (a -> b) -> result e a -> result e b
 ```
 <a name="Result.bind"></a>
-#### bind
+#### val bind
 ```
 :: any e a b. (a -> result e b) -> result e a -> result e b
 ```
 <a name="Result.map2"></a>
-#### map2
+#### val map2
 ```
 :: any e a1 a2 a3
    . (a1 -> a2 -> a3)
@@ -1285,7 +1290,7 @@ type maybe a = result void a
   -> result e a3
 ```
 <a name="Result.map3"></a>
-#### map3
+#### val map3
 ```
 :: any e a1 a2 a3 a4
    . (a1 -> a2 -> a3 -> a4)
@@ -1295,7 +1300,7 @@ type maybe a = result void a
   -> result e a4
 ```
 <a name="Result.map4"></a>
-#### map4
+#### val map4
 ```
 :: any e a1 a2 a3 a4 a5
    . (a1 -> a2 -> a3 -> a4 -> a5)
@@ -1306,261 +1311,261 @@ type maybe a = result void a
   -> result e a5
 ```
 <a name="Result.sequence"></a>
-#### sequence
+#### val sequence
 ```
 :: any e a. list (result e a) -> result e (list a)
 ```
 <a name="Result.sequenceMap"></a>
-#### sequenceMap
+#### val sequenceMap
 ```
 :: any e a b. (a -> result e b) -> list a -> result e (list b)
 ```
 # String
 <a name="String.string"></a>
-#### string
+#### type string
 ```
-type string :: Type
+:: Type
 ```
 <a name="String.isEmpty"></a>
-#### isEmpty
+#### val isEmpty
 ```
 :: string -> bool
 ```
 <a name="String.length"></a>
-#### length
+#### val length
 ```
 :: string -> int
 ```
 <a name="String.(<>)"></a>
-#### (<>)
+#### val (<>)
 ```
 :: string -> string -> string
 ```
 <a name="String.concat"></a>
-#### concat
+#### val concat
 ```
 :: list string -> string
 ```
 <a name="String.concatMap"></a>
-#### concatMap
+#### val concatMap
 ```
 :: any a. (a -> string) -> list a -> string
 ```
 <a name="String.join"></a>
-#### join
+#### val join
 ```
 :: string -> list string -> string
 ```
 <a name="String.joinMap"></a>
-#### joinMap
+#### val joinMap
 ```
 :: any a. string -> (a -> string) -> list a -> string
 ```
 <a name="String.repeat"></a>
-#### repeat
+#### val repeat
 ```
 :: int -> string -> string
 ```
 <a name="String.reverse"></a>
-#### reverse
+#### val reverse
 ```
 :: string -> string
 ```
 <a name="String.split"></a>
-#### split
+#### val split
 ```
 :: string -> string -> list string
 ```
 <a name="String.words"></a>
 <a name="String.lines"></a>
-#### words, lines
+#### val words, lines
 ```
 :: string -> list string
 ```
 <a name="String.slice"></a>
-#### slice
+#### val slice
 ```
 :: int -> int -> string -> string
 ```
 <a name="String.takeLeft"></a>
-#### takeLeft
+#### val takeLeft
 ```
 :: int -> string -> string
 ```
 <a name="String.takeRight"></a>
-#### takeRight
+#### val takeRight
 ```
 :: int -> string -> string
 ```
 <a name="String.dropLeft"></a>
-#### dropLeft
+#### val dropLeft
 ```
 :: int -> string -> string
 ```
 <a name="String.dropRight"></a>
-#### dropRight
+#### val dropRight
 ```
 :: int -> string -> string
 ```
 <a name="String.toLower"></a>
 <a name="String.toUpper"></a>
-#### toLower, toUpper
+#### val toLower, toUpper
 ```
 :: string -> string
 ```
 <a name="String.padLeft"></a>
 <a name="String.padRight"></a>
-#### padLeft, padRight
+#### val padLeft, padRight
 ```
 :: int -> string -> string
 ```
 <a name="String.trim"></a>
 <a name="String.trimLeft"></a>
 <a name="String.trimRight"></a>
-#### trim, trimLeft, trimRight
+#### val trim, trimLeft, trimRight
 ```
 :: string -> string
 ```
 <a name="String.contains"></a>
 <a name="String.startsWith"></a>
 <a name="String.endsWith"></a>
-#### contains, startsWith, endsWith
+#### val contains, startsWith, endsWith
 ```
 :: string -> string -> bool
 ```
 <a name="String.find"></a>
-#### find
+#### val find
 ```
 :: string -> string -> list int
 ```
 <a name="String.replace"></a>
-#### replace
+#### val replace
 ```
 :: string -> string -> string -> string
 ```
 <a name="String.toInt"></a>
-#### toInt
+#### val toInt
 ```
 :: string -> maybe int
 ```
 <a name="String.fromInt"></a>
-#### fromInt
+#### val fromInt
 ```
 :: int -> string
 ```
 <a name="String.toFloat"></a>
-#### toFloat
+#### val toFloat
 ```
 :: string -> maybe float
 ```
 <a name="String.fromFloat"></a>
-#### fromFloat
+#### val fromFloat
 ```
 :: float -> string
 ```
 <a name="String.toList"></a>
-#### toList
+#### val toList
 ```
 :: string -> list char
 ```
 <a name="String.fromList"></a>
-#### fromList
+#### val fromList
 ```
 :: list char -> string
 ```
 <a name="String.cons"></a>
-#### cons
+#### val cons
 ```
 :: char -> string -> string
 ```
 <a name="String.deconstruct"></a>
-#### deconstruct
+#### val deconstruct
 ```
 :: any a. a -> (char -> string -> a) -> string -> a
 ```
 <a name="String.single"></a>
-#### single
+#### val single
 ```
 :: char -> string
 ```
 <a name="String.head"></a>
-#### head
+#### val head
 ```
 :: string -> maybe char
 ```
 <a name="String.tail"></a>
-#### tail
+#### val tail
 ```
 :: string -> maybe string
 ```
 <a name="String.get"></a>
-#### get
+#### val get
 ```
 :: int -> string -> maybe char
 ```
 <a name="String.map"></a>
-#### map
+#### val map
 ```
 :: (char -> char) -> string -> string
 ```
 <a name="String.mapIndex"></a>
-#### mapIndex
+#### val mapIndex
 ```
 :: (int -> char -> char) -> string -> string
 ```
 <a name="String.filter"></a>
-#### filter
+#### val filter
 ```
 :: (char -> bool) -> string -> string
 ```
 <a name="String.partition"></a>
-#### partition
+#### val partition
 ```
 :: (char -> bool) -> string -> string & string
 ```
 <a name="String.count"></a>
-#### count
+#### val count
 ```
 :: (char -> bool) -> string -> int
 ```
 <a name="String.some"></a>
-#### some
+#### val some
 ```
 :: (char -> bool) -> string -> bool
 ```
 <a name="String.all"></a>
-#### all
+#### val all
 ```
 :: (char -> bool) -> string -> bool
 ```
 <a name="String.foldLeft"></a>
-#### foldLeft
+#### val foldLeft
 ```
 :: any a. (char -> a -> a) -> a -> string -> a
 ```
 <a name="String.foldRight"></a>
-#### foldRight
+#### val foldRight
 ```
 :: any a. (char -> a -> a) -> a -> string -> a
 ```
 # Variant
 <a name="Variant.map"></a>
-#### map
+#### val map
 ```
 :: any s a b r. label s -> (a -> b) -> [s := a; r] -> [s := b; r]
 ```
 <a name="Variant.apply"></a>
-#### apply
+#### val apply
 ```
 :: any s a b r. label s -> [s := (a -> b); r] -> [s := a; r] -> [s := b; r]
 ```
 <a name="Variant.bind"></a>
-#### bind
+#### val bind
 ```
 :: any s a b r. label s -> (a -> [s := b; r]) -> [s := a; r] -> [s := b; r]
 ```
 <a name="Variant.map2"></a>
-#### map2
+#### val map2
 ```
 :: any s a1 a2 a3 r
    . label s
@@ -1570,7 +1575,7 @@ type string :: Type
   -> [s := a3; r]
 ```
 <a name="Variant.map3"></a>
-#### map3
+#### val map3
 ```
 :: any s a1 a2 a3 a4 r
    . label s
@@ -1581,7 +1586,7 @@ type string :: Type
   -> [s := a4; r]
 ```
 <a name="Variant.map4"></a>
-#### map4
+#### val map4
 ```
 :: any s a1 a2 a3 a4 a5 r
    . label s
@@ -1593,12 +1598,12 @@ type string :: Type
   -> [s := a5; r]
 ```
 <a name="Variant.sequence"></a>
-#### sequence
+#### val sequence
 ```
 :: any s a r. label s -> list [s := a; r] -> [s := list a; r]
 ```
 <a name="Variant.sequenceMap"></a>
-#### sequenceMap
+#### val sequenceMap
 ```
 :: any s a b r. label s -> (a -> [s := b; r]) -> list a -> [s := list b; r]
 ```
