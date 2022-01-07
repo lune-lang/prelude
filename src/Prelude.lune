@@ -401,8 +401,8 @@ In Lune, this is written as `embed Maybe v`.
 
 foreign match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
 {-
-Match a variant against a label and apply the appropriate function. The
-expression `variant # match Label f g` represents the following process:
+Match a variant against a label and apply the appropriate function.
+`variant # match Label f g` represents the following process:
 * If `variant` is of the form `Label ^ value`, return `f value`.
 * Otherwise, return `g variant`.
 
@@ -543,7 +543,7 @@ expression synonym feature.
 val if :: any a. bool -> delay a -> delay a -> a
 let if c x y = c # match True x (general y)
 {-
-The expression `if condition x y` evaluates `x` if the condition
+`if condition x y` evaluates `x` if the condition
 is true, and `y` if it is false. For example,
 the [`trunc`](#Prelude.trunc) function is defined as follows:
 ```

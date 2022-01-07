@@ -126,10 +126,16 @@ let filter f = def
   let add x xs = if (f x) { x : xs } { xs }
   in foldRight add empty
 
-val partition :: any a. (a -> bool) -> list a -> list a & list a
+val partition
+  :: any a
+   . (a -> bool)
+  -> list a
+  -> { Pass := list a
+     ; Fail := list a
+     ; nil }
 let partition f = def
-  let add x xs = if (f x) { First #= (x :); xs } { Second #= (x :); xs }
-  in foldRight add (empty & empty)
+  let add x xs = if (f x) { Pass #= (x :); xs } { Fail #= (x :); xs }
+  in foldRight add (Pass := empty; Fail := empty; void)
 
 val count :: any a. (a -> bool) -> list a -> int
 let count f = def
