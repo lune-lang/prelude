@@ -175,13 +175,13 @@ val sortBy :: any a b. (a -> b) -> list a -> list a
 let sortBy f =
   deconstruct empty do x xs. def
     let half = partition (do y. f y < f x) xs
-    in sortBy f (First ? half) ++ single x ++ sortBy f (Second ? half)
+    in sortBy f (Pass ? half) ++ single x ++ sortBy f (Fail ? half)
 
 val sortWith :: any a. (a -> a -> order) -> list a -> list a
 let sortWith f =
   deconstruct empty do x xs. def
     let half = partition (do y. f y x == only Less) xs
-    in sortWith f (First ? half) ++ single x ++ sortWith f (Second ? half)
+    in sortWith f (Pass ? half) ++ single x ++ sortWith f (Fail ? half)
 
 val apply :: any a b. list (a -> b) -> list a -> list b
 let apply fs xs = fs # deconstruct empty do f ft. map f xs ++ apply ft xs
