@@ -21,7 +21,7 @@ import Char exposing type char
 import List exposing type list
 import Result exposing type maybe, nothing
 
-infix <> left 60
+infix <> left 65
 
 type string :: Type
 syntax string string-type

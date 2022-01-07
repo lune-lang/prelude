@@ -23,36 +23,36 @@ infix := non 15
 infix != non 15
 infix #= non 15
 
-infix # left 20
+infix # left 25
 
-infix $ right 25
+infix $ right 30
 
-infix -> right 30
+infix -> right 35
 
-infix & right 35
+infix & right 40
 
-infix || right 40
+infix || right 45
 
-infix && right 45
+infix && right 50
 
-infix == non 50
-infix /= non 50
-infix < non 50
-infix <= non 50
-infix > non 50
-infix >= non 50
+infix == non 55
+infix /= non 55
+infix < non 55
+infix <= non 55
+infix > non 55
+infix >= non 55
 
-infix + left 60
-infix ~ left 60
+infix + left 65
+infix ~ left 65
 
-infix * left 65
-infix / left 65
+infix * left 70
+infix / left 70
 
-infix ? right 70
-infix ^ right 70
+infix ? right 75
+infix ^ right 75
 
-infix << right 75
-infix >> left 75
+infix << right 80
+infix >> left 80
 
 {- ### Functions -}
 
@@ -102,7 +102,7 @@ let (>>) g f x = f (g x)
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
 -}
 
-{- ### Numerical types and conversions -}
+{- ### Numeric types and conversions -}
 
 type i :: Num
 type f :: Num
@@ -144,17 +144,17 @@ foreign floor :: float -> int
 {-
 Round a number down.
 ```
-floor 1.5 == 1
-floor -1.5 == -2
+floor 1.5  --> 1
+floor -1.5 --> -2
 ```
 -}
 
 foreign ceil :: float -> int
 {-
 Round a number up.
-```
-ceil 1.5 == 2
-ceil -1.5 == -1
+
+ceil 1.5  --> 2
+ceil -1.5 --> -1
 ```
 -}
 
@@ -164,8 +164,8 @@ let trunc x = if (x < 0) { ceil x } { floor x }
 If the input is less than zero, round up; otherwise, round down.
 In other words, get rid of everything after the decimal point.
 ```
-trunc 1.5 == 1
-trunc -1.5 == -1
+trunc 1.5  --> 1
+trunc -1.5 --> -1
 ```
 -}
 
@@ -243,110 +243,377 @@ foreign (/) :: float -> float -> float
 Floating-point division.
 -}
 
+{- ### Rows -}
+
+{-
+A row is an unordered collection of types with labels attached to them.
+Rows are of the kind `Row`. They can be converted into normal types in two ways:
+* Surrounding a row in curly brackets creates a _record_ type,
+also known as a labeled product type. If you have a value with more than
+one property, use records.
+* Surrounding a row in square brackets creates a _variant_ type,
+also known as a labeled sum type. If you have a value that can exist in
+more than one state, use variants.
+Lune's row system is based on the following two papers by Daan Leijen:
+* [Extensible records with scoped labels](https://www.microsoft.com/en-us/research/publication/extensible-records-with-scoped-labels/)
+* [First-class labels for extensible rows](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/)
+-}
+
 type nil :: Row
+{-
+The empty row.
+-}
+
 type (:=) :: Label -> Type -> Row -> Row
 syntax (:=) row-constructor
+{-
+Add a label and a type to a row. The `:=` operator is usually
+used in conjunction with `;`. For example, to add the label `X`
+along with the type `float` to the row `r`, you can write `X := float; r`.
+-}
 
 type (|) s = s := void
+{-
+Add a label to a row, along with the unit type. This is useful in variants
+where one of the states has no associated data.
+-}
 
 type (;) f x = f x
+{-
+Apply a type constructor to an argument.
+-}
 
 type record :: Row -> Type
 syntax record curly-brackets
+{-
+Convert an abstract row into a record type. The shorthand `{r}` is
+syntactic sugar for `Prelude.record r`.
+-}
 
 type variant :: Row -> Type
 syntax variant square-brackets
+{-
+Convert an abstract row into a variant type. The shorthand `[r]` is
+syntactic sugar for `Prelude.variant r`.
+-}
 
 type label :: Label -> Type
 syntax label label-type
+{-
+In Lune, labels are first-class values. The expression-level label
+`X` has the type `label X`. At the type
+-}
 
 type void = {nil}
+{-
+The unit type. The only value of type `void` is the empty record, also
+denoted `void`.
+-}
+
+{- ### Records -}
 
 foreign void :: void
+{-
+The empty record.
+-}
 
 foreign (?) :: any s a r. label s -> {s := a; r} -> a
+{-
+Extract a value from a record.
+```
+let person = Name := "Owen"; Age := 16; void
+Name ? person --> "Owen"
+Age ? person  --> 16
+```
+-}
 
 foreign delete :: any s a r. label s -> {s := a; r} -> {r}
+{-
+Delete a label and its associated value from a record.
+```
+let person = Name := "Owen"; Age := 16; void
+delete Age person --> Name := "Owen"; void
+```
+-}
 
 foreign (:=) :: any s a r. label s -> a -> {r} -> {s := a; r}
+{-
+Add a label and a value to a record. The `:=` operator is usually
+used in conjunction with `;`. For example, to add the label `X`
+along with the value `5` to the record `r`, you can write `X := 5; r`.
+-}
 
 val (!=) :: any s a b r. label s -> b -> {s := a; r} -> {s := b; r}
 let (!=) s x r = s := x; delete s r
+{-
+Replace a value in a record.
+```
+let person = Name := "Owen"; Age := 16; void
+Name != "Jack"; person --> Name := "Jack"; Age := 16; void
+```
+-}
 
 val (#=) :: any s a b r. label s -> (a -> b) -> {s := a; r} -> {s := b; r}
 let (#=) s f r = s != f (s ? r); r
+{-
+Update a value in a record by applying the given function to it.
+```
+let person = Name := "Owen"; Age := 16; void
+Age #= (+1); person --> Name := "Owen"; Age := 17; void
+```
+-}
 
 val (;) :: any a b. (a -> b) -> a -> b
 let (;) f x = f x
+{-
+Apply the function on the left to the value on the right. The (;) operator
+is similar to ($), but has an even lower precedence and is typically
+used in records.
+-}
+
+{- ### Variants -}
 
 foreign (^) :: any s a r. label s -> a -> [s := a; r]
+{-
+Attach a label to a value. The `^` operator is polymorphic in its return
+type, so `X ^ 3.5` could have any of the following types:
+```
+[ X := float; nil ]
+[ X := float; Y := float; nil ]
+[ X := float; Foo := list string; Qwerty := void; nil ]
+```
+and so on.
+-}
 
 foreign embed :: any s a r. label s -> [r] -> [s := a; r]
+{-
+Suppose we have a value `v` that's annotated as a `bool`, represented in Lune as
+`[ True | False | nil ]`. Now suppose we need to convert `v`
+into a value of the type `[ True | False | Maybe | nil ]`
+We aren't actually changing the value; we're just "adding a possibility."
+In Lune, this is written as `embed Maybe v`.
+-}
 
 foreign match :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
+{-
+Match a variant against a label and apply the appropriate function. The
+expression `variant # match Label f g` represents the following process:
+* If `variant` is of the form `Label ^ value`, return `f value`.
+* Otherwise, return `g variant`.
+Matches can be chained. For example:
+```
+type color = [ Red | Green | Blue | nil ]
+val toInt :: color -> int
+let toInt =
+  match Red { 0 }
+  $ match Green { 1 }
+  { 2 }
+```
+-}
 
 val else :: any a b. a -> b -> a
 let else x y = x
+{-
+Using `else` can make matches more readable. The example above
+could also be written as:
+```
+let toInt =
+  match Red { 0 }
+  $ match Green { 1 }
+  $ else 2
+```
+-}
 
 val absurd :: any a. [nil] -> a
 let absurd = absurd
+{-
+Sometimes, you need test every possible label.
+In this case, the type of `match` requires you
+to give it a function of type `[nil] -> b`. This is where `absurd`
+comes in:
+```
+let toInt =
+  match Red { 0 }
+  $ match Green { 1 }
+  $ match Blue { 2 }
+  absurd
+```
+-}
 
 val only :: any s r. label s -> [s := void; r]
 let only s = s ^ void
+{-
+A label with no information attached to it.
+```
+val red :: color
+let red = only Red
+```
+-}
 
-type lazy a = void -> a
+{- ### Delayed computations -}
 
-val force :: any a. lazy a -> a
+type delay a = void -> a
+{-
+A "delayed computation" is a function that takes no arguments. (More
+precisely, it takes a useless argument of type `void`.)
+-}
+
+val force :: any a. delay a -> a
 let force f = f void
+{-
+Force a delayed computation.
+-}
 
-val general :: any a b. lazy a -> b -> a
+val general :: any a b. delay a -> b -> a
 let general f x = f void
+{-
+Generalise a delayed computation, so you can apply it to any value
+instead of just `void`.
+-}
 
-type (&) a b = {First := a; Second := b; nil}
+{- ### Pairs -}
+
+type (&) a b = { First := a; Second := b; nil }
+{-
+Ordered pairs (also known as tuples) are represented as
+records with a `First` field and a `Second` field.
+-}
 
 val (&) :: any a b. a -> b -> a & b
 let (&) x y = First := x; Second := y; void
+{-
+Construct an ordered pair from two values.
+-}
 
-type bool = [True := void; False := void; nil]
+{- ### Booleans -}
+
+type bool = [ True | False | nil ]
+{-
+Unlike most languages, Lune does not have built-in booleans.
+The `bool` type and all boolean operations can be defined
+with Lune's variant system.
+-}
 
 val true, false :: bool
 let true = only True
 let false = only False
+{-
+A boolean can be either `true` or `false`. These are defined as
+`only True` and `only False` respectively.
+-}
 
 val not :: bool -> bool
 let not = match True { false } { true }
+{-
+Boolean inversion. Truth is fantasy, and fantasy is truth.
+```
+not true  --> false
+not false --> true
+```
+-}
 
-val and, or :: bool -> lazy bool -> bool
+val and, or :: bool -> delay bool -> bool
 let and x y = x # match True y { false }
 let or x y = x # match True { true } (general y)
 
 expand (&&) x y = and x { y }
-expand (||) x y = or x { y }
+{-
+Test if both statements are true. The `&&` operator
+"short-circuits", so the second argument will not be evaluated
+if the first one is `false`.
+-}
 
-val if :: any a. bool -> lazy a -> lazy a -> a
+expand (||) x y = or x { y }
+{-
+Test if at least one of the statements is true. The `||` operator
+"short-circuits", so the second argument will not be evaluated if the
+first one is `true`.
+
+This short-circuiting behavior is not built in. There is nothing
+special about `&&` and `||`; they are defined using Lune's
+expression synonym feature.
+-}
+
+val if :: any a. bool -> delay a -> delay a -> a
 let if c x y = c # match True x (general y)
+{-
+The expression `if condition x y` evaluates `x` if the condition
+is true, and `y` if it is false. For example,
+the `trunc` function is defined as follows:
+```
+val trunc :: float -> float
+let trunc x = if (x < 0) { ceil x } { floor x }
+```
+which could also be written as:
+```
+let trunc x = if (x < 0) { ceil x } $ else (floor x)
+```
+-}
+
+{- ### Comparisons and predicates -}
 
 foreign (==) :: any a. a -> a -> bool
+{-
+Test if two values are equal. The `==` operator checks for _actual_
+equality, not referential equality.
+-}
 
 val (/=) :: any a. a -> a -> bool
 let (/=) x y = not (x == y)
+{-
+Test if two values are not equal.
+-}
 
 foreign (<), (>) :: any a. a -> a -> bool
+{-
+Test if one value is less than the other. Record fields and variant
+labels are compared in alphabetical order.
+-}
 
 val (<=), (>=) :: any a. a -> a -> bool
 let (<=) x y = x < y || x == y
 let (>=) x y = x > y || x == y
+{-
+Test if one value is less than or equal to the other.
+-}
 
 foreign isFinite :: float -> bool
+{-
+Test if a floating-point number is finite.
+```
+isFinite 6        --> true
+isFinite (1 / 0)  --> false
+isFinite (0 / 0)  --> false
+```
+-}
 
 val isInfinite :: float -> bool
 let isInfinite x = not (isFinite x || isNaN x)
+{-
+Test if a floating-point number is infinite.
+```
+isInfinite 6       --> false
+isInfinite (1 / 0) --> true
+isInfinite (0 / 0) --> false
+```
+-}
 
 foreign isNaN :: float -> bool
+{-
+Test if a floating-point number is NaN.
+```
+isNaN 6       --> false
+isNaN (1 / 0) --> false
+isNaN (0 / 0) --> true
+```
+-}
 
 val min, max :: any a. a -> a -> a
 let min x y = if (x < y) { x } { y }
 let max x y = if (x > y) { x } { y }
+{-
+Find the minimum or maximum of two values.
+-}
 
 type order = [Less := void; Equal := void; Greater := void; nil]
 
@@ -355,3 +622,7 @@ let compare x y =
   if (x == y) { only Equal }
   $ else $ if (x < y) { only Less }
   $ else $ only Greater
+
+{-
+Compare two values and return an `order`.
+-}
