@@ -23,12 +23,10 @@ import Result exposing type maybe, nothing
 
 infix <> left 65
 
-{- ### Strings -}
-
 type string :: Type
 syntax string string-type
 {-
-The type of strings. In Lune, strings are not lists of characters;
+The type of strings. Unlike in Haskell, strings are not lists of characters;
 they are actually strings.
 -}
 

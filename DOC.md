@@ -1332,13 +1332,12 @@ maybe a = result void a
 :: any e a b. (a -> result e b) -> list a -> result e (list b)
 ```
 # String
-### Strings 
 <a name="type_String.string"></a>
 #### type string
 ```
 :: Type
 ```
-The type of strings. In Lune, strings are not lists of characters;
+The type of strings. Unlike in Haskell, strings are not lists of characters;
 they are actually strings.
 
 <a name="String.isEmpty"></a>
