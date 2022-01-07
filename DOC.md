@@ -644,7 +644,7 @@ negation with `-`.
 ```
 :: any x. num x -> num x
 ```
-Negate a number. `-x` is syntactic sugar for `negate x`.
+Negate a number. `-x` is syntactic sugar for `Prelude.negate x`.
 
 <a name="Prelude.abs"></a>
 #### val abs
@@ -660,7 +660,7 @@ Take the absolute value of a number.
 ```
 Find the "sign" of a number. For positive numbers, `signum` returns 1,
 for negative numbers, it returns -1, and for 0, it returns 0. Note that
-`abs x * signum x` is equal to `x`.
+`abs x * signum x` is always equal to `x`.
 
 <a name="Prelude.constrain"></a>
 #### val constrain
@@ -668,8 +668,12 @@ for negative numbers, it returns -1, and for 0, it returns 0. Note that
 :: any x. num x -> num x -> num x -> num x
 ```
 Constrain a number between a lower bound (the first argument) and an
-upper bound (the second argument). For example, `constrain 0 10 11` is
-equal to `10`, and `constrain 0 10 5` is equal to `5`.
+upper bound (the second argument).
+```
+constrain 0 10 11 --> 10
+constrain 0 10 -2 --> 0
+constrain 0 10 6  --> 6
+```
 
 <a name="Prelude.div"></a>
 <a name="Prelude.quot"></a>
@@ -715,6 +719,7 @@ one property, use records.
 * Surrounding a row in square brackets creates a _variant_ type,
 also known as a labeled sum type. If you have a value that can exist in
 more than one state, use variants.
+
 Lune's row system is based on the following two papers by Daan Leijen:
 * [Extensible records with scoped labels](https://www.microsoft.com/en-us/research/publication/extensible-records-with-scoped-labels/)
 * [First-class labels for extensible rows](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/)
@@ -755,7 +760,7 @@ Apply a type constructor to an argument.
 ```
 :: Row -> Type
 ```
-Convert an abstract row into a record type. The shorthand `{r}` is
+Convert an abstract row into a record type. `{r}` is
 syntactic sugar for `Prelude.record r`.
 
 <a name="type_Prelude.variant"></a>
@@ -763,7 +768,7 @@ syntactic sugar for `Prelude.record r`.
 ```
 :: Row -> Type
 ```
-Convert an abstract row into a variant type. The shorthand `[r]` is
+Convert an abstract row into a variant type. `[r]` is
 syntactic sugar for `Prelude.variant r`.
 
 <a name="type_Prelude.label"></a>
@@ -772,7 +777,7 @@ syntactic sugar for `Prelude.variant r`.
 :: Label -> Type
 ```
 In Lune, labels are first-class values. The expression-level label
-`X` has the type `label X`. At the type
+`X` has the type `label X`.
 
 <a name="type_Prelude.void"></a>
 #### type void
@@ -849,8 +854,8 @@ Age #= (+1); person --> Name := "Owen"; Age := 17; void
 ```
 :: any a b. (a -> b) -> a -> b
 ```
-Apply the function on the left to the value on the right. The (;) operator
-is similar to ($), but has an even lower precedence and is typically
+Apply the function on the left to the value on the right. The `;` operator
+is similar to `$`, but has an even lower precedence and is typically
 used in records.
 
 ### Variants 
@@ -865,8 +870,8 @@ type, so `X ^ 3.5` could have any of the following types:
 [ X := float; nil ]
 [ X := float; Y := float; nil ]
 [ X := float; Foo := list string; Qwerty := void; nil ]
+...
 ```
-and so on.
 
 <a name="Prelude.embed"></a>
 #### val embed
@@ -888,6 +893,7 @@ Match a variant against a label and apply the appropriate function. The
 expression `variant # match Label f g` represents the following process:
 * If `variant` is of the form `Label ^ value`, return `f value`.
 * Otherwise, return `g variant`.
+
 Matches can be chained. For example:
 ```
 type color = [ Red | Green | Blue | nil ]
@@ -918,7 +924,7 @@ let toInt =
 :: any a. [nil] -> a
 ```
 Sometimes, you need test every possible label.
-In this case, the type of `match` requires you
+In this case, `match` requires you
 to give it a function of type `[nil] -> b`. This is where `absurd`
 comes in:
 ```
@@ -970,7 +976,7 @@ instead of just `void`.
 ```
 (&) a b = { First := a; Second := b; nil }
 ```
-Ordered pairs (also known as tuples) are represented as
+Pairs (also known as tuples) are represented as
 records with a `First` field and a `Second` field.
 
 <a name="Prelude.(&)"></a>
@@ -978,7 +984,7 @@ records with a `First` field and a `Second` field.
 ```
 :: any a b. a -> b -> a & b
 ```
-Construct an ordered pair from two values.
+Construct a pair from two values.
 
 ### Booleans 
 <a name="type_Prelude.bool"></a>
@@ -1129,7 +1135,7 @@ Find the minimum or maximum of two values.
 <a name="type_Prelude.order"></a>
 #### type order
 ```
-order = [Less := void; Equal := void; Greater := void; nil]
+order = [ Less | Greater | Equal | nil ]
 ```
 <a name="Prelude.compare"></a>
 #### val compare

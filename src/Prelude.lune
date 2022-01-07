@@ -190,7 +190,7 @@ negation with `-`.
 foreign negate :: any x. num x -> num x
 syntax negate negate-function
 {-
-Negate a number. `-x` is syntactic sugar for `negate x`.
+Negate a number. `-x` is syntactic sugar for `Prelude.negate x`.
 -}
 
 foreign abs :: any x. num x -> num x
@@ -202,7 +202,7 @@ foreign signum :: any x. num x -> num x
 {-
 Find the "sign" of a number. For positive numbers, `signum` returns 1,
 for negative numbers, it returns -1, and for 0, it returns 0. Note that
-`abs x * signum x` is equal to `x`.
+`abs x * signum x` is always equal to `x`.
 -}
 
 val constrain :: any x. num x -> num x -> num x -> num x
@@ -212,8 +212,12 @@ let constrain x y z =
   $ else $ z
 {-
 Constrain a number between a lower bound (the first argument) and an
-upper bound (the second argument). For example, `constrain 0 10 11` is
-equal to `10`, and `constrain 0 10 5` is equal to `5`.
+upper bound (the second argument).
+```
+constrain 0 10 11 --> 10
+constrain 0 10 -2 --> 0
+constrain 0 10 6  --> 6
+```
 -}
 
 foreign div, quot :: int -> int -> int
@@ -254,6 +258,7 @@ one property, use records.
 * Surrounding a row in square brackets creates a _variant_ type,
 also known as a labeled sum type. If you have a value that can exist in
 more than one state, use variants.
+
 Lune's row system is based on the following two papers by Daan Leijen:
 * [Extensible records with scoped labels](https://www.microsoft.com/en-us/research/publication/extensible-records-with-scoped-labels/)
 * [First-class labels for extensible rows](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/)
@@ -286,14 +291,14 @@ Apply a type constructor to an argument.
 type record :: Row -> Type
 syntax record curly-brackets
 {-
-Convert an abstract row into a record type. The shorthand `{r}` is
+Convert an abstract row into a record type. `{r}` is
 syntactic sugar for `Prelude.record r`.
 -}
 
 type variant :: Row -> Type
 syntax variant square-brackets
 {-
-Convert an abstract row into a variant type. The shorthand `[r]` is
+Convert an abstract row into a variant type. `[r]` is
 syntactic sugar for `Prelude.variant r`.
 -}
 
@@ -301,7 +306,7 @@ type label :: Label -> Type
 syntax label label-type
 {-
 In Lune, labels are first-class values. The expression-level label
-`X` has the type `label X`. At the type
+`X` has the type `label X`.
 -}
 
 type void = {nil}
@@ -366,8 +371,8 @@ Age #= (+1); person --> Name := "Owen"; Age := 17; void
 val (;) :: any a b. (a -> b) -> a -> b
 let (;) f x = f x
 {-
-Apply the function on the left to the value on the right. The (;) operator
-is similar to ($), but has an even lower precedence and is typically
+Apply the function on the left to the value on the right. The `;` operator
+is similar to `$`, but has an even lower precedence and is typically
 used in records.
 -}
 
@@ -381,8 +386,8 @@ type, so `X ^ 3.5` could have any of the following types:
 [ X := float; nil ]
 [ X := float; Y := float; nil ]
 [ X := float; Foo := list string; Qwerty := void; nil ]
+...
 ```
-and so on.
 -}
 
 foreign embed :: any s a r. label s -> [r] -> [s := a; r]
@@ -400,6 +405,7 @@ Match a variant against a label and apply the appropriate function. The
 expression `variant # match Label f g` represents the following process:
 * If `variant` is of the form `Label ^ value`, return `f value`.
 * Otherwise, return `g variant`.
+
 Matches can be chained. For example:
 ```
 type color = [ Red | Green | Blue | nil ]
@@ -428,7 +434,7 @@ val absurd :: any a. [nil] -> a
 let absurd = absurd
 {-
 Sometimes, you need test every possible label.
-In this case, the type of `match` requires you
+In this case, `match` requires you
 to give it a function of type `[nil] -> b`. This is where `absurd`
 comes in:
 ```
@@ -475,14 +481,14 @@ instead of just `void`.
 
 type (&) a b = { First := a; Second := b; nil }
 {-
-Ordered pairs (also known as tuples) are represented as
+Pairs (also known as tuples) are represented as
 records with a `First` field and a `Second` field.
 -}
 
 val (&) :: any a b. a -> b -> a & b
 let (&) x y = First := x; Second := y; void
 {-
-Construct an ordered pair from two values.
+Construct a pair from two values.
 -}
 
 {- ### Booleans -}
@@ -615,7 +621,7 @@ let max x y = if (x > y) { x } { y }
 Find the minimum or maximum of two values.
 -}
 
-type order = [Less := void; Equal := void; Greater := void; nil]
+type order = [ Less | Greater | Equal | nil ]
 
 val compare :: any a. a -> a -> order
 let compare x y =
