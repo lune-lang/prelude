@@ -254,7 +254,12 @@
 <a name="List.partition"></a>
 #### val partition
 ```
-:: any a. (a -> bool) -> list a -> list a & list a
+:: any a
+   . (a -> bool)
+  -> list a
+  -> { Pass := list a
+     ; Fail := list a
+     ; nil }
 ```
 <a name="List.count"></a>
 #### val count
@@ -889,8 +894,8 @@ In Lune, this is written as `embed Maybe v`.
 ```
 :: any s a b r. label s -> (a -> b) -> ([r] -> b) -> [s := a; r] -> b
 ```
-Match a variant against a label and apply the appropriate function. The
-expression `variant # match Label f g` represents the following process:
+Match a variant against a label and apply the appropriate function.
+`variant # match Label f g` represents the following process:
 * If `variant` is of the form `Label ^ value`, return `f value`.
 * Otherwise, return `g variant`.
 
@@ -1043,7 +1048,7 @@ expression synonym feature.
 ```
 :: any a. bool -> delay a -> delay a -> a
 ```
-The expression `if condition x y` evaluates `x` if the condition
+`if condition x y` evaluates `x` if the condition
 is true, and `y` if it is false. For example,
 the [`trunc`](#Prelude.trunc) function is defined as follows:
 ```
@@ -1327,104 +1332,178 @@ maybe a = result void a
 :: any e a b. (a -> result e b) -> list a -> result e (list b)
 ```
 # String
+### Strings 
 <a name="type_String.string"></a>
 #### type string
 ```
 :: Type
 ```
+The type of strings. In Lune, strings are not lists of characters;
+they are actually strings.
+
 <a name="String.isEmpty"></a>
 #### val isEmpty
 ```
 :: string -> bool
 ```
+Test if a string is empty.
+
 <a name="String.length"></a>
 #### val length
 ```
 :: string -> int
 ```
+Get the length of a string.
+
+### Building strings 
 <a name="String.(<>)"></a>
 #### val (<>)
 ```
 :: string -> string -> string
 ```
+Concatenate two strings.
+```
+"for" <> " " <> "example" --> "for example"
+```
+
 <a name="String.concat"></a>
 #### val concat
 ```
 :: list string -> string
 ```
+Concatenate a list of strings.
+```
+concat ("for" : " " : "example" : empty) --> "for example"
+```
+
 <a name="String.concatMap"></a>
 #### val concatMap
 ```
 :: any a. (a -> string) -> list a -> string
 ```
+Apply a function to each element of a list, and concatenate the results.
+
 <a name="String.join"></a>
 #### val join
 ```
 :: string -> list string -> string
 ```
+Join a list of strings with the given separator.
+```
+join ", " ("1" : "2" : "3" : empty) --> "1, 2, 3"
+```
+
 <a name="String.joinMap"></a>
 #### val joinMap
 ```
 :: any a. string -> (a -> string) -> list a -> string
 ```
+Apply a function to each element of a list,
+and join the results with the given separator.
+
 <a name="String.repeat"></a>
 #### val repeat
 ```
 :: int -> string -> string
 ```
+Repeat a substring the given number of times.
+```
+repeat 3 "abc" --> "abcabcabc"
+```
+
 <a name="String.reverse"></a>
 #### val reverse
 ```
 :: string -> string
 ```
+Reverse a string.
+
+### Splitting and slicing 
 <a name="String.split"></a>
 #### val split
 ```
 :: string -> string -> list string
 ```
+Split a string into a list using the given separator.
+```
+split "," "56,1,7" --> "56" : "1" : "7" : empty
+```
+
 <a name="String.words"></a>
 <a name="String.lines"></a>
 #### val words, lines
 ```
 :: string -> list string
 ```
+Split a string into a list of words or lines.
+```
+words "a \nweird string" --> "a" : "weird" : "string" : empty
+lines "a \nweird string" --> "a " : "weird string" : empty
+```
+
 <a name="String.slice"></a>
 #### val slice
 ```
 :: int -> int -> string -> string
 ```
+Get a substring from a string, given a start index (inclusive) and
+an end index (exclusive). Negative indices "wrap around" to the end of the string.
+```
+slice 0 6 "Wissenschaft"  --> "Wissen"
+slice 6 -3 "Wissenschaft" --> "sch"
+```
+
 <a name="String.takeLeft"></a>
-#### val takeLeft
-```
-:: int -> string -> string
-```
 <a name="String.takeRight"></a>
-#### val takeRight
+#### val takeLeft, takeRight
 ```
 :: int -> string -> string
 ```
+Take the given number of characters from the edge of a string.
+```
+takeLeft 3 "January"  --> "Jan"
+takeRight 4 "January" --> "uary"
+```
+
 <a name="String.dropLeft"></a>
-#### val dropLeft
-```
-:: int -> string -> string
-```
 <a name="String.dropRight"></a>
-#### val dropRight
+#### val dropLeft, dropRight
 ```
 :: int -> string -> string
 ```
+Remove the given number of characters from the edge of a string.
+```
+dropLeft 2 "ahoy!"  --> "oy!"
+dropRight 2 "ahoy!" --> "aho"
+```
+
+### Formatting 
 <a name="String.toLower"></a>
-<a name="String.toUpper"></a>
-#### val toLower, toUpper
+#### val toLower
 ```
 :: string -> string
 ```
+Convert all the letters in a string to lowercase.
+
+<a name="String.toUpper"></a>
+#### val toUpper
+```
+:: string -> string
+```
+Convert all the letters in string to uppercase.
+
 <a name="String.padLeft"></a>
 <a name="String.padRight"></a>
 #### val padLeft, padRight
 ```
 :: int -> string -> string
 ```
+Pad a string with whitespace until it reaches the given length.
+```
+padLeft 5 "xyz"  --> "  xyz"
+padRight 5 "xyz" --> "xyz  "
+```
+
 <a name="String.trim"></a>
 <a name="String.trimLeft"></a>
 <a name="String.trimRight"></a>
@@ -1432,6 +1511,13 @@ maybe a = result void a
 ```
 :: string -> string
 ```
+Trim whitespace from the edge of a string.
+```
+trim " X "      --> "X"
+trimLeft " X "  --> "X "
+trimRight " X " --> " X"
+
+### Substring operations 
 <a name="String.contains"></a>
 <a name="String.startsWith"></a>
 <a name="String.endsWith"></a>
@@ -1439,121 +1525,236 @@ maybe a = result void a
 ```
 :: string -> string -> bool
 ```
+Test if a string contains the given substring.
+```
+contains "mon" "monoid"   --> true
+startsWith "mon" "monoid" --> true
+endsWith "mon" "monoid"   --> false
+```
+
 <a name="String.find"></a>
 #### val find
 ```
 :: string -> string -> list int
 ```
+Find every index where the given substring occurs.
+```
+find "al" "alphabetical" --> 0 : 10 : empty
+```
+
 <a name="String.replace"></a>
 #### val replace
 ```
 :: string -> string -> string -> string
 ```
+Replace the given substring wherever it occurs.
+```
+replace "a" "z" "alphabetical" --> "zlphzbeticzl"
+```
+
+### String conversions 
 <a name="String.toInt"></a>
 #### val toInt
 ```
 :: string -> maybe int
 ```
+Convert a string into an int.
+```
+toInt "lol" --> nothing
+toInt "16"  --> Just ^ 16
+```
+
 <a name="String.fromInt"></a>
 #### val fromInt
 ```
 :: int -> string
 ```
+Convert an int into a string.
+
 <a name="String.toFloat"></a>
 #### val toFloat
 ```
 :: string -> maybe float
 ```
+Convert a string into a float.
+```
+toFloat "html"  --> nothing
+toFloat "2.718" --> Just ^ 2.718
+```
+
 <a name="String.fromFloat"></a>
 #### val fromFloat
 ```
 :: float -> string
 ```
+Convert a float into a string.
+
 <a name="String.toList"></a>
 #### val toList
 ```
 :: string -> list char
 ```
+Convert a string into a list of characters.
+
 <a name="String.fromList"></a>
 #### val fromList
 ```
 :: list char -> string
 ```
+Convert a list of characters into a string.
+
+### Listlike operations 
 <a name="String.cons"></a>
 #### val cons
 ```
 :: char -> string -> string
 ```
+Build a string from a "head" and a "tail".
+```
+cons 'C' "omputer" --> "Computer"
+```
+
 <a name="String.deconstruct"></a>
 #### val deconstruct
 ```
 :: any a. a -> (char -> string -> a) -> string -> a
 ```
+`deconstruct x f string` represents the following process:
+* If the string is empty, return `x`.
+* Otherwise, apply `f` to the head and tail of the string.
+
 <a name="String.single"></a>
 #### val single
 ```
 :: char -> string
 ```
+Build a string from a single character.
+
 <a name="String.head"></a>
 #### val head
 ```
 :: string -> maybe char
 ```
+Get the first character of a string.
+```
+head ""       --> nothing
+head "invent" --> Just ^ 'i'
+```
+
 <a name="String.tail"></a>
 #### val tail
 ```
 :: string -> maybe string
 ```
+Get the trailing substring of a string.
+```
+tail ""       --> nothing
+tail "invent" --> Just ^ "nvent"
+```
+
 <a name="String.get"></a>
 #### val get
 ```
 :: int -> string -> maybe char
 ```
+Get the character at the given index. Return `nothing` if the index
+is out of range.
+```
+get 5 "hello" --> nothing
+get 3 "hello" --> Just ^ 'l'
+```
+
 <a name="String.map"></a>
 #### val map
 ```
 :: (char -> char) -> string -> string
 ```
+Apply a function to each character in a string.
+
 <a name="String.mapIndex"></a>
 #### val mapIndex
 ```
 :: (int -> char -> char) -> string -> string
 ```
+Apply a function to each index-character pair in a string.
+
 <a name="String.filter"></a>
 #### val filter
 ```
 :: (char -> bool) -> string -> string
 ```
+Keep only the characters in a string that pass the given predicate.
+```
+filter Char.isUpper "John Quincy Adams" --> "JQA"
+```
+
 <a name="String.partition"></a>
 #### val partition
 ```
-:: (char -> bool) -> string -> string & string
+:: (char -> bool)
+  -> string
+  -> { Pass := string
+     ; Fail := string
+     ; nil }
 ```
+Partition the characters in a string based on whether they pass
+the given predicate.
+```
+partition Char.isUpper "LaTeX" --> Pass := "LTX"; Fail := "ae"; void
+```
+
 <a name="String.count"></a>
 #### val count
 ```
 :: (char -> bool) -> string -> int
 ```
+Find the number of characters in a string that pass the given predicate.
+```
+count Char.isDigit "1-2-3-4" --> 4
+```
+
 <a name="String.some"></a>
 #### val some
 ```
 :: (char -> bool) -> string -> bool
 ```
+Test if at least one of the characters passes the given predicate.
+```
+some Char.isDigit ""    --> false
+some Char.isDigit "abc" --> false
+some Char.isDigit "gr8" --> true
+some Char.isDigit "123" --> true
+```
+
 <a name="String.all"></a>
 #### val all
 ```
 :: (char -> bool) -> string -> bool
 ```
+Test if all of the characters pass the given predicate.
+```
+all Char.isDigit ""    --> true
+all Char.isDigit "abc" --> false
+all Char.isDigit "gr8" --> false
+all Char.isDigit "123" --> true
+```
+
 <a name="String.foldLeft"></a>
 #### val foldLeft
 ```
 :: any a. (char -> a -> a) -> a -> string -> a
 ```
+Fold a function over a string, starting with the first character.
+`foldLeft f x "gnu"` is eqivalent to `x # f 'g' # f 'n' # f 'u'`.
+
 <a name="String.foldRight"></a>
 #### val foldRight
 ```
 :: any a. (char -> a -> a) -> a -> string -> a
 ```
+Fold a function over a string, starting with the last character.
+`foldRight f x "gnu"` is equivalent to `f 'g' $ f 'n' $ f 'u' $ x`
+
 # Variant
 <a name="Variant.map"></a>
 #### val map
