@@ -1,5 +1,5 @@
 # Char
-<a name="Char.char"></a>
+<a name="type_Char.char"></a>
 #### type char
 ```
 :: Type
@@ -40,7 +40,7 @@
 :: char -> int
 ```
 # IO
-<a name="IO.io"></a>
+<a name="type_IO.io"></a>
 #### type io
 ```
 :: Type -> Type
@@ -116,7 +116,7 @@
 :: any a b. (a -> io b) -> list a -> io (list b)
 ```
 # List
-<a name="List.list"></a>
+<a name="type_List.list"></a>
 #### type list
 ```
 :: Type -> Type
@@ -419,7 +419,7 @@
 ```
 :: float
 ```
-<a name="Math.angle"></a>
+<a name="type_Math.angle"></a>
 #### type angle
 ```
 angle = float
@@ -476,7 +476,7 @@ angle = float
 ```
 # Prelude
 ### Functions 
-<a name="Prelude.(->)"></a>
+<a name="type_Prelude.(->)"></a>
 #### type (->)
 ```
 :: Type -> Type -> Type
@@ -532,17 +532,17 @@ Right-to-left function composition. `f << g` performs `g` and then `f`.
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
 
 ### Numeric types and conversions 
-<a name="Prelude.i"></a>
+<a name="type_Prelude.i"></a>
 #### type i
 ```
 :: Num
 ```
-<a name="Prelude.f"></a>
+<a name="type_Prelude.f"></a>
 #### type f
 ```
 :: Num
 ```
-<a name="Prelude.num"></a>
+<a name="type_Prelude.num"></a>
 #### type num
 ```
 :: Num -> Type
@@ -553,7 +553,7 @@ the type of integers and `num f` is the type of floats. You
 can define functions that work on both integers and floats by writing
 `any x. num x`.
 
-<a name="Prelude.int"></a>
+<a name="type_Prelude.int"></a>
 #### type int
 ```
 int = num i
@@ -563,7 +563,7 @@ have the same representation at runtime. Nevertheless, the Lune type system
 distinguishes the two, because there are some computations (such as `mod`)
 that only make sense with integers.
 
-<a name="Prelude.float"></a>
+<a name="type_Prelude.float"></a>
 #### type float
 ```
 float = num f
@@ -719,14 +719,14 @@ Lune's row system is based on the following two papers by Daan Leijen:
 * [Extensible records with scoped labels](https://www.microsoft.com/en-us/research/publication/extensible-records-with-scoped-labels/)
 * [First-class labels for extensible rows](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/)
 
-<a name="Prelude.nil"></a>
+<a name="type_Prelude.nil"></a>
 #### type nil
 ```
 :: Row
 ```
 The empty row.
 
-<a name="Prelude.(:=)"></a>
+<a name="type_Prelude.(:=)"></a>
 #### type (:=)
 ```
 :: Label -> Type -> Row -> Row
@@ -735,7 +735,7 @@ Add a label and a type to a row. The `:=` operator is usually
 used in conjunction with `;`. For example, to add the label `X`
 along with the type `float` to the row `r`, you can write `X := float; r`.
 
-<a name="Prelude.(|)"></a>
+<a name="type_Prelude.(|)"></a>
 #### type (|)
 ```
 (|) s = s := void
@@ -743,14 +743,14 @@ along with the type `float` to the row `r`, you can write `X := float; r`.
 Add a label to a row, along with the unit type. This is useful in variants
 where one of the states has no associated data.
 
-<a name="Prelude.(;)"></a>
+<a name="type_Prelude.(;)"></a>
 #### type (;)
 ```
 (;) f x = f x
 ```
 Apply a type constructor to an argument.
 
-<a name="Prelude.record"></a>
+<a name="type_Prelude.record"></a>
 #### type record
 ```
 :: Row -> Type
@@ -758,7 +758,7 @@ Apply a type constructor to an argument.
 Convert an abstract row into a record type. The shorthand `{r}` is
 syntactic sugar for `Prelude.record r`.
 
-<a name="Prelude.variant"></a>
+<a name="type_Prelude.variant"></a>
 #### type variant
 ```
 :: Row -> Type
@@ -766,7 +766,7 @@ syntactic sugar for `Prelude.record r`.
 Convert an abstract row into a variant type. The shorthand `[r]` is
 syntactic sugar for `Prelude.variant r`.
 
-<a name="Prelude.label"></a>
+<a name="type_Prelude.label"></a>
 #### type label
 ```
 :: Label -> Type
@@ -774,7 +774,7 @@ syntactic sugar for `Prelude.variant r`.
 In Lune, labels are first-class values. The expression-level label
 `X` has the type `label X`. At the type
 
-<a name="Prelude.void"></a>
+<a name="type_Prelude.void"></a>
 #### type void
 ```
 void = {nil}
@@ -941,7 +941,7 @@ let red = only Red
 ```
 
 ### Delayed computations 
-<a name="Prelude.delay"></a>
+<a name="type_Prelude.delay"></a>
 #### type delay
 ```
 delay a = void -> a
@@ -965,7 +965,7 @@ Generalise a delayed computation, so you can apply it to any value
 instead of just `void`.
 
 ### Pairs 
-<a name="Prelude.(&)"></a>
+<a name="type_Prelude.(&)"></a>
 #### type (&)
 ```
 (&) a b = { First := a; Second := b; nil }
@@ -981,7 +981,7 @@ records with a `First` field and a `Second` field.
 Construct an ordered pair from two values.
 
 ### Booleans 
-<a name="Prelude.bool"></a>
+<a name="type_Prelude.bool"></a>
 #### type bool
 ```
 bool = [ True | False | nil ]
@@ -1126,7 +1126,7 @@ isNaN (0 / 0) --> true
 ```
 Find the minimum or maximum of two values.
 
-<a name="Prelude.order"></a>
+<a name="type_Prelude.order"></a>
 #### type order
 ```
 order = [Less := void; Equal := void; Greater := void; nil]
@@ -1139,7 +1139,7 @@ order = [Less := void; Equal := void; Greater := void; nil]
 Compare two values and return an `order`.
 
 # Program
-<a name="Program.program"></a>
+<a name="type_Program.program"></a>
 #### type program
 ```
 program st a = st -> io { Set := st; Return := a; nil }
@@ -1245,12 +1245,12 @@ program st a = st -> io { Set := st; Return := a; nil }
 :: any st a b. (a -> program st b) -> list a -> program st (list b)
 ```
 # Result
-<a name="Result.result"></a>
+<a name="type_Result.result"></a>
 #### type result
 ```
 result e a = [Error := e; Just := a; nil]
 ```
-<a name="Result.maybe"></a>
+<a name="type_Result.maybe"></a>
 #### type maybe
 ```
 maybe a = result void a
@@ -1321,7 +1321,7 @@ maybe a = result void a
 :: any e a b. (a -> result e b) -> list a -> result e (list b)
 ```
 # String
-<a name="String.string"></a>
+<a name="type_String.string"></a>
 #### type string
 ```
 :: Type
