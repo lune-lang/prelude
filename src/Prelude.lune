@@ -152,7 +152,7 @@ floor -1.5 --> -2
 foreign ceil :: float -> int
 {-
 Round a number up.
-
+```
 ceil 1.5  --> 2
 ceil -1.5 --> -1
 ```

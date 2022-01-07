@@ -502,7 +502,7 @@ You can also use the notation `{ x }`.
 <a name="Prelude.($)"></a>
 #### expand ($)
 ```
-f x = f x
+f x  = f x
 ```
 Apply the function on the left to the value on the right.
 The `$` operator has a relatively low precedence,
@@ -512,7 +512,7 @@ can be written `f $ g $ h x`.
 <a name="Prelude.(#)"></a>
 #### expand (#)
 ```
-x f = f x
+x f  = f x
 ```
 Apply the function on the right to the value on the left.
 For example, `f (g (h x)) can be written h x # g # f`.
@@ -601,7 +601,7 @@ floor -1.5 --> -2
 :: float -> int
 ```
 Round a number up.
-
+```
 ceil 1.5  --> 2
 ceil -1.5 --> -1
 ```
@@ -738,7 +738,7 @@ along with the type `float` to the row `r`, you can write `X := float; r`.
 <a name="Prelude.(|)"></a>
 #### type (|)
 ```
-s = s := void
+s  = s := void
 ```
 Add a label to a row, along with the unit type. This is useful in variants
 where one of the states has no associated data.
@@ -746,7 +746,7 @@ where one of the states has no associated data.
 <a name="Prelude.(;)"></a>
 #### type (;)
 ```
-f x = f x
+f x  = f x
 ```
 Apply a type constructor to an argument.
 
@@ -944,7 +944,7 @@ let red = only Red
 <a name="Prelude.delay"></a>
 #### type delay
 ```
-a = void -> a
+a  = void -> a
 ```
 A "delayed computation" is a function that takes no arguments. (More
 precisely, it takes a useless argument of type `void`.)
@@ -968,7 +968,7 @@ instead of just `void`.
 <a name="Prelude.(&)"></a>
 #### type (&)
 ```
-a b = { First := a; Second := b; nil }
+a b  = { First := a; Second := b; nil }
 ```
 Ordered pairs (also known as tuples) are represented as
 records with a `First` field and a `Second` field.
@@ -1013,7 +1013,7 @@ not false --> true
 <a name="Prelude.(&&)"></a>
 #### expand (&&)
 ```
-x y = and x { y }
+x y  = and x { y }
 ```
 Test if both statements are true. The `&&` operator
 "short-circuits", so the second argument will not be evaluated
@@ -1022,7 +1022,7 @@ if the first one is `false`.
 <a name="Prelude.(||)"></a>
 #### expand (||)
 ```
-x y = or x { y }
+x y  = or x { y }
 ```
 Test if at least one of the statements is true. The `||` operator
 "short-circuits", so the second argument will not be evaluated if the
@@ -1142,7 +1142,7 @@ Compare two values and return an `order`.
 <a name="Program.program"></a>
 #### type program
 ```
-st a = st -> io { Set := st; Return := a; nil }
+st a  = st -> io { Set := st; Return := a; nil }
 ```
 <a name="Program.get"></a>
 #### val get
@@ -1248,12 +1248,12 @@ st a = st -> io { Set := st; Return := a; nil }
 <a name="Result.result"></a>
 #### type result
 ```
-e a = [Error := e; Just := a; nil]
+e a  = [Error := e; Just := a; nil]
 ```
 <a name="Result.maybe"></a>
 #### type maybe
 ```
-a = result void a
+a  = result void a
 ```
 <a name="Result.nothing"></a>
 #### val nothing
