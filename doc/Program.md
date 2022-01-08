@@ -1,4 +1,4 @@
-# module Program
+# Program
 <a name="type-program"></a>
 #### type program
 ```

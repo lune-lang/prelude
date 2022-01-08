@@ -1,4 +1,4 @@
-# module Char
+# Char
 <a name="type-char"></a>
 #### type char
 ```

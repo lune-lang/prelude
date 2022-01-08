@@ -1,4 +1,4 @@
-# module String
+# String
 <a name="type-string"></a>
 #### type string
 ```

@@ -1,4 +1,4 @@
-# module IO
+# IO
 <a name="type-io"></a>
 #### type io
 ```

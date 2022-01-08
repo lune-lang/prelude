@@ -1,4 +1,4 @@
-# module Result
+# Result
 <a name="type-result"></a>
 #### type result
 ```

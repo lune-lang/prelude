@@ -1,4 +1,4 @@
-# module Prelude
+# Prelude
 ## Functions 
 <a name="type-(->)"></a>
 #### type (->)

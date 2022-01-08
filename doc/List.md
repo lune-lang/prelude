@@ -1,4 +1,4 @@
-# module List
+# List
 <a name="type-list"></a>
 #### type list
 ```

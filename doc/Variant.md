@@ -1,4 +1,4 @@
-# module Variant
+# Variant
 <a name="map"></a>
 #### val map
 ```

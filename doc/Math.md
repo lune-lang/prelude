@@ -1,4 +1,4 @@
-# module Math
+# Math
 <a name="square"></a>
 <a name="cube"></a>
 #### val square, cube
