@@ -1,5 +1,5 @@
 # module String
-<a name="type_string"></a>
+<a name="type-string"></a>
 #### type string
 ```
 :: Type

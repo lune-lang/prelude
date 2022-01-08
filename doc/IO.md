@@ -1,5 +1,5 @@
 # module IO
-<a name="type_io"></a>
+<a name="type-io"></a>
 #### type io
 ```
 :: Type -> Type

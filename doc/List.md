@@ -1,5 +1,5 @@
 # module List
-<a name="type_list"></a>
+<a name="type-list"></a>
 #### type list
 ```
 :: Type -> Type

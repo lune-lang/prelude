@@ -1,5 +1,5 @@
 # module Char
-<a name="type_char"></a>
+<a name="type-char"></a>
 #### type char
 ```
 :: Type

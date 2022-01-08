@@ -1,10 +1,10 @@
 # module Result
-<a name="type_result"></a>
+<a name="type-result"></a>
 #### type result
 ```
 result e a = [Error := e; Just := a; nil]
 ```
-<a name="type_maybe"></a>
+<a name="type-maybe"></a>
 #### type maybe
 ```
 maybe a = result void a

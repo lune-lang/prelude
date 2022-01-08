@@ -1,6 +1,6 @@
 # module Prelude
 ### Functions 
-<a name="type_(->)"></a>
+<a name="type-(->)"></a>
 #### type (->)
 ```
 :: Type -> Type -> Type
@@ -56,17 +56,17 @@ Right-to-left function composition. `f << g` performs `g` and then `f`.
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
 
 ### Numeric types and conversions 
-<a name="type_i"></a>
+<a name="type-i"></a>
 #### type i
 ```
 :: Num
 ```
-<a name="type_f"></a>
+<a name="type-f"></a>
 #### type f
 ```
 :: Num
 ```
-<a name="type_num"></a>
+<a name="type-num"></a>
 #### type num
 ```
 :: Num -> Type
@@ -77,17 +77,17 @@ the type of integers and `num f` is the type of floats. You
 can define functions that work on both integers and floats by writing
 `any x. num x`.
 
-<a name="type_int"></a>
+<a name="type-int"></a>
 #### type int
 ```
 int = num i
 ```
 The type of integers. Lune compiles to Javascript, so integers and floats
 have the same representation at runtime. Nevertheless, the Lune type system
-distinguishes the two, because there are some computations (such as [`mod`](#Prelude.mod))
+distinguishes the two, because there are some computations (such as [`mod`](#mod))
 that only make sense with integers.
 
-<a name="type_float"></a>
+<a name="type-float"></a>
 #### type float
 ```
 float = num f
@@ -248,23 +248,23 @@ Lune's row system is based on the following two papers by Daan Leijen:
 * [Extensible records with scoped labels](https://www.microsoft.com/en-us/research/publication/extensible-records-with-scoped-labels/)
 * [First-class labels for extensible rows](https://www.microsoft.com/en-us/research/publication/first-class-labels-for-extensible-rows/)
 
-<a name="type_nil"></a>
+<a name="type-nil"></a>
 #### type nil
 ```
 :: Row
 ```
 The empty row.
 
-<a name="type_(:=)"></a>
+<a name="type-(:=)"></a>
 #### type (:=)
 ```
 :: Label -> Type -> Row -> Row
 ```
 Add a label and a type to a row. The `:=` operator is usually
-used in conjunction with [`;`](#type_Prelude.(;)). For example, to add the label `X`
+used in conjunction with [`;`](#type-(;)). For example, to add the label `X`
 along with the type `float` to the row `r`, you can write `X := float; r`.
 
-<a name="type_(|)"></a>
+<a name="type-(|)"></a>
 #### type (|)
 ```
 (|) s = s := void
@@ -272,14 +272,14 @@ along with the type `float` to the row `r`, you can write `X := float; r`.
 Add a label to a row, along with the unit type. This is useful in variants
 where one of the states has no associated data.
 
-<a name="type_(;)"></a>
+<a name="type-(;)"></a>
 #### type (;)
 ```
 (;) f x = f x
 ```
 Apply a type constructor to an argument.
 
-<a name="type_record"></a>
+<a name="type-record"></a>
 #### type record
 ```
 :: Row -> Type
@@ -287,7 +287,7 @@ Apply a type constructor to an argument.
 Convert an abstract row into a record type. `{r}` is
 syntactic sugar for `Prelude.record r`.
 
-<a name="type_variant"></a>
+<a name="type-variant"></a>
 #### type variant
 ```
 :: Row -> Type
@@ -295,7 +295,7 @@ syntactic sugar for `Prelude.record r`.
 Convert an abstract row into a variant type. `[r]` is
 syntactic sugar for `Prelude.variant r`.
 
-<a name="type_label"></a>
+<a name="type-label"></a>
 #### type label
 ```
 :: Label -> Type
@@ -303,7 +303,7 @@ syntactic sugar for `Prelude.variant r`.
 In Lune, labels are first-class values. The expression-level label
 `X` has the type `label X`.
 
-<a name="type_void"></a>
+<a name="type-void"></a>
 #### type void
 ```
 void = {nil}
@@ -348,7 +348,7 @@ delete Age person --> Name := "Owen"; void
 :: any s a r. label s -> a -> {r} -> {s := a; r}
 ```
 Add a label and a value to a record. The `:=` operator is usually
-used in conjunction with [`;`](#Prelude.(;)). For example, to add the label `X`
+used in conjunction with [`;`](#(;)). For example, to add the label `X`
 along with the value `5` to the record `r`, you can write `X := 5; r`.
 
 <a name="(!=)"></a>
@@ -379,7 +379,7 @@ Age #= (+1); person --> Name := "Owen"; Age := 17; void
 :: any a b. (a -> b) -> a -> b
 ```
 Apply the function on the left to the value on the right. The `;` operator
-is similar to [`$`](#Prelude.($)), but has an even lower precedence and is typically
+is similar to [`$`](#($)), but has an even lower precedence and is typically
 used in records.
 
 ### Variants 
@@ -402,7 +402,7 @@ type, so `X ^ 3.5` could have any of the following types:
 ```
 :: any s a r. label s -> [r] -> [s := a; r]
 ```
-Suppose we have a value `v` that's annotated as a [`bool`](#type_Prelude.bool),
+Suppose we have a value `v` that's annotated as a [`bool`](#type-bool),
 represented in Lune as `[ True | False | nil ]`. Now suppose we need to convert `v`
 into a value of the type `[ True | False | Maybe | nil ]`
 We aren't actually changing the value; we're just "adding a possibility."
@@ -448,7 +448,7 @@ let toInt =
 :: any a. [nil] -> a
 ```
 Sometimes, you need test every possible label.
-In this case, [`match`](#Prelude.match) requires you
+In this case, [`match`](#match) requires you
 to give it a function of type `[nil] -> b`. This is where `absurd`
 comes in:
 ```
@@ -471,13 +471,13 @@ let red = only Red
 ```
 
 ### Delayed computations 
-<a name="type_delay"></a>
+<a name="type-delay"></a>
 #### type delay
 ```
 delay a = void -> a
 ```
 A "delayed computation" is a function that takes no arguments. (More
-precisely, it takes a useless argument of type [`void`](#type_Prelude.void).)
+precisely, it takes a useless argument of type [`void`](#type-void).)
 
 <a name="force"></a>
 #### val force
@@ -492,10 +492,10 @@ Force a delayed computation.
 :: any a b. delay a -> b -> a
 ```
 Generalise a delayed computation, so you can apply it to any value
-instead of just [`void`](#Prelude.void).
+instead of just [`void`](#void).
 
 ### Pairs 
-<a name="type_(&)"></a>
+<a name="type-(&)"></a>
 #### type (&)
 ```
 (&) a b = { First := a; Second := b; nil }
@@ -511,7 +511,7 @@ records with a `First` field and a `Second` field.
 Construct a pair from two values.
 
 ### Booleans 
-<a name="type_bool"></a>
+<a name="type-bool"></a>
 #### type bool
 ```
 bool = [ True | False | nil ]
@@ -569,7 +569,7 @@ expression synonym feature.
 ```
 `if condition x y` evaluates `x` if the condition
 is true, and `y` if it is false. For example,
-the [`trunc`](#Prelude.trunc) function is defined as follows:
+the [`trunc`](#trunc) function is defined as follows:
 ```
 val trunc :: float -> float
 let trunc x = if (x < 0) { ceil x } { floor x }
@@ -656,7 +656,7 @@ isNaN (0 / 0) --> true
 ```
 Find the minimum or maximum of two values.
 
-<a name="type_order"></a>
+<a name="type-order"></a>
 #### type order
 ```
 order = [ Less | Greater | Equal | nil ]

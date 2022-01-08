@@ -41,7 +41,7 @@
 ```
 :: float
 ```
-<a name="type_angle"></a>
+<a name="type-angle"></a>
 #### type angle
 ```
 angle = float

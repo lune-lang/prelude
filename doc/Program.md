@@ -1,5 +1,5 @@
 # module Program
-<a name="type_program"></a>
+<a name="type-program"></a>
 #### type program
 ```
 program st a = st -> io { Set := st; Return := a; nil }
