@@ -1498,7 +1498,7 @@ Convert all the letters in string to uppercase.
 ```
 :: int -> string -> string
 ```
-Pad a string with whitespace until it reaches the given length.
+Pad a string with spaces till it reaches the given length.
 ```
 padLeft 5 "xyz"  --> "  xyz"
 padRight 5 "xyz" --> "xyz  "
