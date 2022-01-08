@@ -42,7 +42,7 @@ foreign length :: string -> int
 Get the length of a string.
 -}
 
-{- ### Building strings -}
+{- ## Building strings -}
 
 foreign (<>) :: string -> string -> string
 {-
@@ -101,7 +101,7 @@ foreign reverse :: string -> string
 Reverse a string.
 -}
 
-{- ### Splitting and slicing -}
+{- ## Splitting and slicing -}
 
 foreign split :: string -> string -> list string
 {-
@@ -152,7 +152,7 @@ dropRight 2 "ahoy!" --> "aho"
 ```
 -}
 
-{- ### Formatting -}
+{- ## Formatting -}
 
 foreign toLower :: string -> string
 {-
@@ -185,7 +185,7 @@ trimRight " X " --> " X"
 ```
 -}
 
-{- ### Substring operations -}
+{- ## Substring operations -}
 
 foreign contains, startsWith, endsWith :: string -> string -> bool
 {-
@@ -216,7 +216,7 @@ replace "a" "z" "alphabetical" --> "zlphzbeticzl"
 ```
 -}
 
-{- ### String conversions -}
+{- ## String conversions -}
 
 foreign toInt :: string -> maybe int
 {-
@@ -256,7 +256,7 @@ foreign fromList :: list char -> string
 Convert a list of characters into a string.
 -}
 
-{- ### Listlike operations -}
+{- ## Listlike operations -}
 
 foreign cons :: char -> string -> string
 {-
