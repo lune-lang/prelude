@@ -7,12 +7,16 @@
 <a name="makeList"></a>
 #### val makeList
 ```
-:: [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil] -> list a
+:: [ Empty := void
+    ; Cons := { Head := a; Tail := list a; nil }
+    ; nil ] -> list a
 ```
 <a name="getList"></a>
 #### val getList
 ```
-:: list a -> [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil]
+:: list a -> [ Empty := void
+    ; Cons := { Head := a; Tail := list a; nil }
+    ; nil ]
 ```
 <a name="empty"></a>
 #### val empty

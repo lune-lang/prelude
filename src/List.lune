@@ -19,7 +19,10 @@ infix : right 20
 infix ++ right 60
 
 type list :: Type -> Type
-  where list a = [Empty := void; Cons := {Head := a; Tail := list a; nil}; nil]
+  where list a =
+    [ Empty := void
+    ; Cons := { Head := a; Tail := list a; nil }
+    ; nil ]
   with makeList, getList
 
 val empty :: any a. list a
