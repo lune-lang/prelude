@@ -161,7 +161,7 @@ Convert all the letters in a string to lowercase.
 
 foreign toUpper :: string -> string
 {-
-Convert all the letters in string to uppercase.
+Convert all the letters in a string to uppercase.
 -}
 
 val padLeft, padRight :: int -> string -> string
