@@ -22,7 +22,7 @@ Test if a string is empty.
 ```
 Get the length of a string.
 
-### Building strings 
+## Building strings 
 <a name="(<>)"></a>
 #### val (<>)
 ```
@@ -85,7 +85,7 @@ repeat 3 "abc" --> "abcabcabc"
 ```
 Reverse a string.
 
-### Splitting and slicing 
+## Splitting and slicing 
 <a name="split"></a>
 #### val split
 ```
@@ -144,7 +144,7 @@ dropLeft 2 "ahoy!"  --> "oy!"
 dropRight 2 "ahoy!" --> "aho"
 ```
 
-### Formatting 
+## Formatting 
 <a name="toLower"></a>
 #### val toLower
 ```
@@ -185,7 +185,7 @@ trimLeft " X "  --> "X "
 trimRight " X " --> " X"
 ```
 
-### Substring operations 
+## Substring operations 
 <a name="contains"></a>
 <a name="startsWith"></a>
 <a name="endsWith"></a>
@@ -220,7 +220,7 @@ Replace the given substring wherever it occurs.
 replace "a" "z" "alphabetical" --> "zlphzbeticzl"
 ```
 
-### String conversions 
+## String conversions 
 <a name="toInt"></a>
 #### val toInt
 ```
@@ -271,7 +271,7 @@ Convert a string into a list of characters.
 ```
 Convert a list of characters into a string.
 
-### Listlike operations 
+## Listlike operations 
 <a name="cons"></a>
 #### val cons
 ```
