@@ -1,5 +1,5 @@
 # module Prelude
-### Functions 
+## Functions 
 <a name="type-(->)"></a>
 #### type (->)
 ```
@@ -55,7 +55,7 @@ Right-to-left function composition. `f << g` performs `g` and then `f`.
 ```
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
 
-### Numeric types and conversions 
+## Numeric types and conversions 
 <a name="type-i"></a>
 #### type i
 ```
@@ -142,7 +142,7 @@ trunc 1.5  --> 1
 trunc -1.5 --> -1
 ```
 
-### Mathematical operations 
+## Mathematical operations 
 <a name="(+)"></a>
 <a name="(~)"></a>
 <a name="(*)"></a>
@@ -234,7 +234,7 @@ so `mod 2 10` is equal to 0.
 ```
 Floating-point division.
 
-### Rows 
+## Rows 
 A row is an unordered collection of types with labels attached to them.
 Rows are of the kind `Row`. They can be converted into normal types in two ways:
 * Surrounding a row in curly brackets creates a _record_ type,
@@ -311,7 +311,7 @@ void = {nil}
 The unit type. The only value of type `void` is the empty record, also
 denoted `void`.
 
-### Records 
+## Records 
 <a name="void"></a>
 #### val void
 ```
@@ -382,7 +382,7 @@ Apply the function on the left to the value on the right. The `;` operator
 is similar to [`$`](#($)), but has an even lower precedence and is typically
 used in records.
 
-### Variants 
+## Variants 
 <a name="(^)"></a>
 #### val (^)
 ```
@@ -470,7 +470,7 @@ val red :: color
 let red = only Red
 ```
 
-### Delayed computations 
+## Delayed computations 
 <a name="type-delay"></a>
 #### type delay
 ```
@@ -494,7 +494,7 @@ Force a delayed computation.
 Generalise a delayed computation, so you can apply it to any value
 instead of just [`void`](#void).
 
-### Pairs 
+## Pairs 
 <a name="type-(&)"></a>
 #### type (&)
 ```
@@ -510,7 +510,7 @@ records with a `First` field and a `Second` field.
 ```
 Construct a pair from two values.
 
-### Booleans 
+## Booleans 
 <a name="type-bool"></a>
 #### type bool
 ```
@@ -579,7 +579,7 @@ which could also be written as:
 let trunc x = if (x < 0) { ceil x } $ else (floor x)
 ```
 
-### Comparisons and predicates 
+## Comparisons and predicates 
 <a name="(==)"></a>
 #### val (==)
 ```

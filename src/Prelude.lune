@@ -54,7 +54,7 @@ infix ^ right 75
 infix << right 80
 infix >> left 80
 
-{- ### Functions -}
+{- ## Functions -}
 
 type (->) :: Type -> Type -> Type
 syntax (->) function-type
@@ -102,7 +102,7 @@ let (>>) g f x = f (g x)
 Left-to-right function composition. `f >> g` performs `f` and then `g`.
 -}
 
-{- ### Numeric types and conversions -}
+{- ## Numeric types and conversions -}
 
 type i :: Num
 type f :: Num
@@ -169,7 +169,7 @@ trunc -1.5 --> -1
 ```
 -}
 
-{- ### Mathematical operations -}
+{- ## Mathematical operations -}
 
 foreign (+), (~), (*) :: any x. num x -> num x -> num x
 {-
@@ -247,7 +247,7 @@ foreign (/) :: float -> float -> float
 Floating-point division.
 -}
 
-{- ### Rows -}
+{- ## Rows -}
 
 {-
 A row is an unordered collection of types with labels attached to them.
@@ -315,7 +315,7 @@ The unit type. The only value of type `void` is the empty record, also
 denoted `void`.
 -}
 
-{- ### Records -}
+{- ## Records -}
 
 foreign void :: void
 {-
@@ -376,7 +376,7 @@ is similar to [`$`](#($)), but has an even lower precedence and is typically
 used in records.
 -}
 
-{- ### Variants -}
+{- ## Variants -}
 
 foreign (^) :: any s a r. label s -> a -> [s := a; r]
 {-
@@ -456,7 +456,7 @@ let red = only Red
 ```
 -}
 
-{- ### Delayed computations -}
+{- ## Delayed computations -}
 
 type delay a = void -> a
 {-
@@ -477,7 +477,7 @@ Generalise a delayed computation, so you can apply it to any value
 instead of just [`void`](#void).
 -}
 
-{- ### Pairs -}
+{- ## Pairs -}
 
 type (&) a b = { First := a; Second := b; nil }
 {-
@@ -491,7 +491,7 @@ let (&) x y = First := x; Second := y; void
 Construct a pair from two values.
 -}
 
-{- ### Booleans -}
+{- ## Booleans -}
 
 type bool = [ True | False | nil ]
 {-
@@ -556,7 +556,7 @@ let trunc x = if (x < 0) { ceil x } $ else (floor x)
 ```
 -}
 
-{- ### Comparisons and predicates -}
+{- ## Comparisons and predicates -}
 
 foreign (==) :: any a. a -> a -> bool
 {-
