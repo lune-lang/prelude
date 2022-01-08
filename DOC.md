@@ -1490,7 +1490,7 @@ Convert all the letters in a string to lowercase.
 ```
 :: string -> string
 ```
-Convert all the letters in string to uppercase.
+Convert all the letters in a string to uppercase.
 
 <a name="String.padLeft"></a>
 <a name="String.padRight"></a>
