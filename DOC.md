@@ -1516,6 +1516,7 @@ Trim whitespace from the edge of a string.
 trim " X "      --> "X"
 trimLeft " X "  --> "X "
 trimRight " X " --> " X"
+```
 
 ### Substring operations 
 <a name="String.contains"></a>
