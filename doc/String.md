@@ -8,6 +8,7 @@ The type of strings. String literals are written with double quotes.
 Unlike in Haskell, strings are not lists of characters; they are
 actually strings.
 
+## Basic properties 
 <a name="isEmpty"></a>
 #### val isEmpty
 ```
@@ -314,7 +315,7 @@ head "invent" --> Just ^ 'i'
 ```
 :: string -> maybe string
 ```
-Get the trailing substring of a string.
+Remove the first character of a string.
 ```
 tail ""       --> nothing
 tail "invent" --> Just ^ "nvent"

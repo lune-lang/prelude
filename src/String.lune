@@ -31,6 +31,8 @@ Unlike in Haskell, strings are not lists of characters; they are
 actually strings.
 -}
 
+{- ## Basic properties -}
+
 val isEmpty :: string -> bool
 let isEmpty str = str == ""
 {-
@@ -291,7 +293,7 @@ head "invent" --> Just ^ 'i'
 val tail :: string -> maybe string
 let tail = deconstruct nothing do c str. Just ^ str
 {-
-Get the trailing substring of a string.
+Remove the first character of a string.
 ```
 tail ""       --> nothing
 tail "invent" --> Just ^ "nvent"
