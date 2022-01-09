@@ -1,6 +1,6 @@
 export
   type list, makeList, getList,
-  empty, (:), deconstruct, single,
+  empty, e, (:), deconstruct, single,
   isEmpty, length,
   head, tail, take, drop, get,
   (++), concat, concatMap, repeat, reverse, range,
@@ -37,6 +37,11 @@ val empty :: any a. list a
 let empty = makeList (only Empty)
 {-
 The empty list.
+-}
+
+expand e = empty
+{-
+An abbreviation for avoiding clutter.
 -}
 
 val (:) :: any a. a -> list a -> list a
@@ -81,8 +86,8 @@ let head = deconstruct nothing do x xs. Just ^ x
 {-
 Get the first element of a list.
 ```
-head empty               --> nothing
-head (1 : 3 : 6 : empty) --> Just ^ 1
+head empty          --> nothing
+head (1 : 3 : 6 :e) --> Just ^ 1
 ```
 -}
 
@@ -91,8 +96,8 @@ let tail = deconstruct nothing do x xs. Just ^ xs
 {-
 Remove the first element of a list.
 ```
-tail empty               --> nothing
-tail (1 : 3 : 6 : empty) --> Just ^ (3 : 6 : empty)
+tail empty          --> nothing
+tail (1 : 3 : 6 :e) --> Just ^ (3 : 6 :e)
 ```
 -}
 
@@ -103,7 +108,7 @@ let take n xs =
 {-
 Take the given number of elements from the start of a list.
 ```
-take 3 (1 : 1 : 2 : 3 : 5 : empty) --> 1 : 1 : 2 : empty
+take 3 (1 : 1 : 2 : 3 : 5 :e) --> 1 : 1 : 2 :e
 ```
 -}
 
@@ -114,7 +119,7 @@ let drop n xs =
 {-
 Remove the given number of elements from the start of a list.
 ```
-drop 2 ('x' : 'y' : 'z' : empty) --> 'z' : empty
+drop 2 ('x' : 'y' : 'z' :e) --> 'z' :e
 ```
 -}
 
@@ -128,7 +133,7 @@ let get n =
 Get the element at the given index. Return `nothing` if the index
 is out of range.
 ```
-get 2 (6 : 5 : 4 : 3 : empty) --> 4
+get 2 (6 : 5 : 4 : 3 :e) --> 4
 ```
 -}
 
@@ -139,8 +144,8 @@ let (++) xs ys = xs # deconstruct ys do x xt. x : xt ++ ys
 {-
 Concatenate two lists.
 ```
-(1 : 2 : 3 : empty) ++ (4 : 5 : 6 : empty)
-  --> 1 : 2 : 3 : 4 : 5 : 6 : empty
+(1 : 2 : 3 :e) ++ (4 : 5 : 6 :e)
+  --> 1 : 2 : 3 : 4 : 5 : 6 :e
 ```
 -}
 
@@ -149,8 +154,8 @@ let concat = foldRight (++) empty
 {-
 Concatenate a list of lists.
 ```
-concat ((1 : 2 : empty) : (3 : 4 : empty) : (5 : 6 : empty) : empty)
-  --> 1 : 2 : 3 : 4 : 5 : 6 : empty
+concat ((1 : 2 :e) : (3 : 4 :e) : (5 : 6 :e) :e)
+  --> 1 : 2 : 3 : 4 : 5 : 6 :e
 ```
 -}
 
@@ -167,7 +172,7 @@ let repeat n x =
 {-
 Repeat an element the given number of times.
 ```
-repeat 4 "ok" --> "ok" : "ok" : "ok" : "ok" : empty
+repeat 4 "ok" --> "ok" : "ok" : "ok" : "ok" :e
 ```
 -}
 
@@ -185,7 +190,7 @@ let range m n =
 Create a range of consecutive integers, given a starting value
 (inclusive), and an ending value (exclusive).
 ```
-range 4 9 --> 4 : 5 : 6 : 7 : 8 : empty
+range 4 9 --> 4 : 5 : 6 : 7 : 8 :e
 ```
 -}
 
@@ -206,7 +211,7 @@ let find = findN 0
 {-
 Find every index where the given element occurs.
 ```
-find 0 (0 : 1 : 4 : 0 : 2 : empty) --> 0 : 3 : empty
+find 0 (0 : 1 : 4 : 0 : 2 :e) --> 0 : 3 :e
 ```
 -}
 
@@ -223,7 +228,7 @@ let map f = deconstruct empty do x xs. f x : map f xs
 {-
 Apply a function to each element in a list.
 ```
-map (+ 10) (0 : 2 : 1 : empty) --> 10 : 12 : 11 : empty
+map (+ 10) (0 : 2 : 1 :e) --> 10 : 12 : 11 :e
 ```
 -}
 
@@ -246,7 +251,7 @@ let mapResult f = def
 Apply a function to each element in a list,
 and collect the successful results.
 ```
-mapResult String.toInt ("12" : "abc" : "3" : empty) --> 12 : 3 : empty
+mapResult String.toInt ("12" : "abc" : "3" :e) --> 12 : 3 :e
 ```
 -}
 
@@ -270,7 +275,7 @@ let filter f = def
 {-
 Keep only the elements of a list that pass the given predicate.
 ```
-filter (> 0) (-2 : 5 : 3 : -3 : empty) --> 5 : 3 : empty
+filter (> 0) (-2 : 5 : 3 : -3 :e) --> 5 : 3 :e
 ```
 -}
 
@@ -288,9 +293,9 @@ let partition f = def
 Partition the elements of a list based on whether they pass
 the given predicate.
 ```
-partition (> 0) (-2 : 5 : 3 : -3 : empty)
-  --> Pass := (5 : 3 : empty)
-    ; Fail := (-2 : -3 : empty)
+partition (> 0) (-2 : 5 : 3 : -3 :e)
+  --> Pass := (5 : 3 :e)
+    ; Fail := (-2 : -3 :e)
     ; unit
 ```
 -}
@@ -302,7 +307,7 @@ let count f = def
 {-
 Find the number of elements in a list that pass the given predicate.
 ```
-count (> 0) (-2 : 5 : 3 : -3 : empty) --> 2
+count (> 0) (-2 : 5 : 3 : -3 :e) --> 2
 ```
 -}
 
@@ -313,10 +318,10 @@ let some f =
 {-
 Test if at least one of the elements passes the given predicate.
 ```
-some (> 0) empty            --> false
-some (> 0) (-1 : empty)     --> false
-some (> 0) (-1 : 1 : empty) --> true
-some (> 0) (1 : empty)      --> true
+some (> 0) empty       --> false
+some (> 0) (-1 :e)     --> false
+some (> 0) (-1 : 1 :e) --> true
+some (> 0) (1 :e)      --> true
 ```
 -}
 
@@ -327,10 +332,10 @@ let all f =
 {-
 Test if all of the elements pass the given predicate.
 ```
-all (> 0) empty            --> true
-all (> 0) (-1 : empty)     --> false
-all (> 0) (-1 : 1 : empty) --> false
-all (> 0) (1 : empty)      --> true
+all (> 0) empty       --> true
+all (> 0) (-1 :e)     --> false
+all (> 0) (-1 : 1 :e) --> false
+all (> 0) (1 :e)      --> true
 ```
 -}
 
@@ -342,7 +347,7 @@ let foldLeft f n =
     foldLeft f (f x n) xs
 {-
 Fold a function over a list, starting with the first element.
-`foldLeft f x (0 : 1 : 2 : empty)` is equivalent to
+`foldLeft f x (0 : 1 : 2 :e)` is equivalent to
 `x # f 0 # f 1 # f 2`.
 -}
 
@@ -352,7 +357,7 @@ let foldRight f n =
     f x (foldRight f n xs)
 {-
 Fold a function over a list, starting with the last element.
-`foldRight f x (0 : 1 : 2 : empty)` is equivalent to
+`foldRight f x (0 : 1 : 2 :e)` is equivalent to
 `f 0 $ f 1 $ f 2 $ x`
 -}
 
@@ -385,8 +390,8 @@ let sortBy f =
 Sort a list, but apply the given function to each
 element before comparing them.
 ```
-sortBy String.length ("hello" : "hi" : "hey" : empty)
-  --> "hi" : "hey" : "hello" : empty
+sortBy String.length ("hello" : "hi" : "hey" :e)
+  --> "hi" : "hey" : "hello" :e
 ```
 -}
 
@@ -419,8 +424,8 @@ let map2 f xs = apply (map f xs)
 Map a binary function over two lists by applying it
 to every combination of arguments.
 ```
-map2 (+) (1.2 : 2.4 : empty) (0 : 10 : 20 : empty)
-  --> 1.2 : 2.4 : 11.2 : 12.4 : 21.2 : 22.4 : empty
+map2 (+) (1.2 : 2.4 :e) (0 : 10 : 20 :e)
+  --> 1.2 : 2.4 : 11.2 : 12.4 : 21.2 : 22.4 :e
 ```
 -}
 
@@ -476,8 +481,8 @@ let zip2 f xs = zipApply (map f xs)
 Map a binary function over two lists by applying it
 to pairs of corresponding elements.
 ```
-zip2 (+) (1.2 : 2.4 : empty) (0 : 10 : 20 : empty)
-  --> 1.2 : 12.4 : empty
+zip2 (+) (1.2 : 2.4 :e) (0 : 10 : 20 :e)
+  --> 1.2 : 12.4 :e
 ```
 -}
 

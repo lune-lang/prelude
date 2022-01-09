@@ -59,7 +59,7 @@ let concat = List.foldRight (<>) ""
 {-
 Concatenate a list of strings.
 ```
-concat ("for" : " " : "example" : empty) --> "for example"
+concat ("for" : " " : "example" :e) --> "for example"
 ```
 -}
 
@@ -78,7 +78,7 @@ let join sep = def
 {-
 Join a list of strings with the given separator.
 ```
-join ", " ("1" : "2" : "3" : empty) --> "1, 2, 3"
+join ", " ("1" : "2" : "3" :e) --> "1, 2, 3"
 ```
 -}
 
@@ -109,7 +109,7 @@ foreign split :: string -> string -> list string
 {-
 Split a string into a list using the given separator.
 ```
-split "," "56,1,7" --> "56" : "1" : "7" : empty
+split "," "56,1,7" --> "56" : "1" : "7" :e
 ```
 -}
 
@@ -117,8 +117,8 @@ foreign words, lines :: string -> list string
 {-
 Split a string into a list of words or lines.
 ```
-words "a \nweird string" --> "a" : "weird" : "string" : empty
-lines "a \nweird string" --> "a " : "weird string" : empty
+words "a \nweird string" --> "a" : "weird" : "string" :e
+lines "a \nweird string" --> "a " : "weird string" :e
 ```
 -}
 
@@ -206,7 +206,7 @@ let find sub str = def
 {-
 Find every index where the given substring occurs.
 ```
-find "al" "alphabetical" --> 0 : 10 : empty
+find "al" "alphabetical" --> 0 : 10 :e
 ```
 -}
 
