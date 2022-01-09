@@ -22,7 +22,7 @@ Square or cube a number.
 
 foreign sqrt, cbrt :: float -> float
 {-
-Take the square or cube root of a float.
+Take the square root or cube root of a float.
 -}
 
 foreign exp :: float -> float

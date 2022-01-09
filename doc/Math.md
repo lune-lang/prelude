@@ -14,7 +14,7 @@ Square or cube a number.
 ```
 :: float -> float
 ```
-Take the square or cube root of a float.
+Take the square root or cube root of a float.
 
 <a name="exp"></a>
 #### val exp
