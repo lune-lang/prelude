@@ -41,7 +41,7 @@ Concatenate two strings.
 ```
 Concatenate a list of strings.
 ```
-concat ("for" : " " : "example" : empty) --> "for example"
+concat ("for" : " " : "example" :e) --> "for example"
 ```
 
 <a name="concatMap"></a>
@@ -58,7 +58,7 @@ Apply a function to each element of a list, and concatenate the results.
 ```
 Join a list of strings with the given separator.
 ```
-join ", " ("1" : "2" : "3" : empty) --> "1, 2, 3"
+join ", " ("1" : "2" : "3" :e) --> "1, 2, 3"
 ```
 
 <a name="joinMap"></a>
@@ -94,7 +94,7 @@ Reverse a string.
 ```
 Split a string into a list using the given separator.
 ```
-split "," "56,1,7" --> "56" : "1" : "7" : empty
+split "," "56,1,7" --> "56" : "1" : "7" :e
 ```
 
 <a name="words"></a>
@@ -105,8 +105,8 @@ split "," "56,1,7" --> "56" : "1" : "7" : empty
 ```
 Split a string into a list of words or lines.
 ```
-words "a \nweird string" --> "a" : "weird" : "string" : empty
-lines "a \nweird string" --> "a " : "weird string" : empty
+words "a \nweird string" --> "a" : "weird" : "string" :e
+lines "a \nweird string" --> "a " : "weird string" :e
 ```
 
 <a name="slice"></a>
@@ -208,7 +208,7 @@ endsWith "mon" "monoid"   --> false
 ```
 Find every index where the given substring occurs.
 ```
-find "al" "alphabetical" --> 0 : 10 : empty
+find "al" "alphabetical" --> 0 : 10 :e
 ```
 
 <a name="replace"></a>

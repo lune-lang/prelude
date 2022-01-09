@@ -31,6 +31,13 @@ normal records/variants, but this is rarely necessary.
 ```
 The empty list.
 
+<a name="e"></a>
+#### expand e
+```
+e = empty
+```
+An abbreviation for avoiding clutter.
+
 <a name="(:)"></a>
 #### val (:)
 ```
@@ -79,8 +86,8 @@ Get the length of a list.
 ```
 Get the first element of a list.
 ```
-head empty               --> nothing
-head (1 : 3 : 6 : empty) --> Just ^ 1
+head empty          --> nothing
+head (1 : 3 : 6 :e) --> Just ^ 1
 ```
 
 <a name="tail"></a>
@@ -90,8 +97,8 @@ head (1 : 3 : 6 : empty) --> Just ^ 1
 ```
 Remove the first element of a list.
 ```
-tail empty               --> nothing
-tail (1 : 3 : 6 : empty) --> Just ^ (3 : 6 : empty)
+tail empty          --> nothing
+tail (1 : 3 : 6 :e) --> Just ^ (3 : 6 :e)
 ```
 
 <a name="take"></a>
@@ -101,7 +108,7 @@ tail (1 : 3 : 6 : empty) --> Just ^ (3 : 6 : empty)
 ```
 Take the given number of elements from the start of a list.
 ```
-take 3 (1 : 1 : 2 : 3 : 5 : empty) --> 1 : 1 : 2 : empty
+take 3 (1 : 1 : 2 : 3 : 5 :e) --> 1 : 1 : 2 :e
 ```
 
 <a name="drop"></a>
@@ -111,7 +118,7 @@ take 3 (1 : 1 : 2 : 3 : 5 : empty) --> 1 : 1 : 2 : empty
 ```
 Remove the given number of elements from the start of a list.
 ```
-drop 2 ('x' : 'y' : 'z' : empty) --> 'z' : empty
+drop 2 ('x' : 'y' : 'z' :e) --> 'z' :e
 ```
 
 <a name="get"></a>
@@ -122,7 +129,7 @@ drop 2 ('x' : 'y' : 'z' : empty) --> 'z' : empty
 Get the element at the given index. Return `nothing` if the index
 is out of range.
 ```
-get 2 (6 : 5 : 4 : 3 : empty) --> 4
+get 2 (6 : 5 : 4 : 3 :e) --> 4
 ```
 
 ## Building lists 
@@ -133,8 +140,8 @@ get 2 (6 : 5 : 4 : 3 : empty) --> 4
 ```
 Concatenate two lists.
 ```
-(1 : 2 : 3 : empty) ++ (4 : 5 : 6 : empty)
-  --> 1 : 2 : 3 : 4 : 5 : 6 : empty
+(1 : 2 : 3 :e) ++ (4 : 5 : 6 :e)
+  --> 1 : 2 : 3 : 4 : 5 : 6 :e
 ```
 
 <a name="concat"></a>
@@ -144,8 +151,8 @@ Concatenate two lists.
 ```
 Concatenate a list of lists.
 ```
-concat ((1 : 2 : empty) : (3 : 4 : empty) : (5 : 6 : empty) : empty)
-  --> 1 : 2 : 3 : 4 : 5 : 6 : empty
+concat ((1 : 2 :e) : (3 : 4 :e) : (5 : 6 :e) :e)
+  --> 1 : 2 : 3 : 4 : 5 : 6 :e
 ```
 
 <a name="concatMap"></a>
@@ -162,7 +169,7 @@ Apply a function to each element of a list, and concatenate the results.
 ```
 Repeat an element the given number of times.
 ```
-repeat 4 "ok" --> "ok" : "ok" : "ok" : "ok" : empty
+repeat 4 "ok" --> "ok" : "ok" : "ok" : "ok" :e
 ```
 
 <a name="reverse"></a>
@@ -180,7 +187,7 @@ Reverse a list.
 Create a range of consecutive integers, given a starting value
 (inclusive), and an ending value (exclusive).
 ```
-range 4 9 --> 4 : 5 : 6 : 7 : 8 : empty
+range 4 9 --> 4 : 5 : 6 : 7 : 8 :e
 ```
 
 ## Lookup operations 
@@ -202,7 +209,7 @@ contains 3 (range 5 10) --> false
 ```
 Find every index where the given element occurs.
 ```
-find 0 (0 : 1 : 4 : 0 : 2 : empty) --> 0 : 3 : empty
+find 0 (0 : 1 : 4 : 0 : 2 :e) --> 0 : 3 :e
 ```
 
 ## Mapping 
@@ -213,7 +220,7 @@ find 0 (0 : 1 : 4 : 0 : 2 : empty) --> 0 : 3 : empty
 ```
 Apply a function to each element in a list.
 ```
-map (+ 10) (0 : 2 : 1 : empty) --> 10 : 12 : 11 : empty
+map (+ 10) (0 : 2 : 1 :e) --> 10 : 12 : 11 :e
 ```
 
 <a name="mapIndex"></a>
@@ -231,7 +238,7 @@ Apply a function to each index-element pair in a list.
 Apply a function to each element in a list,
 and collect the successful results.
 ```
-mapResult String.toInt ("12" : "abc" : "3" : empty) --> 12 : 3 : empty
+mapResult String.toInt ("12" : "abc" : "3" :e) --> 12 : 3 :e
 ```
 
 <a name="separate"></a>
@@ -249,7 +256,7 @@ Separate a list of pairs into a pair of lists.
 ```
 Keep only the elements of a list that pass the given predicate.
 ```
-filter (> 0) (-2 : 5 : 3 : -3 : empty) --> 5 : 3 : empty
+filter (> 0) (-2 : 5 : 3 : -3 :e) --> 5 : 3 :e
 ```
 
 <a name="partition"></a>
@@ -265,9 +272,9 @@ filter (> 0) (-2 : 5 : 3 : -3 : empty) --> 5 : 3 : empty
 Partition the elements of a list based on whether they pass
 the given predicate.
 ```
-partition (> 0) (-2 : 5 : 3 : -3 : empty)
-  --> Pass := (5 : 3 : empty)
-    ; Fail := (-2 : -3 : empty)
+partition (> 0) (-2 : 5 : 3 : -3 :e)
+  --> Pass := (5 : 3 :e)
+    ; Fail := (-2 : -3 :e)
     ; unit
 ```
 
@@ -278,7 +285,7 @@ partition (> 0) (-2 : 5 : 3 : -3 : empty)
 ```
 Find the number of elements in a list that pass the given predicate.
 ```
-count (> 0) (-2 : 5 : 3 : -3 : empty) --> 2
+count (> 0) (-2 : 5 : 3 : -3 :e) --> 2
 ```
 
 <a name="some"></a>
@@ -288,10 +295,10 @@ count (> 0) (-2 : 5 : 3 : -3 : empty) --> 2
 ```
 Test if at least one of the elements passes the given predicate.
 ```
-some (> 0) empty            --> false
-some (> 0) (-1 : empty)     --> false
-some (> 0) (-1 : 1 : empty) --> true
-some (> 0) (1 : empty)      --> true
+some (> 0) empty       --> false
+some (> 0) (-1 :e)     --> false
+some (> 0) (-1 : 1 :e) --> true
+some (> 0) (1 :e)      --> true
 ```
 
 <a name="all"></a>
@@ -301,10 +308,10 @@ some (> 0) (1 : empty)      --> true
 ```
 Test if all of the elements pass the given predicate.
 ```
-all (> 0) empty            --> true
-all (> 0) (-1 : empty)     --> false
-all (> 0) (-1 : 1 : empty) --> false
-all (> 0) (1 : empty)      --> true
+all (> 0) empty       --> true
+all (> 0) (-1 :e)     --> false
+all (> 0) (-1 : 1 :e) --> false
+all (> 0) (1 :e)      --> true
 ```
 
 ## Folds 
@@ -314,7 +321,7 @@ all (> 0) (1 : empty)      --> true
 :: any a b. (a -> b -> b) -> b -> list a -> b
 ```
 Fold a function over a list, starting with the first element.
-`foldLeft f x (0 : 1 : 2 : empty)` is equivalent to
+`foldLeft f x (0 : 1 : 2 :e)` is equivalent to
 `x # f 0 # f 1 # f 2`.
 
 <a name="foldRight"></a>
@@ -323,7 +330,7 @@ Fold a function over a list, starting with the first element.
 :: any a b. (a -> b -> b) -> b -> list a -> b
 ```
 Fold a function over a list, starting with the last element.
-`foldRight f x (0 : 1 : 2 : empty)` is equivalent to
+`foldRight f x (0 : 1 : 2 :e)` is equivalent to
 `f 0 $ f 1 $ f 2 $ x`
 
 <a name="sum"></a>
@@ -356,8 +363,8 @@ Sort a list.
 Sort a list, but apply the given function to each
 element before comparing them.
 ```
-sortBy String.length ("hello" : "hi" : "hey" : empty)
-  --> "hi" : "hey" : "hello" : empty
+sortBy String.length ("hello" : "hi" : "hey" :e)
+  --> "hi" : "hey" : "hello" :e
 ```
 
 <a name="sortWith"></a>
@@ -388,8 +395,8 @@ and collects the results.
 Map a binary function over two lists by applying it
 to every combination of arguments.
 ```
-map2 (+) (1.2 : 2.4 : empty) (0 : 10 : 20 : empty)
-  --> 1.2 : 2.4 : 11.2 : 12.4 : 21.2 : 22.4 : empty
+map2 (+) (1.2 : 2.4 :e) (0 : 10 : 20 :e)
+  --> 1.2 : 2.4 : 11.2 : 12.4 : 21.2 : 22.4 :e
 ```
 
 <a name="map3"></a>
@@ -440,8 +447,8 @@ value in `xs`, and collects the results.
 Map a binary function over two lists by applying it
 to pairs of corresponding elements.
 ```
-zip2 (+) (1.2 : 2.4 : empty) (0 : 10 : 20 : empty)
-  --> 1.2 : 12.4 : empty
+zip2 (+) (1.2 : 2.4 :e) (0 : 10 : 20 :e)
+  --> 1.2 : 12.4 :e
 ```
 
 <a name="zip3"></a>
