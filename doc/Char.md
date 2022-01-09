@@ -46,9 +46,11 @@ Detect characters in the general subcategory Lu (uppercase letter).
 :: char -> bool
 ```
 Detect letters in the extended latin alphabet.
+```
 isLatin 'q' --> true
 isLatin 'ß' --> true
 isLatin 'λ' --> false
+```
 
 <a name="isEnglish"></a>
 #### val isEnglish
