@@ -17,13 +17,13 @@ foreign apply :: any a b. io (a -> b) -> io a -> io b
 
 foreign bind :: any a b. (a -> io b) -> io a -> io b
 
-val then :: any a. io a -> io void -> io a
+val then :: any a. io a -> io unit -> io a
 let then act2 act1 = act1 # bind { act2 }
 
 foreign pure :: any a. a -> io a
 
-val none :: io void
-let none = pure void
+val none :: io unit
+let none = pure unit
 
 val map2
   :: any a1 a2 a3

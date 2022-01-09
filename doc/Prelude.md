@@ -267,7 +267,7 @@ along with the type `float` to the row `r`, you can write `X := float; r`.
 <a name="type-(|)"></a>
 #### type (|)
 ```
-(|) s = s := void
+(|) s = s := unit
 ```
 Add a label to a row, along with the unit type. This is useful in variants
 where one of the states has no associated data.
@@ -303,19 +303,19 @@ syntactic sugar for `Prelude.variant r`.
 In Lune, labels are first-class values. The expression-level label
 `X` has the type `label X`.
 
-<a name="type-void"></a>
-#### type void
+<a name="type-unit"></a>
+#### type unit
 ```
-void = {nil}
+unit = {nil}
 ```
-The unit type. The only value of type `void` is the empty record, also
-denoted `void`.
+The unit type. The only value of type `unit` is the empty record, also
+denoted `unit`.
 
 ## Records 
-<a name="void"></a>
-#### val void
+<a name="unit"></a>
+#### val unit
 ```
-:: void
+:: unit
 ```
 The empty record.
 
@@ -326,7 +326,7 @@ The empty record.
 ```
 Extract a value from a record.
 ```
-let person = Name := "Owen"; Age := 16; void
+let person = Name := "Owen"; Age := 16; unit
 Name ? person --> "Owen"
 Age ? person  --> 16
 ```
@@ -338,8 +338,8 @@ Age ? person  --> 16
 ```
 Delete a label and its associated value from a record.
 ```
-let person = Name := "Owen"; Age := 16; void
-delete Age person --> Name := "Owen"; void
+let person = Name := "Owen"; Age := 16; unit
+delete Age person --> Name := "Owen"; unit
 ```
 
 <a name="(:=)"></a>
@@ -358,8 +358,8 @@ along with the value `5` to the record `r`, you can write `X := 5; r`.
 ```
 Replace a value in a record.
 ```
-let person = Name := "Owen"; Age := 16; void
-Name != "Jack"; person --> Name := "Jack"; Age := 16; void
+let person = Name := "Owen"; Age := 16; unit
+Name != "Jack"; person --> Name := "Jack"; Age := 16; unit
 ```
 
 <a name="(#=)"></a>
@@ -369,8 +369,8 @@ Name != "Jack"; person --> Name := "Jack"; Age := 16; void
 ```
 Update a value in a record by applying the given function to it.
 ```
-let person = Name := "Owen"; Age := 16; void
-Age #= (+1); person --> Name := "Owen"; Age := 17; void
+let person = Name := "Owen"; Age := 16; unit
+Age #= (+1); person --> Name := "Owen"; Age := 17; unit
 ```
 
 <a name="(;)"></a>
@@ -393,7 +393,7 @@ type, so `X ^ 3.5` could have any of the following types:
 ```
 [ X := float; nil ]
 [ X := float; Y := float; nil ]
-[ X := float; Foo := list string; Qwerty := void; nil ]
+[ X := float; Foo := list string; Qwerty := unit; nil ]
 ...
 ```
 
@@ -462,7 +462,7 @@ let toInt =
 <a name="only"></a>
 #### val only
 ```
-:: any s r. label s -> [s := void; r]
+:: any s r. label s -> [s := unit; r]
 ```
 A label with no information attached to it.
 ```
@@ -474,10 +474,10 @@ let red = only Red
 <a name="type-delay"></a>
 #### type delay
 ```
-delay a = void -> a
+delay a = unit -> a
 ```
 A "delayed computation" is a function that takes no arguments. (More
-precisely, it takes a useless argument of type [`void`](#type-void).)
+precisely, it takes a useless argument of type [`unit`](#type-unit).)
 
 <a name="force"></a>
 #### val force
@@ -492,7 +492,7 @@ Force a delayed computation.
 :: any a b. delay a -> b -> a
 ```
 Generalise a delayed computation, so you can apply it to any value
-instead of just [`void`](#void).
+instead of just [`unit`](#unit).
 
 ## Pairs 
 <a name="type-(&)"></a>

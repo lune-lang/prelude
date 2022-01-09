@@ -20,7 +20,7 @@ infix ++ right 60
 
 type list :: Type -> Type
   where list a =
-    [ Empty := void
+    [ Empty := unit
     ; Cons := { Head := a; Tail := list a; nil }
     ; nil ]
   with makeList, getList
@@ -40,7 +40,7 @@ The empty list.
 -}
 
 val (:) :: any a. a -> list a -> list a
-let (:) x xs = makeList $ Cons ^ (Head := x; Tail := xs; void)
+let (:) x xs = makeList $ Cons ^ (Head := x; Tail := xs; unit)
 {-
 The "cons" operator. Attach a value to the start of a list.
 -}
@@ -74,7 +74,7 @@ let length = deconstruct 0 do x xs. 1 + length xs
 Get the length of a list.
 -}
 
-{- ## Slicing lists -}
+{- ## Slicing -}
 
 val head :: any a. list a -> maybe a
 let head = deconstruct nothing do x xs. Just ^ x
@@ -283,7 +283,7 @@ val partition
      ; nil }
 let partition f = def
   let add x xs = if (f x) { Pass #= (x :); xs } { Fail #= (x :); xs }
-  in foldRight add (Pass := empty; Fail := empty; void)
+  in foldRight add (Pass := empty; Fail := empty; unit)
 {-
 Partition the elements of a list based on whether they pass
 the given predicate.
@@ -291,7 +291,7 @@ the given predicate.
 partition (> 0) (-2 : 5 : 3 : -3 : empty)
   --> Pass := (5 : 3 : empty)
     ; Fail := (-2 : -3 : empty)
-    ; void
+    ; unit
 ```
 -}
 
@@ -313,10 +313,10 @@ let some f =
 {-
 Test if at least one of the elements passes the given predicate.
 ```
-some (> 0) empty             --> false
-some (> 0) (-1 : empty)      --> false
-some (> 0) (-1 : 1 : empty)  --> true
-some (> 0) (1 : empty)       --> true
+some (> 0) empty            --> false
+some (> 0) (-1 : empty)     --> false
+some (> 0) (-1 : 1 : empty) --> true
+some (> 0) (1 : empty)      --> true
 ```
 -}
 
@@ -327,10 +327,10 @@ let all f =
 {-
 Test if all of the elements pass the given predicate.
 ```
-all (> 0) empty             --> true
-all (> 0) (-1 : empty)      --> false
-all (> 0) (-1 : 1 : empty)  --> false
-all (> 0) (1 : empty)       --> true
+all (> 0) empty            --> true
+all (> 0) (-1 : empty)     --> false
+all (> 0) (-1 : 1 : empty) --> false
+all (> 0) (1 : empty)      --> true
 ```
 -}
 

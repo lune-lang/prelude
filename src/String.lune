@@ -351,12 +351,12 @@ val partition
      ; nil }
 let partition f = def
   let add c str = if (f c) { Pass #= cons c; str } { Fail #= cons c; str }
-  in foldRight add (Pass := ""; Fail := ""; void)
+  in foldRight add (Pass := ""; Fail := ""; unit)
 {-
 Partition the characters in a string based on whether they pass
 the given predicate.
 ```
-partition Char.isUpper "LaTeX" --> Pass := "LTX"; Fail := "ae"; void
+partition Char.isUpper "LaTeX" --> Pass := "LTX"; Fail := "ae"; unit
 ```
 -}
 

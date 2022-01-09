@@ -7,7 +7,7 @@ result e a = [Error := e; Just := a; nil]
 <a name="type-maybe"></a>
 #### type maybe
 ```
-maybe a = result void a
+maybe a = result unit a
 ```
 <a name="nothing"></a>
 #### val nothing

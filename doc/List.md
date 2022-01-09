@@ -7,14 +7,14 @@
 <a name="makeList"></a>
 #### val makeList
 ```
-:: [ Empty := void
+:: [ Empty := unit
     ; Cons := { Head := a; Tail := list a; nil }
     ; nil ] -> list a
 ```
 <a name="getList"></a>
 #### val getList
 ```
-:: list a -> [ Empty := void
+:: list a -> [ Empty := unit
     ; Cons := { Head := a; Tail := list a; nil }
     ; nil ]
 ```
@@ -71,7 +71,7 @@ Test if a list is empty.
 ```
 Get the length of a list.
 
-## Slicing lists 
+## Slicing 
 <a name="head"></a>
 #### val head
 ```
@@ -268,7 +268,7 @@ the given predicate.
 partition (> 0) (-2 : 5 : 3 : -3 : empty)
   --> Pass := (5 : 3 : empty)
     ; Fail := (-2 : -3 : empty)
-    ; void
+    ; unit
 ```
 
 <a name="count"></a>
@@ -288,10 +288,10 @@ count (> 0) (-2 : 5 : 3 : -3 : empty) --> 2
 ```
 Test if at least one of the elements passes the given predicate.
 ```
-some (> 0) empty             --> false
-some (> 0) (-1 : empty)      --> false
-some (> 0) (-1 : 1 : empty)  --> true
-some (> 0) (1 : empty)       --> true
+some (> 0) empty            --> false
+some (> 0) (-1 : empty)     --> false
+some (> 0) (-1 : 1 : empty) --> true
+some (> 0) (1 : empty)      --> true
 ```
 
 <a name="all"></a>
@@ -301,10 +301,10 @@ some (> 0) (1 : empty)       --> true
 ```
 Test if all of the elements pass the given predicate.
 ```
-all (> 0) empty             --> true
-all (> 0) (-1 : empty)      --> false
-all (> 0) (-1 : 1 : empty)  --> false
-all (> 0) (1 : empty)       --> true
+all (> 0) empty            --> true
+all (> 0) (-1 : empty)     --> false
+all (> 0) (-1 : 1 : empty) --> false
+all (> 0) (1 : empty)      --> true
 ```
 
 ## Folds 

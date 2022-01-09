@@ -126,7 +126,7 @@ Prelude["/"] = function(x) {
   };
 };
 
-Prelude["void"] = {};
+Prelude["unit"] = {};
 
 Prelude["?"] = function(label) {
   return function(struct) {

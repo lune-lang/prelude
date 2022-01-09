@@ -17,12 +17,12 @@ program st a = st -> io { Set := st; Return := a; nil }
 <a name="put"></a>
 #### val put
 ```
-:: any st. st -> program st void
+:: any st. st -> program st unit
 ```
 <a name="modify"></a>
 #### val modify
 ```
-:: any st. (st -> st) -> program st void
+:: any st. (st -> st) -> program st unit
 ```
 <a name="map"></a>
 #### val map
@@ -42,7 +42,7 @@ program st a = st -> io { Set := st; Return := a; nil }
 <a name="then"></a>
 #### val then
 ```
-:: any st a. program st a -> program st void -> program st a
+:: any st a. program st a -> program st unit -> program st a
 ```
 <a name="run"></a>
 #### val run
@@ -62,7 +62,7 @@ program st a = st -> io { Set := st; Return := a; nil }
 <a name="none"></a>
 #### val none
 ```
-:: any st. program st void
+:: any st. program st unit
 ```
 <a name="map2"></a>
 #### val map2

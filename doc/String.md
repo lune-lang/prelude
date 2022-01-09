@@ -369,7 +369,7 @@ filter Char.isUpper "John Quincy Adams" --> "JQA"
 Partition the characters in a string based on whether they pass
 the given predicate.
 ```
-partition Char.isUpper "LaTeX" --> Pass := "LTX"; Fail := "ae"; void
+partition Char.isUpper "LaTeX" --> Pass := "LTX"; Fail := "ae"; unit
 ```
 
 <a name="count"></a>

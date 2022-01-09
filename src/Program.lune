@@ -16,13 +16,13 @@ val get :: any st. program st st
 let get = getBy identity
 
 val getBy :: any st a. (st -> a) -> program st a
-let getBy f state = IO.pure (Set := state; Return := f state; void)
+let getBy f state = IO.pure (Set := state; Return := f state; unit)
 
-val put :: any st. st -> program st void
+val put :: any st. st -> program st unit
 let put state = modify {state}
 
-val modify :: any st. (st -> st) -> program st void
-let modify f state = IO.pure (Set := f state; Return := void; void)
+val modify :: any st. (st -> st) -> program st unit
+let modify f state = IO.pure (Set := f state; Return := unit; unit)
 
 val map :: any st a b. (a -> b) -> program st a -> program st b
 let map f act state = IO.map (Return #= f) (act state)
@@ -38,7 +38,7 @@ let bind f act state =
   act state # IO.bind do result.
   f (Return ? result) (Set ? result)
 
-val then :: any st a. program st a -> program st void -> program st a
+val then :: any st a. program st a -> program st unit -> program st a
 let then act2 act1 = act1 # bind { act2 }
 
 val run :: any st a. st -> program st a -> io a
@@ -46,13 +46,13 @@ let run state act = IO.map (Return ?) (act state)
 
 val fromIO :: any st a. io a -> program st a
 let fromIO act state = act # IO.map do x.
-  Set := state; Return := x; void
+  Set := state; Return := x; unit
 
 val pure :: any st a. a -> program st a
 let pure = fromIO << IO.pure
 
-val none :: any st. program st void
-let none = pure void
+val none :: any st. program st unit
+let none = pure unit
 
 val map2
   :: any st a1 a2 a3

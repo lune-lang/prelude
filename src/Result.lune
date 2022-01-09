@@ -11,7 +11,7 @@ import Variant
 
 type result e a = [Error := e; Just := a; nil]
 
-type maybe a = result void a
+type maybe a = result unit a
 
 val nothing :: any a. maybe a
 let nothing = only Error

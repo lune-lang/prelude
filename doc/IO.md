@@ -22,7 +22,7 @@
 <a name="then"></a>
 #### val then
 ```
-:: any a. io a -> io void -> io a
+:: any a. io a -> io unit -> io a
 ```
 <a name="pure"></a>
 #### val pure
@@ -32,7 +32,7 @@
 <a name="none"></a>
 #### val none
 ```
-:: io void
+:: io unit
 ```
 <a name="map2"></a>
 #### val map2
