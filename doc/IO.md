@@ -78,8 +78,8 @@ Do nothing and return `unit`.
   -> io a2
   -> io a3
 ```
-Map a binary function over two actions by applying the
-function to the results.
+Map a binary function over two actions by applying it
+to the results.
 
 <a name="map3"></a>
 #### val map3
@@ -91,8 +91,8 @@ function to the results.
   -> io a3
   -> io a4
 ```
-Map a three-argument function over three actions by applying the
-function to the results.
+Map a three-argument function over three actions by applying it
+to the results.
 
 <a name="map4"></a>
 #### val map4
@@ -105,8 +105,8 @@ function to the results.
   -> io a4
   -> io a5
 ```
-Map a four-argument function over four actions by applying the
-function to the results.
+Map a four-argument function over four actions by applying it
+to the results.
 
 ## Sequencing actions 
 <a name="sequence"></a>

@@ -80,8 +80,8 @@ val map2
   -> io a3
 let map2 f act = apply (map f act)
 {-
-Map a binary function over two actions by applying the
-function to the results.
+Map a binary function over two actions by applying it
+to the results.
 -}
 
 val map3
@@ -93,8 +93,8 @@ val map3
   -> io a4
 let map3 f act1 act2 = apply (map2 f act1 act2)
 {-
-Map a three-argument function over three actions by applying the
-function to the results.
+Map a three-argument function over three actions by applying it
+to the results.
 -}
 
 val map4
@@ -107,8 +107,8 @@ val map4
   -> io a5
 let map4 f act1 act2 act3 = apply (map3 f act1 act2 act3)
 {-
-Map a four-argument function over four actions by applying the
-function to the results.
+Map a four-argument function over four actions by applying it
+to the results.
 -}
 
 {- ## Sequencing actions -}
