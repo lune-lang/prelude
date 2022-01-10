@@ -53,6 +53,7 @@ names the result `x`, and then performs `j`.
 ```
 `i # then j` is an action that performs `i` and then performs `j`.
 
+## Pure actions 
 <a name="pure"></a>
 #### val pure
 ```

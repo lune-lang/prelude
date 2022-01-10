@@ -57,6 +57,8 @@ let then act2 act1 = act1 # bind { act2 }
 `i # then j` is an action that performs `i` and then performs `j`.
 -}
 
+{- ## Pure actions -}
+
 foreign pure :: any a. a -> io a
 {-
 Do nothing and return the given value.
