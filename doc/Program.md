@@ -4,26 +4,44 @@
 ```
 program st a = st -> io { Set := st; Return := a; nil }
 ```
+`program st a` is similar to [`io a`](IO.md), but has access
+to a state of type `st`.
+
+Note: this is not a general library for working with state.
+Do not use the `program` type for functions without side effects.
+
+## State manipulation 
 <a name="get"></a>
 #### val get
 ```
 :: any st. program st st
 ```
+Get the current state.
+
 <a name="getBy"></a>
 #### val getBy
 ```
 :: any st a. (st -> a) -> program st a
 ```
+Get the current state and apply a function to it.
+For example, if the state is stored as record, and you want
+to retrieve only the `User` field, you can use `getBy (User ?)`.
+
 <a name="put"></a>
 #### val put
 ```
 :: any st. st -> program st unit
 ```
+Replace the current state with a new one.
+
 <a name="modify"></a>
 #### val modify
 ```
 :: any st. (st -> st) -> program st unit
 ```
+Modify the state by applying a function to it.
+
+## Mapping 
 <a name="map"></a>
 #### val map
 ```

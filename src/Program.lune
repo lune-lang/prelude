@@ -11,18 +11,43 @@ import List exposing type list, (:), empty
 import IO exposing type io
 
 type program st a = st -> io { Set := st; Return := a; nil }
+{-
+`program st a` is similar to [`io a`](IO.md), but has access
+to a state of type `st`.
+
+Note: this is not a general library for working with state.
+Do not use the `program` type for functions without side effects.
+-}
+
+{- ## State manipulation -}
 
 val get :: any st. program st st
 let get = getBy identity
+{-
+Get the current state.
+-}
 
 val getBy :: any st a. (st -> a) -> program st a
 let getBy f state = IO.pure (Set := state; Return := f state; unit)
+{-
+Get the current state and apply a function to it.
+For example, if the state is stored as record, and you want
+to retrieve only the `User` field, you can use `getBy (User ?)`.
+-}
 
 val put :: any st. st -> program st unit
 let put state = modify {state}
+{-
+Replace the current state with a new one.
+-}
 
 val modify :: any st. (st -> st) -> program st unit
 let modify f state = IO.pure (Set := f state; Return := unit; unit)
+{-
+Modify the state by applying a function to it.
+-}
+
+{- ## Mapping -}
 
 val map :: any st a b. (a -> b) -> program st a -> program st b
 let map f act state = IO.map (Return #= f) (act state)

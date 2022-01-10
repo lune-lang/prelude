@@ -15,9 +15,9 @@ In Lune, any value that causes side effects is wrapped in the
 
 ## Mapping 
 There are three ways to convert an `io a` into an `io b`.
-* with a function of type `a -> b` (`map`)
-* with an action of type `io (a -> b)` (`apply`)
-* with a function of type `a -> io b` (`bind`)
+* with a function of type `a -> b` ([`map`](#map))
+* with an action of type `io (a -> b)` ([`apply`](#apply))
+* with a function of type `a -> io b` ([`bind`](#bind))
 
 Of these, `bind` is the most general.
 
