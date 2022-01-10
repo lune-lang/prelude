@@ -12,7 +12,6 @@ pure functional languages: how can you perform side effects
 
 In Lune, any value that causes side effects is wrapped in the
 `io` functor; `io a` represents an action that returns `a`.
-You can use the `bind` function to chain such actions.
 
 ## Mapping 
 There are three ways to convert an `io a` into an `io b`.
